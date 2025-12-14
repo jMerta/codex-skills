@@ -41,6 +41,7 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 - `plan-work`: Research + analysis + development planning for changes.
 - `release-notes`: Draft release notes/changelog entries from git ranges.
 - `skill-creator`: Create/update skills (workflow + templates).
+- `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed).
 
 ## Contributing
 - Each skill is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body).
