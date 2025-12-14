@@ -13,6 +13,7 @@ Safely upgrade dependencies with minimal, reviewable diffs and clear verificatio
 - Scope: one dependency, a set (e.g., Spring Boot), or "everything".
 - Constraints: patch/minor only vs allow majors; time budget; CI requirements.
 - Motivation: CVE fix, feature need, or routine maintenance.
+- Can the agent use web search to confirm latest versions and read migration notes? (If not, rely on registry lookups.)
 
 ## Workflow (checklist)
 1) Detect the project type and package manager
@@ -24,6 +25,9 @@ Safely upgrade dependencies with minimal, reviewable diffs and clear verificatio
    - Run the smallest reliable test/build command the repo uses (then expand if needed).
 3) Plan the upgrade
    - Prefer the smallest bump that solves the problem.
+   - Choose target versions using up-to-date sources:
+     - Use web search (if available) to confirm latest stable versions and skim official release notes/migration guides.
+     - Cross-check with the registry/source of truth (npm registry, Maven Central, Gradle Plugin Portal).
    - Group by risk:
      - low: patches/minors, leaf deps
      - medium: build tools/plugins
