@@ -29,6 +29,7 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 - Frontmatter requirements:
   - `name`: non-empty, <= 100 chars, single line
   - `description`: non-empty, <= 500 chars, single line
+- `references/` (and other files) are not auto-loaded by Codex; only `name`, `description`, and the SKILL.md path are injected. Codex can open/read reference files when needed.
 
 ## License
 MIT (see `LICENSE`).
