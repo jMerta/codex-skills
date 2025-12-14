@@ -33,4 +33,4 @@ Produce a PR that’s easy to review and safe to merge:
 ## Notes
 - Don't force-push unless you're sure it's safe for collaborators.
 - If the PR changes UX, include screenshots or a short GIF.
- - Prefer `gh` for create/view/checks (e.g. `gh pr view`, `gh pr checks`).
+- Prefer `gh` for create/view/checks (e.g. `gh pr view`, `gh pr checks`).
