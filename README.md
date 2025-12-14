@@ -2,6 +2,22 @@
 
 Personal Codex CLI skills (drop-in folders under `~/.codex/skills/`).
 
+## How it works
+- Codex discovers skills from `~/.codex/skills/**/SKILL.md` (loaded at startup).
+- Only `name`, `description`, and the SKILL.md path are injected into context; bodies and `references/` are not auto-loaded (Codex can open/read them when needed).
+
+## Enable skills (Codex CLI)
+- Check: `codex features list` (look for `skills ... true`)
+- Enable for the current run: `codex --enable skills`
+- Enable permanently: add to `~/.codex/config.toml`:
+  ```toml
+  [features]
+  skills = true
+  ```
+
+## What it looks like
+![Codex CLI skills list](.github/codex-clipboard-VN1lya.png)
+
 ## Install
 
 ### macOS/Linux
@@ -29,7 +45,6 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 - Frontmatter requirements:
   - `name`: non-empty, <= 100 chars, single line
   - `description`: non-empty, <= 500 chars, single line
-- `references/` (and other files) are not auto-loaded by Codex; only `name`, `description`, and the SKILL.md path are injected. Codex can open/read reference files when needed.
 
 ## License
 MIT (see `LICENSE`).
