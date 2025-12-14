@@ -37,6 +37,7 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 - `create-pr`: Create PRs using GitHub CLI (`gh`).
 - `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely.
 - `docs-sync`: Keep `docs/` and other docs in sync with code changes.
+- `plan-work`: Research + analysis + development planning for changes.
 - `release-notes`: Draft release notes/changelog entries from git ranges.
 - `skill-creator`: Create/update skills (workflow + templates).
 
