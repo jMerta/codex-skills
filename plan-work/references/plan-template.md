@@ -1,4 +1,4 @@
-# Plan template (research -> analysis -> development)
+# Plan template (research -> analysis -> Q&A -> implementation)
 
 ```markdown
 ## Goal
@@ -28,15 +28,14 @@
 ### Open questions
 - ...
 
-## Development plan
+## Q&A (answer before implementation)
+- ...
+
+## Implementation plan
 1) ...
 2) ...
 3) ...
 
-## Verification
-- ...
-
-## Rollout / rollback (if needed)
+## Tests to run
 - ...
 ```
-
