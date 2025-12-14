@@ -29,3 +29,6 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 - Frontmatter requirements:
   - `name`: non-empty, <= 100 chars, single line
   - `description`: non-empty, <= 500 chars, single line
+
+## License
+MIT (see `LICENSE`).
