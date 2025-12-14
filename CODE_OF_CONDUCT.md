@@ -2,7 +2,7 @@
 
 This project follows the Contributor Covenant Code of Conduct.
 
-- Be respectful and inclusive.
+- Be respectful.
 - Assume good intent.
 - No harassment or hate speech.
 
