@@ -51,6 +51,17 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
   - `name`: non-empty, <= 100 chars, single line
   - `description`: non-empty, <= 500 chars, single line
 
+## Prompt-injection hardening (invisible characters)
+This repo includes a CI check that scans for invisible/suspicious Unicode characters commonly used for deception/prompt injection:
+- file contents and filenames (repo-wide)
+- PR metadata (title/body) and commit messages (via GitHub Actions event payload)
+
+Run locally:
+- `python scripts/check_invisible_chars.py --all`
+- `python scripts/check_invisible_chars.py --commit-range origin/main..HEAD`
+
+Note: this mitigates common invisible-character attacks, but does not detect all Unicode deception (e.g., homoglyph/confusable characters).
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=jMerta/codex-skills&type=timeline&legend=top-left)](https://www.star-history.com/#jMerta/codex-skills&type=timeline&legend=top-left)
