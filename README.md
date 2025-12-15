@@ -34,6 +34,8 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 - `agents-md`: Create nested `AGENTS.md` + feature maps.
 - `bug-triage`: Reproduce, isolate, and fix bugs.
 - `ci-fix`: Diagnose and fix failing GitHub Actions CI using GitHub CLI (`gh`).
+- `coding-guidelines-gen`: Generate nested `AGENTS.md` coding guidelines per module + set up missing formatters/linters.
+- `coding-guidelines-verify`: Verify changes follow scoped `AGENTS.md` rules; auto-fix formatting + run lint/tests.
 - `commit-work`: Stage/split commits and write Conventional Commit messages.
 - `create-pr`: Create PRs using GitHub CLI (`gh`).
 - `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely.
