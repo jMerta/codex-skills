@@ -14,4 +14,4 @@ jobs:
           python-version: "3.x"
       - run: pip install pyyaml
       - run: python scripts/validate_skills.py
-      - run: python scripts/check_invisible_chars.py --all
+      - run: python scripts/check_invisible_chars.py --all --github-event
