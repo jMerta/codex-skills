@@ -51,5 +51,9 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
   - `name`: non-empty, <= 100 chars, single line
   - `description`: non-empty, <= 500 chars, single line
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=jMerta/codex-skills&type=timeline&legend=top-left)](https://www.star-history.com/#jMerta/codex-skills&type=timeline&legend=top-left)
+
 ## License
 MIT (see `LICENSE`).
