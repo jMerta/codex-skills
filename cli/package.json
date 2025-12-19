@@ -1,6 +1,6 @@
 {
   "name": "codex-skills",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Install Codex skills for multiple agents from GitHub releases.",
   "bin": {
     "codex-skills": "bin/codex-skills.js"

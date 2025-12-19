@@ -300,6 +300,72 @@ function resolveSkillPath(repoRoot, skill) {
   return fullPath;
 }
 
+function normalizeCategory(value) {
+  return value.toLowerCase().replace(/[_\s]+/g, "-").trim();
+}
+
+function resolveCategoryId(input, categories) {
+  if (!input) return null;
+  const normalized = normalizeCategory(input);
+  if (normalized === "other") {
+    return "other";
+  }
+  for (const category of categories) {
+    if (!category) continue;
+    const id = category.id || "";
+    const name = category.name || "";
+    if (normalizeCategory(id) === normalized || normalizeCategory(name) === normalized) {
+      return id;
+    }
+  }
+  return null;
+}
+
+async function withRepoRoot(ref, action) {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "codex-skills-"));
+  const archivePath = path.join(tmpDir, "repo.tgz");
+  const tarballUrl = `https://codeload.github.com/${REPO_OWNER}/${REPO_NAME}/tar.gz/${ref}`;
+
+  try {
+    info(`Downloading ${ref}...`);
+    await downloadFile(tarballUrl, archivePath);
+
+    await tar.x({ file: archivePath, cwd: tmpDir });
+    const entries = fs.readdirSync(tmpDir).filter((entry) => {
+      const entryPath = path.join(tmpDir, entry);
+      return fs.statSync(entryPath).isDirectory();
+    });
+    if (entries.length === 0) {
+      throw new Error("Extracted archive is empty.");
+    }
+
+    const repoRoot = path.join(tmpDir, entries[0]);
+    return await action(repoRoot);
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+}
+
+function installSkillFromRepo(skill, repoRoot, destDir, options) {
+  const destPath = path.join(destDir, skill.name);
+  if (fs.existsSync(destPath) && !options.force) {
+    return { status: "exists", path: destPath };
+  }
+
+  const skillPath = resolveSkillPath(repoRoot, skill);
+
+  if (!fs.existsSync(skillPath)) {
+    throw new Error(`Skill path not found in archive: ${skillPath}`);
+  }
+
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
+  }
+
+  copyDir(skillPath, destPath);
+  return { status: "installed", path: destPath };
+}
+
 function showAgentInstructions(agent, skillName, destPath) {
   switch (agent) {
     case "codex":
@@ -375,6 +441,7 @@ function listSkillsOutput(data, ref, json) {
   }
 
   log(`\nInstall: ${colors.cyan}npx codex-skills install <skill-name> [--agent <agent>]${colors.reset}`);
+  log(`Install by category: ${colors.cyan}npx codex-skills install-category <category> [--agent <agent>]${colors.reset}`);
 }
 
 function searchSkillsOutput(data, query) {
@@ -440,10 +507,11 @@ ${colors.bold}Usage:${colors.reset}
 
 ${colors.bold}Commands:${colors.reset}
   ${colors.green}list${colors.reset}                          List all available skills
-  ${colors.green}install <name>${colors.reset}                Install a skill
-  ${colors.green}search <query>${colors.reset}               Search skills
-  ${colors.green}info <name>${colors.reset}                  Show skill details
-  ${colors.green}help${colors.reset}                          Show this help
+  ${colors.green}install <name>${colors.reset}                Install a skill   
+  ${colors.green}install-category <category>${colors.reset}   Install all skills in a category
+  ${colors.green}search <query>${colors.reset}               Search skills      
+  ${colors.green}info <name>${colors.reset}                  Show skill details 
+  ${colors.green}help${colors.reset}                          Show this help    
 
 ${colors.bold}Options:${colors.reset}
   --agent <agent>             Target agent (default: codex)
@@ -466,6 +534,7 @@ ${colors.bold}Examples:${colors.reset}
   npx codex-skills list
   npx codex-skills search browser
   npx codex-skills install agents-md
+  npx codex-skills install-category development
   npx codex-skills install agents-md --ref main
 `);
 }
@@ -522,7 +591,7 @@ async function installCommand(options) {
     return;
   }
 
-  const destDir = AGENT_PATHS[options.agent] || AGENT_PATHS[DEFAULT_AGENT];
+  const destDir = AGENT_PATHS[options.agent] || AGENT_PATHS[DEFAULT_AGENT];     
   if (!destDir) {
     error(`Unknown agent: ${options.agent}`);
     return;
@@ -535,41 +604,85 @@ async function installCommand(options) {
     return;
   }
 
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "codex-skills-"));
-  const archivePath = path.join(tmpDir, "repo.tgz");
-  const tarballUrl = `https://codeload.github.com/${REPO_OWNER}/${REPO_NAME}/tar.gz/${resolved.ref}`;
-
-  try {
-    info(`Downloading ${resolved.ref}...`);
-    await downloadFile(tarballUrl, archivePath);
-
-    await tar.x({ file: archivePath, cwd: tmpDir });
-    const entries = fs.readdirSync(tmpDir).filter((entry) => {
-      const entryPath = path.join(tmpDir, entry);
-      return fs.statSync(entryPath).isDirectory();
-    });
-    if (entries.length === 0) {
-      throw new Error("Extracted archive is empty.");
+  await withRepoRoot(resolved.ref, async (repoRoot) => {
+    const result = installSkillFromRepo(skill, repoRoot, destDir, { force: options.force });
+    if (result.status === "exists") {
+      error(`Skill already exists at ${result.path}`);
+      log("Use --force to overwrite.");
+      return;
     }
-
-    const repoRoot = path.join(tmpDir, entries[0]);
-    const skillPath = resolveSkillPath(repoRoot, skill);
-
-    if (!fs.existsSync(skillPath)) {
-      throw new Error(`Skill path not found in archive: ${skillPath}`);
-    }
-
-    if (!fs.existsSync(destDir)) {
-      fs.mkdirSync(destDir, { recursive: true });
-    }
-
-    copyDir(skillPath, destPath);
 
     success(`Installed: ${skill.name}`);
     info(`Ref: ${resolved.ref}`);
-    showAgentInstructions(options.agent, skill.name, destPath);
-  } finally {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
+    showAgentInstructions(options.agent, skill.name, result.path);
+  });
+}
+
+async function installCategoryCommand(options) {
+  if (!options.param) {
+    error("Please specify a category.");
+    log("Usage: npx codex-skills install-category <category> [--agent <agent>] [--ref <ref>] [--force]");
+    process.exit(1);
+  }
+
+  const resolved = await resolveRef(options.ref);
+  const data = await loadSkillsIndex(resolved.ref);
+  const skills = data.skills || [];
+  const categories = data.categories || [];
+  const categoryId = resolveCategoryId(options.param, categories);
+
+  if (!categoryId) {
+    error(`Category "${options.param}" not found.`);
+    if (categories.length) {
+      log("\nAvailable categories:");
+      categories.forEach((category) => log(`- ${category.id}`));
+    }
+    return;
+  }
+
+  const categorySkills = skills.filter(
+    (skill) => (skill.category || "other") === categoryId
+  );
+
+  if (categorySkills.length === 0) {
+    warn(`No skills found for category "${categoryId}".`);
+    return;
+  }
+
+  const destDir = AGENT_PATHS[options.agent] || AGENT_PATHS[DEFAULT_AGENT];
+  if (!destDir) {
+    error(`Unknown agent: ${options.agent}`);
+    return;
+  }
+
+  let installedCount = 0;
+  let skippedCount = 0;
+  let failedCount = 0;
+
+  await withRepoRoot(resolved.ref, async (repoRoot) => {
+    for (const skill of categorySkills) {
+      try {
+        const result = installSkillFromRepo(skill, repoRoot, destDir, { force: options.force });
+        if (result.status === "exists") {
+          warn(`Skipping ${skill.name} (already installed). Use --force to overwrite.`);
+          skippedCount += 1;
+          continue;
+        }
+
+        installedCount += 1;
+        success(`Installed: ${skill.name}`);
+        showAgentInstructions(options.agent, skill.name, result.path);
+      } catch (err) {
+        failedCount += 1;
+        error(`Failed to install ${skill.name}: ${err.message || err}`);
+      }
+    }
+  });
+
+  info(`Ref: ${resolved.ref}`);
+  log(`\n${colors.bold}Summary:${colors.reset} installed ${installedCount}, skipped ${skippedCount}, failed ${failedCount}.`);
+  if (failedCount > 0) {
+    process.exit(1);
   }
 }
 
@@ -587,6 +700,10 @@ async function main() {
       case "install":
       case "i":
         await installCommand(parsed);
+        break;
+      case "install-category":
+      case "install-cat":
+        await installCategoryCommand(parsed);
         break;
       case "search":
       case "s":

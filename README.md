@@ -37,6 +37,7 @@ Use the published CLI to list, search, and install skills without cloning.
 npx codex-skills list
 npx codex-skills search browser
 npx codex-skills install agents-md
+npx codex-skills install-category development
 npx codex-skills install agents-md --ref main
 ```
 
@@ -52,6 +53,7 @@ npx codex-skills install agents-md --ref main
 - `search <query>`: search by name/description/category.
 - `info <name>`: show metadata for a single skill.
 - `install <name>`: copy the skill to the chosen agent path.
+- `install-category <category>`: install all skills in a category.
 
 ### Common options
 - `--agent <agent>`: target agent (default: `codex`).
