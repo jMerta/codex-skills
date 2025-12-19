@@ -17,7 +17,7 @@
 - Use SemVer tags without a `v` prefix (example: `1.2.3`).
 - Cut releases from `main` with a clean working tree (`git status` should be empty) and passing validation (`python scripts/validate_skills.py`).
 - Keep `cli/package.json` version aligned with the release tag (the npm publish workflow enforces this).
-- Ensure `NPM_TOKEN` is set in repo secrets before publishing a release.
+- Ensure npm trusted publishing is configured for this repo (GitHub Actions OIDC).
 - Decide the release range:
   - List tags: `git tag --sort=-creatordate | Select-Object -First 20`
   - Changes since last tag: `git log --first-parent --oneline <prev_tag>..HEAD`
