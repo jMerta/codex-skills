@@ -1,6 +1,6 @@
 ---
 name: ci-fix
-description: "Fix GitHub Actions CI failures using GitHub CLI (gh): inspect runs/logs, identify root cause, patch workflows/code, rerun jobs, and summarize verification."
+description: "Fix GitHub Actions CI failures using GitHub CLI (gh): inspect runs/logs, identify root cause, patch workflows/code, rerun jobs, and summarize verification. Use when GitHub Actions CI is failing or needs diagnosis."
 ---
 
 # CI fix (GitHub Actions)
@@ -20,6 +20,7 @@ description: "Fix GitHub Actions CI failures using GitHub CLI (gh): inspect runs
    - Auth: `gh auth status`
    - Repo: `gh repo view --json nameWithOwner -q .nameWithOwner`
    - If needed, add `-R OWNER/REPO` to all commands.
+   - If `gh` is not installed or not authenticated, tell the user and ask whether to install/authenticate or proceed by pasting logs/run URLs manually.
 2) Find the failing run
    - If you have a run URL, extract the run ID: `.../actions/runs/<id>`.
    - Otherwise:

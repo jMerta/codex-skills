@@ -1,0 +1,23 @@
+{
+  "name": "dev-browser",
+  "version": "0.0.1",
+  "type": "module",
+  "imports": {
+    "@/*": "./src/*"
+  },
+  "scripts": {
+    "start-server": "bun x tsx scripts/start-server.ts",
+    "dev": "bun x tsx --watch src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "tsx": "^4.21.0",
+    "vitest": "^2.1.0"
+  }
+}

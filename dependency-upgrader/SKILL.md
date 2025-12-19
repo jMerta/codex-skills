@@ -20,6 +20,7 @@ Safely upgrade dependencies with minimal, reviewable diffs and clear verificatio
    - Node: `package.json` + lock file (`pnpm-lock.yaml`, `package-lock.json`, `yarn.lock`, `bun.lock`).
    - Gradle: `gradlew`, `build.gradle(.kts)`, `settings.gradle(.kts)`, `gradle/libs.versions.toml`.
    - Maven: `pom.xml`.
+   - If the required package manager or build tool is missing (npm/pnpm/yarn/bun, Gradle, Maven), tell the user and ask whether to install it or proceed with a manual edit-only upgrade.
 2) Establish a baseline
    - Record current versions (dependency file + lock files).
    - Run the smallest reliable test/build command the repo uses (then expand if needed).
