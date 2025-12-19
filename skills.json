@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "updated": "2025-12-19T15:11:38Z",
-  "total": 13,
+  "updated": "2025-12-19T17:30:16Z",
+  "total": 12,
   "skills": [
     {
       "name": "agents-md",
@@ -92,17 +92,6 @@
       "verified": true
     },
     {
-      "name": "dev-browser",
-      "description": "Browser automation with persistent page state. Use when users ask to navigate websites, fill forms, take screenshots, extract web data, test web apps, or automate browser workflows. Trigger phrases include \"go to [url]\", \"click on\", \"fill out the form\", \"take a screenshot\", \"scrape\", \"automate\", \"test the website\", \"log into\", or any browser interaction request.",
-      "category": "development",
-      "author": "Sawyer Hood",
-      "source": "SawyerHood/dev-browser",
-      "license": "MIT",
-      "path": "dev-browser",
-      "featured": true,
-      "verified": true
-    },
-    {
       "name": "docs-sync",
       "description": "Keep documentation in sync with code changes across README, docs sites, API docs, runbooks, and configuration. Use when the user asks to update docs, ensure docs match behavior, or prepare docs for a release/PR.",
       "category": "documentation",
@@ -152,7 +141,7 @@
       "id": "development",
       "name": "Development",
       "description": "Coding and software development skills",
-      "count": 9
+      "count": 8
     },
     {
       "id": "documentation",

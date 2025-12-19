@@ -466,7 +466,6 @@ ${colors.bold}Examples:${colors.reset}
   npx codex-skills list
   npx codex-skills search browser
   npx codex-skills install agents-md
-  npx codex-skills install dev-browser --agent codex
   npx codex-skills install agents-md --ref main
 `);
 }

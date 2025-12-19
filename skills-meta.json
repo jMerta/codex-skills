@@ -27,14 +27,6 @@
     }
   },
   "skills": {
-    "dev-browser": {
-      "author": "Sawyer Hood",
-      "source": "SawyerHood/dev-browser",
-      "license": "MIT",
-      "category": "development",
-      "featured": true,
-      "verified": true
-    },
     "docs-sync": {
       "category": "documentation"
     },

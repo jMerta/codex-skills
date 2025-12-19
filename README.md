@@ -37,7 +37,6 @@ Use the published CLI to list, search, and install skills without cloning.
 npx codex-skills list
 npx codex-skills search browser
 npx codex-skills install agents-md
-npx codex-skills install dev-browser --agent codex
 npx codex-skills install agents-md --ref main
 ```
 
@@ -85,7 +84,6 @@ If you add or rename skills:
 - `commit-work`: Stage/split commits and write Conventional Commit messages. (Author: @jMerta)
 - `create-pr`: Create PRs using GitHub CLI (`gh`). (Author: @jMerta)
 - `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely. (Author: @jMerta)
-- `dev-browser`: Browser automation with persistent state (Playwright + Bun) for testing and verification. (Author: @SawyerHood)
 - `docs-sync`: Keep `docs/` and other docs in sync with code changes. (Author: @jMerta)
 - `plan-work`: Research + analysis + development planning for changes. (Author: @jMerta)
 - `release-notes`: Draft release notes/changelog entries from git ranges. (Author: @jMerta)
