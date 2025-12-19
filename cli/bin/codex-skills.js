@@ -442,6 +442,8 @@ function listSkillsOutput(data, ref, json) {
 
   log(`\nInstall: ${colors.cyan}npx codex-skills install <skill-name> [--agent <agent>]${colors.reset}`);
   log(`Install by category: ${colors.cyan}npx codex-skills install-category <category> [--agent <agent>]${colors.reset}`);
+  const defaultAgentPath = AGENT_PATHS[DEFAULT_AGENT];
+  log(`${colors.dim}Default agent is "${DEFAULT_AGENT}" (${defaultAgentPath}).${colors.reset}`);
 }
 
 function searchSkillsOutput(data, query) {
@@ -514,7 +516,7 @@ ${colors.bold}Commands:${colors.reset}
   ${colors.green}help${colors.reset}                          Show this help    
 
 ${colors.bold}Options:${colors.reset}
-  --agent <agent>             Target agent (default: codex)
+  --agent <agent>             Target agent (default: codex -> ~/.codex/skills/)
   --ref <ref>                 Use a Git ref (tag or branch). Default: latest release
   --force                     Overwrite if the skill already exists
   --json                      Output JSON for list
