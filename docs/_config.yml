@@ -1,0 +1,7 @@
+title: Codex Skills Catalog
+description: Browse and install Codex CLI skills.
+url: "https://jMerta.github.io"
+baseurl: "/codex-skills"
+timezone: UTC
+markdown: kramdown
+theme: minima

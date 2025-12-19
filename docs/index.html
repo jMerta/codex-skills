@@ -1,0 +1,85 @@
+---
+layout: default
+title: Codex Skills Catalog
+description: Browse and install Codex CLI skills.
+---
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Codex skills catalog</p>
+    <h1>Browse, filter, and install skills in minutes.</h1>
+    <p class="lede">
+      This page lists all available skills, their purpose, and how to use them in Codex CLI.
+      Install by name or category and enable skills once to use them in your prompts.
+    </p>
+    <div class="cta-row">
+      <div class="cta">
+        <span class="cta-label">Quick start</span>
+        <code>npx codex-skills install &lt;skill-name&gt;</code>
+      </div>
+      <div class="cta">
+        <span class="cta-label">Install a category</span>
+        <code>npx codex-skills install-category development</code>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="instructions">
+  <h2>How to use skills</h2>
+  <ol>
+    <li>Install a skill (default agent is Codex CLI).</li>
+    <li>Enable skills in Codex: <code>codex --enable skills</code>.</li>
+    <li>Mention the skill name in your prompt to trigger it.</li>
+  </ol>
+</section>
+
+<section class="controls">
+  <div class="control">
+    <label for="searchInput">Search</label>
+    <input id="searchInput" type="search" placeholder="Search skills by name or description">
+  </div>
+  <div class="control">
+    <label for="categorySelect">Category</label>
+    <select id="categorySelect">
+      <option value="all">All categories</option>
+    </select>
+  </div>
+  <div class="control toggle">
+    <label for="featuredToggle">
+      <input id="featuredToggle" type="checkbox">
+      Featured only
+    </label>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <span class="stat-label">Total skills</span>
+    <span class="stat-value" id="skillTotal">0</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Showing</span>
+    <span class="stat-value" id="skillCount">0</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Last updated</span>
+    <span class="stat-value" id="skillsUpdated">-</span>
+  </div>
+</section>
+
+<section class="skills">
+  <div id="skillsGrid" class="skills-grid"></div>
+  <div id="noResults" class="no-results" hidden>
+    No skills matched your filters. Try clearing search or choosing another category.
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div>
+    <h3>Need help?</h3>
+    <p>Check the README for full CLI instructions and supported agents.</p>
+  </div>
+  <div class="footer-cta">
+    <a class="button" href="https://github.com/jMerta/codex-skills">View on GitHub</a>
+  </div>
+</footer>
