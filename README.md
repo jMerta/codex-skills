@@ -31,7 +31,7 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 ```
 
 ## CLI (npx)
-Use the published CLI to list, search, and install skills without cloning.
+Use the published CLI to list, search, and install skills without cloning.      
 
 ```bash
 npx codex-skills list
@@ -40,6 +40,10 @@ npx codex-skills install agents-md
 npx codex-skills install-category development
 npx codex-skills install agents-md --ref main
 ```
+
+## GitHub Pages catalog
+The public catalog is published on GitHub Pages and updates on releases:
+`https://jMerta.github.io/codex-skills/`
 
 ### How it works
 - **Source of truth:** the CLI fetches `skills.json` from GitHub for the selected ref.
