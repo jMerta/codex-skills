@@ -11,6 +11,7 @@ const REPO_OWNER = "jMerta";
 const REPO_NAME = "codex-skills";
 const DEFAULT_AGENT = "codex";
 const USER_AGENT = "codex-skills-cli";
+const DEFAULT_TIMEOUT_MS = 30000;
 
 const SKILLS_INDEX = "skills.json";
 
@@ -26,7 +27,9 @@ const AGENT_PATHS = {
   codex: path.join(os.homedir(), ".codex", "skills")
 };
 
-const colors = {
+const USE_COLOR = (process.stdout && process.stdout.isTTY && !process.env.NO_COLOR) ||
+  (process.env.FORCE_COLOR && process.env.FORCE_COLOR !== "0");
+const colors = USE_COLOR ? {
   reset: "\x1b[0m",
   bold: "\x1b[1m",
   dim: "\x1b[2m",
@@ -35,6 +38,15 @@ const colors = {
   blue: "\x1b[34m",
   cyan: "\x1b[36m",
   red: "\x1b[31m"
+} : {
+  reset: "",
+  bold: "",
+  dim: "",
+  green: "",
+  yellow: "",
+  blue: "",
+  cyan: "",
+  red: ""
 };
 
 function log(msg) {
@@ -54,14 +66,25 @@ function error(msg) {
 }
 
 function authHeaders() {
+  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
   const headers = {
     "User-Agent": USER_AGENT,
     "Accept": "application/vnd.github+json"
   };
-  if (process.env.GITHUB_TOKEN) {
-    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
   return headers;
+}
+
+function rateLimitHint(headers) {
+  const remaining = headers["x-ratelimit-remaining"];
+  const reset = headers["x-ratelimit-reset"];
+  if (remaining === "0") {
+    const resetTime = reset ? new Date(parseInt(reset, 10) * 1000).toISOString() : "unknown";
+    return `GitHub API rate limit exceeded. Set GITHUB_TOKEN to increase limits (resets at ${resetTime}).`;
+  }
+  return null;
 }
 
 function request(url, headers = {}, redirects = 0) {
@@ -80,6 +103,9 @@ function request(url, headers = {}, redirects = 0) {
         resolve({ status, headers: res.headers, body: Buffer.concat(chunks) });
       });
     });
+    req.setTimeout(DEFAULT_TIMEOUT_MS, () => {
+      req.destroy(new Error(`Request timed out after ${DEFAULT_TIMEOUT_MS}ms`));
+    });
     req.on("error", reject);
   });
 }
@@ -90,7 +116,8 @@ async function fetchJson(url) {
     return JSON.parse(res.body.toString("utf8"));
   }
   const message = res.body.toString("utf8").slice(0, 200);
-  const err = new Error(`HTTP ${res.status} for ${url}: ${message}`);
+  const hint = rateLimitHint(res.headers);
+  const err = new Error(`HTTP ${res.status} for ${url}: ${message}${hint ? `\n${hint}` : ""}`);
   err.status = res.status;
   throw err;
 }
@@ -101,7 +128,8 @@ async function fetchText(url) {
     return res.body.toString("utf8");
   }
   const message = res.body.toString("utf8").slice(0, 200);
-  const err = new Error(`HTTP ${res.status} for ${url}: ${message}`);
+  const hint = rateLimitHint(res.headers);
+  const err = new Error(`HTTP ${res.status} for ${url}: ${message}${hint ? `\n${hint}` : ""}`);
   err.status = res.status;
   throw err;
 }
@@ -120,7 +148,9 @@ async function downloadFile(url, dest, headers = authHeaders(), redirects = 0) {
         const chunks = [];
         res.on("data", (chunk) => chunks.push(chunk));
         res.on("end", () => {
-          reject(new Error(`HTTP ${status} for ${url}: ${Buffer.concat(chunks).toString("utf8").slice(0, 200)}`));
+          const hint = rateLimitHint(res.headers);
+          const message = Buffer.concat(chunks).toString("utf8").slice(0, 200);
+          reject(new Error(`HTTP ${status} for ${url}: ${message}${hint ? `\n${hint}` : ""}`));
         });
         return;
       }
@@ -128,6 +158,9 @@ async function downloadFile(url, dest, headers = authHeaders(), redirects = 0) {
       res.pipe(file);
       file.on("finish", () => file.close(resolve));
       file.on("error", reject);
+    });
+    req.setTimeout(DEFAULT_TIMEOUT_MS, () => {
+      req.destroy(new Error(`Request timed out after ${DEFAULT_TIMEOUT_MS}ms`));
     });
     req.on("error", reject);
   });
@@ -248,6 +281,23 @@ function copyDir(src, dest) {
       fs.copyFileSync(srcPath, destPath);
     }
   }
+}
+
+function resolveSkillPath(repoRoot, skill) {
+  const skillRel = skill.path || skill.name;
+  if (path.isAbsolute(skillRel)) {
+    throw new Error(`Invalid skill path (absolute): ${skillRel}`);
+  }
+  const normalized = path.normalize(skillRel);
+  if (normalized === ".." || normalized.startsWith(`..${path.sep}`)) {
+    throw new Error(`Invalid skill path (traversal): ${skillRel}`);
+  }
+  const repoRootResolved = path.resolve(repoRoot) + path.sep;
+  const fullPath = path.resolve(path.join(repoRoot, normalized));
+  if (!fullPath.startsWith(repoRootResolved)) {
+    throw new Error(`Invalid skill path (outside repo): ${skillRel}`);
+  }
+  return fullPath;
 }
 
 function showAgentInstructions(agent, skillName, destPath) {
@@ -504,7 +554,7 @@ async function installCommand(options) {
     }
 
     const repoRoot = path.join(tmpDir, entries[0]);
-    const skillPath = path.join(repoRoot, skill.path || skill.name);
+    const skillPath = resolveSkillPath(repoRoot, skill);
 
     if (!fs.existsSync(skillPath)) {
       throw new Error(`Skill path not found in archive: ${skillPath}`);

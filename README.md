@@ -41,8 +41,40 @@ npx codex-skills install dev-browser --agent codex
 npx codex-skills install agents-md --ref main
 ```
 
-Defaults: latest stable GitHub Release (falls back to the latest tag if no releases exist).
-Use `--ref main` to track `main` or `--ref <tag>` to pin a specific release.
+### How it works
+- **Source of truth:** the CLI fetches `skills.json` from GitHub for the selected ref.
+- **Default ref:** latest stable GitHub Release; if no releases exist, it falls back to the latest tag.
+- **Override:** `--ref main` to follow `main`, or `--ref <tag>` to pin a specific release.
+- **Install method:** downloads the repo tarball for the ref and copies only the requested skill folder into the agent’s skills directory.
+- **Auth (optional):** set `GITHUB_TOKEN` to reduce GitHub API rate limits.
+
+### Commands
+- `list` / `ls`: show all skills (grouped by category). Supports `--json`.
+- `search <query>`: search by name/description/category.
+- `info <name>`: show metadata for a single skill.
+- `install <name>`: copy the skill to the chosen agent path.
+
+### Common options
+- `--agent <agent>`: target agent (default: `codex`).
+- `--ref <ref>`: Git ref (tag or branch).
+- `--force`: overwrite an existing skill install.
+- `--json`: JSON output for `list`.
+
+### Supported agents and install paths
+- `codex`: `~/.codex/skills/` (default)
+- `claude`: `~/.claude/skills/`
+- `cursor`: `./.cursor/skills/` (project-local)
+- `amp`: `~/.amp/skills/`
+- `vscode` / `copilot`: `./.github/skills/` (project-local)
+- `project`: `./.skills/` (portable)
+- `goose`: `~/.config/goose/skills/`
+- `opencode`: `~/.opencode/skills/`
+
+### Maintaining the registry
+If you add or rename skills:
+1) Update `skills-meta.json` (category/author/license overrides as needed).
+2) Run `python scripts/build_skills_json.py` to regenerate `skills.json`.
+3) Commit both files.
 
 ## Skills
 - `agents-md`: Create nested `AGENTS.md` + feature maps. (Author: @jMerta)

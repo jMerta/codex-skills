@@ -2,5 +2,7 @@
 dist/
 __pycache__/
 .DS_Store
-
 .system/
+dev-browser/node_modules/
+dev-browser/profiles/
+dev-browser/tmp/
