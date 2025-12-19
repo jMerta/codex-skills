@@ -58,3 +58,10 @@ Use these templates:
 - Module map format: `references/module-map-format.md`
 - Feature map table format (per module): `references/feature-map-format.md`
 - Suggested `docs/` layout (Spring + Next): `references/docs-structure.md`
+
+## Deliverable
+Provide:
+- Root `AGENTS.md` (if requested) with module map and cross-domain workflows.
+- Nested `AGENTS.md` per component/module with tech-specific guidance.
+- Optional feature map tables per module (if requested).
+- A list of files created/updated and any open questions.

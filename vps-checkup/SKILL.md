@@ -1,6 +1,6 @@
 ---
 name: vps-checkup
-description: "SSH into an Ubuntu VPS (Docker) for a read-only health/security/update report (UFW + fail2ban) and propose fixes; apply updates/restarts only with explicit confirmation."
+description: "SSH into an Ubuntu VPS (Docker) for a read-only health/security/update report (UFW + fail2ban) and propose fixes; apply updates/restarts only with explicit confirmation. Use when the user wants a read-only VPS health/security check."
 ---
 
 # VPS checkup (Ubuntu + Docker)
@@ -14,6 +14,7 @@ description: "SSH into an Ubuntu VPS (Docker) for a read-only health/security/up
 - Confirm `sudo` access and whether running `apt update` is allowed (it modifies package lists).
 - Required open ports (e.g., `22`, `80`, `443`) and any non-standard SSH port.
 - Where deployments live: confirm if Docker Compose is used on the VPS (common), and whether compose files are in a known path.
+- If the local `ssh` client or required tools are missing, tell the user and ask whether to install them or provide command output manually.
 
 ## Workflow (checklist)
 1) Connect safely
@@ -49,3 +50,8 @@ description: "SSH into an Ubuntu VPS (Docker) for a read-only health/security/up
 - No SSH/firewall changes unless you have a backup access path (second session open) and the user confirms the plan.
 - Never paste secrets (tokens, private keys) into chat or logs.
 
+## Deliverable
+Provide:
+- A read-only report using `references/report-template.md`.
+- A prioritized list of recommended fixes and which ones require explicit confirmation.
+- The exact commands run (or requested if the user ran them manually).

@@ -1,6 +1,6 @@
 ---
 name: bug-triage
-description: Reproduce, isolate, and fix a bug (or failing build/test), then summarize root cause, fix, and verification steps.
+description: Reproduce, isolate, and fix a bug (or failing build/test), then summarize root cause, fix, and verification steps. Use when the user reports a bug, regression, or failing build/test and wants a fix.
 ---
 
 # Bug triage
@@ -45,6 +45,7 @@ Turn an ambiguous bug report into:
 Use what the repo actually uses:
 - If `bun.lock` exists: prefer `bun ...` (e.g. `bun lint`, `bun build`, `bun dev`).
 - Otherwise: use the project’s documented commands (`npm`, `pnpm`, `yarn`, etc.).
+ - If `bun.lock` exists but `bun` is not available, tell the user and ask whether to install `bun` or use the repo’s alternative package manager.
 
 ## Deliverable (paste this in the chat / PR / issue)
 Use this format:

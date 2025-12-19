@@ -31,19 +31,19 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
 ```
 
 ## Skills
-- `agents-md`: Create nested `AGENTS.md` + feature maps.
-- `bug-triage`: Reproduce, isolate, and fix bugs.
-- `ci-fix`: Diagnose and fix failing GitHub Actions CI using GitHub CLI (`gh`).
-- `coding-guidelines-gen`: Generate nested `AGENTS.md` coding guidelines per module + set up missing formatters/linters.
-- `coding-guidelines-verify`: Verify changes follow scoped `AGENTS.md` rules; auto-fix formatting + run lint/tests.
-- `commit-work`: Stage/split commits and write Conventional Commit messages.
-- `create-pr`: Create PRs using GitHub CLI (`gh`).
-- `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely.
-- `docs-sync`: Keep `docs/` and other docs in sync with code changes.
-- `plan-work`: Research + analysis + development planning for changes.
-- `release-notes`: Draft release notes/changelog entries from git ranges.
-- `skill-creator`: Create/update skills (workflow + templates).
-- `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed).
+- `agents-md`: Create nested `AGENTS.md` + feature maps. (Author: @jMerta)
+- `bug-triage`: Reproduce, isolate, and fix bugs. (Author: @jMerta)
+- `ci-fix`: Diagnose and fix failing GitHub Actions CI using GitHub CLI (`gh`). (Author: @jMerta)
+- `coding-guidelines-gen`: Generate nested `AGENTS.md` coding guidelines per module + set up missing formatters/linters. (Author: @jMerta)
+- `coding-guidelines-verify`: Verify changes follow scoped `AGENTS.md` rules; auto-fix formatting + run lint/tests. (Author: @jMerta)
+- `commit-work`: Stage/split commits and write Conventional Commit messages. (Author: @jMerta)
+- `create-pr`: Create PRs using GitHub CLI (`gh`). (Author: @jMerta)
+- `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely. (Author: @jMerta)
+- `dev-browser`: Browser automation with persistent state (Playwright + Bun) for testing and verification. (Author: @SawyerHood)
+- `docs-sync`: Keep `docs/` and other docs in sync with code changes. (Author: @jMerta)
+- `plan-work`: Research + analysis + development planning for changes. (Author: @jMerta)
+- `release-notes`: Draft release notes/changelog entries from git ranges. (Author: @jMerta)
+- `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed). (Author: @jMerta)
 
 ## Contributing
 - Each skill is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body).
@@ -68,3 +68,6 @@ Note: this mitigates common invisible-character attacks, but does not detect all
 
 ## License
 MIT (see `LICENSE`).
+
+## Third-party notices
+See `THIRD_PARTY_NOTICES.md` for third-party attributions.

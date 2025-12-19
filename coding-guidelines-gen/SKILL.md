@@ -1,6 +1,6 @@
 ---
 name: coding-guidelines-gen
-description: Generate nested AGENTS.md coding guidelines per module (monorepo-aware), detect languages/tooling, ask architecture preferences, and set up missing formatters/linters (Spotless for JVM).
+description: Generate nested AGENTS.md coding guidelines per module (monorepo-aware), detect languages/tooling, ask architecture preferences, and set up missing formatters/linters (Spotless for JVM). Use when the user wants module-scoped AGENTS.md coding guidelines or to set up missing formatters/linters.
 ---
 
 # Coding guidelines generator
@@ -20,6 +20,7 @@ Create **nested** `AGENTS.md` files (not repo root) that define:
 ## Workflow (monorepo-aware)
 1) Scan for candidate modules and languages.
    - Use `scripts/scan_modules.py` to produce a quick inventory.
+   - If `python` is not available or the script fails, tell the user and ask whether to install Python or proceed with a manual module scan.
 2) Propose the **nested** `AGENTS.md` placement(s) and get confirmation.
    - If the only detected module is repo root, suggest a subdir (e.g., `src/`, `apps/<name>/`, `packages/<name>/`) or ask the user where the code “starts”.
 3) For each confirmed module root:
@@ -29,7 +30,8 @@ Create **nested** `AGENTS.md` files (not repo root) that define:
    - JVM (Gradle/Maven): add/configure Spotless (see `references/spotless.md`).
    - Others: pick a minimal, common default and wire commands into `AGENTS.md` (see `references/language-defaults.md`).
 
-## Output
-- One `AGENTS.md` per module root (nested scope).
-- Minimal tool config changes only where tooling is missing (format/lint first).
-
+## Deliverable
+Provide:
+- The list of module roots covered and each `AGENTS.md` created/updated.
+- The `codex-guidelines` command block per module (format/lint/test).
+- Any tooling/config changes added (e.g., Spotless) and where they live.

@@ -1,6 +1,6 @@
 ---
 name: coding-guidelines-verify
-description: "Verify changes follow nearest-scoped AGENTS.md rules: group changed files by nested scope, auto-fix formatting, run lint/tests, and report violations."
+description: "Verify changes follow nearest-scoped AGENTS.md rules: group changed files by nested scope, auto-fix formatting, run lint/tests, and report violations. Use when the user wants scoped compliance checks for changed files."
 ---
 
 # Coding guidelines verifier
@@ -23,3 +23,10 @@ Validate that changes follow the **nearest nested** `AGENTS.md`:
 
 ## Automation
 Use `scripts/verify_guidelines.py` to group scopes, run commands, and report results.
+- If `python` is not available or the script fails, tell the user and ask whether to install Python or proceed with a manual per-scope verification.
+
+## Deliverable
+Provide:
+- The per-scope compliance report (use `references/report-template.md`).
+- Any auto-fix formatting changes applied.
+- Lint/test commands run and their results, plus any violations.
