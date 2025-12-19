@@ -112,6 +112,3 @@ Note: this mitigates common invisible-character attacks, but does not detect all
 
 ## License
 MIT (see `LICENSE`).
-
-## Third-party notices
-See `THIRD_PARTY_NOTICES.md` for third-party attributions.
