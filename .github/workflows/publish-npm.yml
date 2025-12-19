@@ -1,0 +1,30 @@
+name: Publish npm
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - name: Verify CLI version matches release tag
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          PKG_VERSION=$(node -p "require('./cli/package.json').version")
+          if [ "$TAG" != "$PKG_VERSION" ]; then
+            echo "Release tag ($TAG) does not match cli/package.json version ($PKG_VERSION)."
+            exit 1
+          fi
+      - name: Publish
+        working-directory: cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
