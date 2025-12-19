@@ -1,0 +1,31 @@
+{
+  "name": "codex-skills",
+  "version": "0.1.0",
+  "description": "Install Codex skills for multiple agents from GitHub releases.",
+  "bin": {
+    "codex-skills": "bin/codex-skills.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jMerta/codex-skills.git"
+  },
+  "keywords": [
+    "codex",
+    "skills",
+    "cli",
+    "ai",
+    "agent"
+  ],
+  "author": "jMerta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jMerta/codex-skills/issues"
+  },
+  "homepage": "https://github.com/jMerta/codex-skills",
+  "dependencies": {
+    "tar": "^6.2.0"
+  }
+}

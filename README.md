@@ -27,8 +27,22 @@ git clone https://github.com/jMerta/codex-skills.git ~/.codex/skills
 
 ### Windows (PowerShell)
 ```powershell
-git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"
+git clone https://github.com/jMerta/codex-skills.git "$HOME\.codex\skills"      
 ```
+
+## CLI (npx)
+Use the published CLI to list, search, and install skills without cloning.
+
+```bash
+npx codex-skills list
+npx codex-skills search browser
+npx codex-skills install agents-md
+npx codex-skills install dev-browser --agent codex
+npx codex-skills install agents-md --ref main
+```
+
+Defaults: latest stable GitHub Release (falls back to the latest tag if no releases exist).
+Use `--ref main` to track `main` or `--ref <tag>` to pin a specific release.
 
 ## Skills
 - `agents-md`: Create nested `AGENTS.md` + feature maps. (Author: @jMerta)

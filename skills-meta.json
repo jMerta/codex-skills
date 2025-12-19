@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "defaults": {
+    "category": "development",
+    "author": "jMerta",
+    "license": "MIT",
+    "source": "jMerta/codex-skills",
+    "featured": false,
+    "verified": true
+  },
+  "categories": {
+    "development": {
+      "name": "Development",
+      "description": "Coding and software development skills"
+    },
+    "documentation": {
+      "name": "Documentation",
+      "description": "Documentation and release notes"
+    },
+    "planning": {
+      "name": "Planning",
+      "description": "Planning and scoping workflows"
+    },
+    "operations": {
+      "name": "Operations",
+      "description": "Infrastructure and system checks"
+    }
+  },
+  "skills": {
+    "dev-browser": {
+      "author": "Sawyer Hood",
+      "source": "SawyerHood/dev-browser",
+      "license": "MIT",
+      "category": "development",
+      "featured": true,
+      "verified": true
+    },
+    "docs-sync": {
+      "category": "documentation"
+    },
+    "release-notes": {
+      "category": "documentation"
+    },
+    "plan-work": {
+      "category": "planning"
+    },
+    "vps-checkup": {
+      "category": "operations"
+    }
+  }
+}
