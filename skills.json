@@ -1,0 +1,176 @@
+{
+  "version": "1.0.0",
+  "updated": "2025-12-19T15:11:38Z",
+  "total": 13,
+  "skills": [
+    {
+      "name": "agents-md",
+      "description": "Create or update root and nested AGENTS.md files that document scoped conventions, monorepo module maps, cross-domain workflows, and (optionally) per-module feature maps (feature -> paths, entrypoints, tests, docs). Use when the user asks for AGENTS.md, nested agent instructions, or a module/feature map.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "agents-md",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "bug-triage",
+      "description": "Reproduce, isolate, and fix a bug (or failing build/test), then summarize root cause, fix, and verification steps. Use when the user reports a bug, regression, or failing build/test and wants a fix.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "bug-triage",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "ci-fix",
+      "description": "Fix GitHub Actions CI failures using GitHub CLI (gh): inspect runs/logs, identify root cause, patch workflows/code, rerun jobs, and summarize verification. Use when GitHub Actions CI is failing or needs diagnosis.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "ci-fix",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "coding-guidelines-gen",
+      "description": "Generate nested AGENTS.md coding guidelines per module (monorepo-aware), detect languages/tooling, ask architecture preferences, and set up missing formatters/linters (Spotless for JVM). Use when the user wants module-scoped AGENTS.md coding guidelines or to set up missing formatters/linters.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "coding-guidelines-gen",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "coding-guidelines-verify",
+      "description": "Verify changes follow nearest-scoped AGENTS.md rules: group changed files by nested scope, auto-fix formatting, run lint/tests, and report violations. Use when the user wants scoped compliance checks for changed files.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "coding-guidelines-verify",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "commit-work",
+      "description": "Create high-quality git commits: review/stage intended changes, split into logical commits, and write clear commit messages (including Conventional Commits). Use when the user asks to commit, craft a commit message, stage changes, or split work into multiple commits.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "commit-work",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "create-pr",
+      "description": "Create a high-quality pull request: branch, focused changes, lint/build, conventional commit, and a clear PR description with validation steps. Use when the user asks to open or prepare a PR.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "create-pr",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "dependency-upgrader",
+      "description": "Upgrade dependencies for Java/Kotlin (Gradle/Maven) and TypeScript/Node projects with minimal risk: plan the bump, apply changes incrementally, run tests/builds, and document breaking changes. Use when the user asks to bump deps, update frameworks, or address CVEs.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "dependency-upgrader",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "dev-browser",
+      "description": "Browser automation with persistent page state. Use when users ask to navigate websites, fill forms, take screenshots, extract web data, test web apps, or automate browser workflows. Trigger phrases include \"go to [url]\", \"click on\", \"fill out the form\", \"take a screenshot\", \"scrape\", \"automate\", \"test the website\", \"log into\", or any browser interaction request.",
+      "category": "development",
+      "author": "Sawyer Hood",
+      "source": "SawyerHood/dev-browser",
+      "license": "MIT",
+      "path": "dev-browser",
+      "featured": true,
+      "verified": true
+    },
+    {
+      "name": "docs-sync",
+      "description": "Keep documentation in sync with code changes across README, docs sites, API docs, runbooks, and configuration. Use when the user asks to update docs, ensure docs match behavior, or prepare docs for a release/PR.",
+      "category": "documentation",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "docs-sync",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "plan-work",
+      "description": "Plan work before coding: do repo research, analyze options/risks, and ask clarifying questions before proposing an implementation plan. Use when the user asks for a plan, design/approach, scope breakdown, or implementation steps.",
+      "category": "planning",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "plan-work",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "release-notes",
+      "description": "Draft release notes and changelog entries from git history or merged PRs between two refs (tags/SHAs/branches), including breaking changes, migrations, and upgrade steps. Use when the user asks for release notes, changelog updates, or a GitHub Release draft.",
+      "category": "documentation",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "release-notes",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "vps-checkup",
+      "description": "SSH into an Ubuntu VPS (Docker) for a read-only health/security/update report (UFW + fail2ban) and propose fixes; apply updates/restarts only with explicit confirmation. Use when the user wants a read-only VPS health/security check.",
+      "category": "operations",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "vps-checkup",
+      "featured": false,
+      "verified": true
+    }
+  ],
+  "categories": [
+    {
+      "id": "development",
+      "name": "Development",
+      "description": "Coding and software development skills",
+      "count": 9
+    },
+    {
+      "id": "documentation",
+      "name": "Documentation",
+      "description": "Documentation and release notes",
+      "count": 2
+    },
+    {
+      "id": "operations",
+      "name": "Operations",
+      "description": "Infrastructure and system checks",
+      "count": 1
+    },
+    {
+      "id": "planning",
+      "name": "Planning",
+      "description": "Planning and scoping workflows",
+      "count": 1
+    }
+  ]
+}
