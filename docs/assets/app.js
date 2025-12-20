@@ -10,7 +10,10 @@
   const noResults = document.getElementById("noResults");
   const skillTotal = document.getElementById("skillTotal");
   const skillCount = document.getElementById("skillCount");
+  const skillTotalSide = document.getElementById("skillTotalSide");
+  const skillCountSide = document.getElementById("skillCountSide");
   const skillsUpdated = document.getElementById("skillsUpdated");
+  const tocList = document.getElementById("tocList");
 
   const categoryLabel = (id) => {
     const entry = categories.find((c) => c.id === id);
@@ -23,6 +26,8 @@
   const updateStats = (visibleCount) => {
     if (skillTotal) skillTotal.textContent = skills.length.toString();
     if (skillCount) skillCount.textContent = visibleCount.toString();
+    if (skillTotalSide) skillTotalSide.textContent = skills.length.toString();
+    if (skillCountSide) skillCountSide.textContent = visibleCount.toString();
     if (skillsUpdated) {
       const updated = data.updated ? new Date(data.updated) : null;
       skillsUpdated.textContent = updated && !isNaN(updated)
@@ -118,6 +123,19 @@
   if (searchInput) searchInput.addEventListener("input", render);
   if (categorySelect) categorySelect.addEventListener("change", render);
   if (featuredToggle) featuredToggle.addEventListener("change", render);
+
+  if (tocList) {
+    const sections = document.querySelectorAll(".content section[id]");
+    tocList.innerHTML = "";
+    sections.forEach((section) => {
+      const title = section.querySelector("h2, h1");
+      if (!title) return;
+      const item = document.createElement("a");
+      item.href = `#${section.id}`;
+      item.textContent = title.textContent;
+      tocList.appendChild(item);
+    });
+  }
 
   render();
 })();

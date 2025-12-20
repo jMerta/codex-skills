@@ -1,6 +1,7 @@
 # Codex skills catalog
 
 Personal Codex CLI skills (drop-in folders under `~/.codex/skills/`).
+Catalog: https://jmerta.github.io/codex-skills/
 
 ## How it works
 - Codex discovers skills from `~/.codex/skills/**/SKILL.md` (loaded at startup).

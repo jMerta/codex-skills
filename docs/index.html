@@ -3,6 +3,25 @@ layout: default
 title: Codex Skills Catalog
 description: Browse and install Codex CLI skills.
 ---
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="top-logo">Codex Docs</span>
+    <span class="top-divider">/</span>
+    <span class="top-section">Skills Catalog</span>
+  </div>
+  <div class="topbar-center">
+    <div class="top-search">
+      <input id="searchInput" type="search" placeholder="Search skills">
+      <span class="search-hint">Ctrl K</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <a href="https://github.com/jMerta/codex-skills" class="top-link">Docs Directory</a>
+    <a href="https://github.com/jMerta/codex-skills" class="top-link">APIs</a>
+    <a href="https://github.com/jMerta/codex-skills" class="top-cta">GitHub</a>
+  </div>
+</div>
+
 <div class="layout">
   <aside class="sidebar">
     <div class="brand">
@@ -11,6 +30,10 @@ description: Browse and install Codex CLI skills.
         <p class="brand-title">Codex Skills</p>
         <p class="brand-subtitle">Catalog &amp; CLI helpers</p>
       </div>
+    </div>
+    <div class="sidebar-search">
+      <label for="sidebarSearch">Search sidebar</label>
+      <input id="sidebarSearch" type="search" placeholder="Filter navigation" disabled>
     </div>
     <nav class="side-nav">
       <a href="#overview">Overview</a>
@@ -74,10 +97,6 @@ description: Browse and install Codex CLI skills.
 
       <section class="controls">
         <div class="control">
-          <label for="searchInput">Search</label>
-          <input id="searchInput" type="search" placeholder="Search skills by name or description">
-        </div>
-        <div class="control">
           <label for="categorySelect">Category</label>
           <select id="categorySelect">
             <option value="all">All categories</option>
@@ -130,4 +149,22 @@ description: Browse and install Codex CLI skills.
       </div>
     </footer>
   </main>
+
+  <aside class="toc">
+    <div class="toc-card">
+      <div class="toc-title">On this page</div>
+      <div id="tocList" class="toc-list"></div>
+    </div>
+    <div class="toc-card">
+      <div class="toc-title">Stats</div>
+      <div class="toc-stat">
+        <span>Total skills</span>
+        <strong id="skillTotalSide">0</strong>
+      </div>
+      <div class="toc-stat">
+        <span>Showing</span>
+        <strong id="skillCountSide">0</strong>
+      </div>
+    </div>
+  </aside>
 </div>
