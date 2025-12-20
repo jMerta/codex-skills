@@ -442,6 +442,7 @@ function listSkillsOutput(data, ref, json) {
 
   log(`\nInstall: ${colors.cyan}npx codex-skills install <skill-name> [--agent <agent>]${colors.reset}`);
   log(`Install by category: ${colors.cyan}npx codex-skills install-category <category> [--agent <agent>]${colors.reset}`);
+  log(`Install all: ${colors.cyan}npx codex-skills install-all [--agent <agent>]${colors.reset}`);
   const defaultAgentPath = AGENT_PATHS[DEFAULT_AGENT];
   log(`${colors.dim}Default agent is "${DEFAULT_AGENT}" (${defaultAgentPath}).${colors.reset}`);
 }
@@ -511,6 +512,7 @@ ${colors.bold}Commands:${colors.reset}
   ${colors.green}list${colors.reset}                          List all available skills
   ${colors.green}install <name>${colors.reset}                Install a skill   
   ${colors.green}install-category <category>${colors.reset}   Install all skills in a category
+  ${colors.green}install-all${colors.reset}                   Install all skills
   ${colors.green}search <query>${colors.reset}               Search skills      
   ${colors.green}info <name>${colors.reset}                  Show skill details 
   ${colors.green}help${colors.reset}                          Show this help    
@@ -537,6 +539,7 @@ ${colors.bold}Examples:${colors.reset}
   npx codex-skills search browser
   npx codex-skills install agents-md
   npx codex-skills install-category development
+  npx codex-skills install-all
   npx codex-skills install agents-md --ref main
 `);
 }
@@ -657,12 +660,47 @@ async function installCategoryCommand(options) {
     return;
   }
 
+  await installSkillsBatch({
+    skills: categorySkills,
+    destDir,
+    options,
+    ref: resolved.ref,
+    summaryLabel: `category "${categoryId}"`
+  });
+}
+
+async function installAllCommand(options) {
+  const resolved = await resolveRef(options.ref);
+  const data = await loadSkillsIndex(resolved.ref);
+  const skills = data.skills || [];
+
+  if (skills.length === 0) {
+    warn("No skills found to install.");
+    return;
+  }
+
+  const destDir = AGENT_PATHS[options.agent] || AGENT_PATHS[DEFAULT_AGENT];
+  if (!destDir) {
+    error(`Unknown agent: ${options.agent}`);
+    return;
+  }
+
+  await installSkillsBatch({
+    skills,
+    destDir,
+    options,
+    ref: resolved.ref,
+    summaryLabel: "all skills"
+  });
+}
+
+async function installSkillsBatch({ skills, destDir, options, ref, summaryLabel }) {
   let installedCount = 0;
   let skippedCount = 0;
   let failedCount = 0;
 
-  await withRepoRoot(resolved.ref, async (repoRoot) => {
-    for (const skill of categorySkills) {
+  await withRepoRoot(ref, async (repoRoot) => {
+    for (const skill of skills) {
       try {
         const result = installSkillFromRepo(skill, repoRoot, destDir, { force: options.force });
         if (result.status === "exists") {
@@ -681,8 +719,8 @@ async function installCategoryCommand(options) {
     }
   });
 
-  info(`Ref: ${resolved.ref}`);
-  log(`\n${colors.bold}Summary:${colors.reset} installed ${installedCount}, skipped ${skippedCount}, failed ${failedCount}.`);
+  info(`Ref: ${ref}`);
+  log(`\n${colors.bold}Summary:${colors.reset} installed ${installedCount}, skipped ${skippedCount}, failed ${failedCount} (${summaryLabel}).`);
   if (failedCount > 0) {
     process.exit(1);
   }
@@ -706,6 +744,10 @@ async function main() {
       case "install-category":
       case "install-cat":
         await installCategoryCommand(parsed);
+        break;
+      case "install-all":
+      case "install-everything":
+        await installAllCommand(parsed);
         break;
       case "search":
       case "s":

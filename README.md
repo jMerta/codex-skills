@@ -39,6 +39,7 @@ npx codex-skills list
 npx codex-skills search browser
 npx codex-skills install agents-md
 npx codex-skills install-category development
+npx codex-skills install-all
 npx codex-skills install agents-md --ref main
 ```
 
@@ -59,6 +60,7 @@ The public catalog is published on GitHub Pages and updates on releases:
 - `info <name>`: show metadata for a single skill.
 - `install <name>`: copy the skill to the chosen agent path.
 - `install-category <category>`: install all skills in a category.
+- `install-all`: install every skill in the catalog.
 
 ### Common options
 - `--agent <agent>`: target agent (default: `codex`).
