@@ -67,12 +67,16 @@ description: Browse and install Codex CLI skills.
 
     <section id="quickstart" class="cta-row">
       <div class="cta">
-        <span class="cta-label">Quick start</span>
-        <code>npx codex-skills install &lt;skill-name&gt;</code>
+        <span class="cta-label">Easiest start</span>
+        <code>npx codex-skills install-all</code>
       </div>
       <div class="cta">
         <span class="cta-label">Install a category</span>
         <code>npx codex-skills install-category development</code>
+      </div>
+      <div class="cta">
+        <span class="cta-label">Install one skill</span>
+        <code>npx codex-skills install &lt;skill-name&gt;</code>
       </div>
       <div class="cta">
         <span class="cta-label">Enable skills</span>
@@ -83,7 +87,7 @@ description: Browse and install Codex CLI skills.
     <section id="instructions" class="instructions">
       <h2>How to use skills</h2>
       <ol>
-        <li>Install a skill (default agent is Codex CLI).</li>
+        <li>Install all skills (recommended for first-time setup) or pick a category/skill.</li>
         <li>Enable skills in Codex: <code>codex --enable skills</code>.</li>
         <li>Mention the skill name in your prompt to trigger it.</li>
       </ol>
@@ -133,6 +137,7 @@ description: Browse and install Codex CLI skills.
       <h2>CLI essentials</h2>
       <ul>
         <li><code>npx codex-skills list</code> — list all skills.</li>
+        <li><code>npx codex-skills install-all</code> — install everything.</li>
         <li><code>npx codex-skills install &lt;skill-name&gt;</code> — install one skill.</li>
         <li><code>npx codex-skills install-category &lt;category&gt;</code> — install a category.</li>
         <li><code>npx codex-skills help</code> — full command reference.</li>
