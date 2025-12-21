@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "updated": "2025-12-19T17:30:16Z",
-  "total": 12,
+  "updated": "2025-12-21T21:37:49Z",
+  "total": 14,
   "skills": [
     {
       "name": "agents-md",
@@ -11,6 +11,17 @@
       "source": "jMerta/codex-skills",
       "license": "MIT",
       "path": "agents-md",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "branch-cleaner",
+      "description": "Identify and clean up stale git branches locally and on remotes with safe, reversible steps. Use when asked to prune, list, or delete merged/old branches or audit branch hygiene.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "branch-cleaner",
       "featured": false,
       "verified": true
     },
@@ -114,6 +125,17 @@
       "verified": true
     },
     {
+      "name": "regex-builder",
+      "description": "Build, test, and explain regular expressions against sample text or files using CLI tools (rg, python) and specific regex flavors. Use when asked to craft, debug, or validate regexes or search patterns.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "regex-builder",
+      "featured": false,
+      "verified": true
+    },
+    {
       "name": "release-notes",
       "description": "Draft release notes and changelog entries from git history or merged PRs between two refs (tags/SHAs/branches), including breaking changes, migrations, and upgrade steps. Use when the user asks for release notes, changelog updates, or a GitHub Release draft.",
       "category": "documentation",
@@ -141,7 +163,7 @@
       "id": "development",
       "name": "Development",
       "description": "Coding and software development skills",
-      "count": 8
+      "count": 10
     },
     {
       "id": "documentation",
