@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "updated": "2025-12-21T21:37:49Z",
-  "total": 14,
+  "updated": "2025-12-21T22:04:00Z",
+  "total": 15,
   "skills": [
     {
       "name": "agents-md",
@@ -125,6 +125,17 @@
       "verified": true
     },
     {
+      "name": "rebase-assistant",
+      "description": "Guide a safe git rebase of the current branch onto a target branch, including conflict triage and resolution steps. Use when asked to rebase, update a branch, or resolve rebase conflicts.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "rebase-assistant",
+      "featured": false,
+      "verified": true
+    },
+    {
       "name": "regex-builder",
       "description": "Build, test, and explain regular expressions against sample text or files using CLI tools (rg, python) and specific regex flavors. Use when asked to craft, debug, or validate regexes or search patterns.",
       "category": "development",
@@ -163,7 +174,7 @@
       "id": "development",
       "name": "Development",
       "description": "Coding and software development skills",
-      "count": 10
+      "count": 11
     },
     {
       "id": "documentation",
