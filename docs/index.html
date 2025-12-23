@@ -39,6 +39,7 @@ description: Browse and install Codex CLI skills.
       <a href="#overview">Overview</a>
       <a href="#quickstart">Quick start</a>
       <a href="#instructions">How it works</a>
+      <a href="#ledger">Global ledger</a>
       <a href="#skills">Skills</a>
       <a href="#cli">CLI</a>
     </nav>
@@ -93,6 +94,20 @@ description: Browse and install Codex CLI skills.
       </ol>
     </section>
 
+    <section id="ledger" class="instructions">
+      <h2>Global AGENTS.MD ledger (not a skill)</h2>
+      <p>
+        Codex can use a single ledger file that applies across projects. It lives at
+        <code>~/.codex/AGENTS.MD</code> (same root as skills, without <code>/skills</code>).
+      </p>
+      <ol>
+        <li>Create it once with <code>npx codex-skills init-ledger</code>.</li>
+        <li>At the start of each assistant turn, open it and refresh goal, constraints, decisions, and state.</li>
+        <li>Update it when the goal, constraints, decisions, Done/Now/Next, or key tool outcomes change; keep it short and factual and mark unknowns as <code>UNCONFIRMED</code>.</li>
+        <li>Include a brief "Ledger Snapshot" in replies (Goal + Now/Next + Open Questions); show the full ledger only when it changes or when asked.</li>
+      </ol>
+    </section>
+
     <section id="skills" class="skills-section">
       <div class="section-header">
         <h2>Skills</h2>
@@ -140,6 +155,8 @@ description: Browse and install Codex CLI skills.
         <li><code>npx codex-skills install-all</code> — install everything.</li>
         <li><code>npx codex-skills install &lt;skill-name&gt;</code> — install one skill.</li>
         <li><code>npx codex-skills install-category &lt;category&gt;</code> — install a category.</li>
+        <li><code>npx codex-skills init-ledger</code> — create a global AGENTS.MD ledger (not a skill).</li>
+        <li><code>npx codex-skills verify &lt;skill-name&gt;</code> — verify a local skill install.</li>
         <li><code>npx codex-skills help</code> — full command reference.</li>
       </ul>
     </section>

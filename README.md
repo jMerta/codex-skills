@@ -16,6 +16,38 @@ Catalog: https://jmerta.github.io/codex-skills/
   skills = true
   ```
 
+## Global AGENTS.MD ledger (not a skill)
+Codex also supports a single, global ledger file that applies across projects. This is **not** a skill and does not live in the skills catalog.
+
+### Create it
+```bash
+npx codex-skills init-ledger
+```
+
+Location (same root as the skills folder, without `/skills`):
+- macOS/Linux: `~/.codex/AGENTS.MD`
+- Windows (PowerShell): `$HOME\.codex\AGENTS.MD`
+
+### Working with the ledger
+- Keep exactly one ledger at `~/.codex/AGENTS.MD` so it applies to all projects.
+- At the start of each assistant turn: open the ledger and refresh it with the current goal, constraints/assumptions, decisions, and state.
+- Update it again whenever any of these change: goal, constraints/assumptions, key decisions, progress state (Done/Now/Next), or important tool outcomes.
+- Keep it short and factual: use bullets, avoid transcripts, and mark unknowns as `UNCONFIRMED`.
+- In replies, include a brief “Ledger Snapshot” (Goal + Now/Next + Open Questions); show the full ledger only when it materially changes or when requested.
+
+Recommended ledger headings:
+```md
+- Goal (incl. success criteria):
+- Constraints/Assumptions:
+- Key decisions:
+- State:
+- Done:
+- Now:
+- Next:
+- Open questions (UNCONFIRMED if needed):
+- Working set (files/ids/commands):
+```
+
 ## What it looks like
 ![Codex CLI skills list](.github/codex-clipboard-VN1lya.png)
 
@@ -41,6 +73,8 @@ npx codex-skills install agents-md
 npx codex-skills install-category development
 npx codex-skills install-all
 npx codex-skills install agents-md --ref main
+npx codex-skills init-ledger
+npx codex-skills verify agents-md
 ```
 
 ## GitHub Pages catalog
@@ -55,12 +89,14 @@ The public catalog is published on GitHub Pages and updates on releases:
 - **Auth (optional):** set `GITHUB_TOKEN` to reduce GitHub API rate limits.
 
 ### Commands
-- `list` / `ls`: show all skills (grouped by category). Supports `--json`.
+- `list` / `ls`: show all skills (grouped by category). Supports `--json`.      
 - `search <query>`: search by name/description/category.
 - `info <name>`: show metadata for a single skill.
 - `install <name>`: copy the skill to the chosen agent path.
 - `install-category <category>`: install all skills in a category.
 - `install-all`: install every skill in the catalog.
+- `init-ledger`: create `~/.codex/AGENTS.MD` (global ledger, not a skill).
+- `verify <name>`: verify a local skill install (checks SKILL.md + frontmatter).
 
 ### Common options
 - `--agent <agent>`: target agent (default: `codex`).

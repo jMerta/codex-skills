@@ -5,7 +5,6 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const https = require("https");
-const tar = require("tar");
 
 const REPO_OWNER = "jMerta";
 const REPO_NAME = "codex-skills";
@@ -26,6 +25,10 @@ const AGENT_PATHS = {
   opencode: path.join(os.homedir(), ".opencode", "skills"),
   codex: path.join(os.homedir(), ".codex", "skills")
 };
+const CODEX_ROOT = path.join(os.homedir(), ".codex");
+const LEDGER_NAME = "AGENTS.MD";
+const LEDGER_PATH = path.join(CODEX_ROOT, LEDGER_NAME);
+const LEDGER_PATTERN_FILE = "LEDGER-PATTERN.md";
 
 const USE_COLOR = (process.stdout && process.stdout.isTTY && !process.env.NO_COLOR) ||
   (process.env.FORCE_COLOR && process.env.FORCE_COLOR !== "0");
@@ -321,8 +324,26 @@ function resolveCategoryId(input, categories) {
   return null;
 }
 
+function parseFrontmatter(text) {
+  const match = text.match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*[\r\n]+/);
+  if (!match) return null;
+  const block = match[1];
+  const data = {};
+  block.split(/\r?\n/).forEach((line) => {
+    const idx = line.indexOf(":");
+    if (idx === -1) return;
+    const key = line.slice(0, idx).trim();
+    const value = line.slice(idx + 1).trim();
+    if (key && value) {
+      data[key] = value;
+    }
+  });
+  return data;
+}
+
 async function withRepoRoot(ref, action) {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "codex-skills-"));
+  const tar = require("tar");
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "codex-skills-"));       
   const archivePath = path.join(tmpDir, "repo.tgz");
   const tarballUrl = `https://codeload.github.com/${REPO_OWNER}/${REPO_NAME}/tar.gz/${ref}`;
 
@@ -515,6 +536,8 @@ ${colors.bold}Commands:${colors.reset}
   ${colors.green}install-all${colors.reset}                   Install all skills
   ${colors.green}search <query>${colors.reset}               Search skills      
   ${colors.green}info <name>${colors.reset}                  Show skill details 
+  ${colors.green}init-ledger${colors.reset}                  Create ~/.codex/AGENTS.MD (not a skill)
+  ${colors.green}verify <name>${colors.reset}                Verify a local skill install
   ${colors.green}help${colors.reset}                          Show this help    
 
 ${colors.bold}Options:${colors.reset}
@@ -541,7 +564,80 @@ ${colors.bold}Examples:${colors.reset}
   npx codex-skills install-category development
   npx codex-skills install-all
   npx codex-skills install agents-md --ref main
+  npx codex-skills init-ledger
+  npx codex-skills verify agents-md
 `);
+}
+
+async function initLedgerCommand(options) {
+  if (fs.existsSync(LEDGER_PATH) && !options.force) {
+    error(`Ledger already exists at ${LEDGER_PATH}`);
+    log("Use --force to override the existing file.");
+    return;
+  }
+
+  const resolved = await resolveRef(options.ref);
+  await withRepoRoot(resolved.ref, async (repoRoot) => {
+    const templatePath = path.join(repoRoot, LEDGER_PATTERN_FILE);
+    if (!fs.existsSync(templatePath)) {
+      throw new Error(`Ledger template not found: ${LEDGER_PATTERN_FILE}`);
+    }
+    fs.mkdirSync(CODEX_ROOT, { recursive: true });
+    const contents = fs.readFileSync(templatePath);
+    fs.writeFileSync(LEDGER_PATH, contents);
+  });
+
+  success(`Created ledger: ${LEDGER_NAME}`);
+  info(`Location: ${LEDGER_PATH}`);
+  info(`Ref: ${resolved.ref}`);
+  log(`${colors.dim}This is a global AGENTS.MD ledger (not a skill).${colors.reset}`);
+  log(`${colors.dim}Keep it updated so it applies across projects.${colors.reset}`);
+}
+
+async function verifyCommand(options) {
+  if (!options.param) {
+    error("Please specify a skill name to verify.");
+    log("Usage: npx codex-skills verify <skill-name> [--agent <agent>]");
+    process.exit(1);
+  }
+
+  const destDir = AGENT_PATHS[options.agent] || AGENT_PATHS[DEFAULT_AGENT];
+  if (!destDir) {
+    error(`Unknown agent: ${options.agent}`);
+    return;
+  }
+
+  const skillPath = path.join(destDir, options.param);
+  if (!fs.existsSync(skillPath)) {
+    error(`Skill not found at ${skillPath}`);
+    log("Install it first with: npx codex-skills install <skill-name>");
+    return;
+  }
+
+  const skillFile = path.join(skillPath, "SKILL.md");
+  if (!fs.existsSync(skillFile)) {
+    error(`Missing SKILL.md at ${skillFile}`);
+    return;
+  }
+
+  const contents = fs.readFileSync(skillFile, "utf8");
+  const frontmatter = parseFrontmatter(contents);
+  if (!frontmatter) {
+    error("SKILL.md is missing YAML frontmatter.");
+    return;
+  }
+
+  if (!frontmatter.name || !frontmatter.description) {
+    error("SKILL.md frontmatter must include non-empty name and description.");
+    return;
+  }
+
+  if (frontmatter.name !== options.param) {
+    warn(`Frontmatter name "${frontmatter.name}" does not match "${options.param}".`);
+  }
+
+  success(`Verified: ${options.param}`);
+  info(`Location: ${skillPath}`);
 }
 
 async function listCommand(options) {
@@ -755,6 +851,14 @@ async function main() {
         break;
       case "info":
         await infoCommand(parsed);
+        break;
+      case "init-ledger":
+      case "ledger":
+        await initLedgerCommand(parsed);
+        break;
+      case "verify":
+      case "check":
+        await verifyCommand(parsed);
         break;
       case "help":
       default:

@@ -5,6 +5,9 @@
   "bin": {
     "codex-skills": "bin/codex-skills.js"
   },
+  "scripts": {
+    "test": "node --test"
+  },
   "files": [
     "bin"
   ],
