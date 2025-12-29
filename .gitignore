@@ -6,3 +6,5 @@ __pycache__/
 dev-browser/node_modules/
 dev-browser/profiles/
 dev-browser/tmp/
+CONTINUITY.md
+LEDGER.md
