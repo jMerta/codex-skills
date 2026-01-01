@@ -8,7 +8,17 @@
 - ...
 
 ## Research (current state)
-- Relevant files/entrypoints:
+- Modules/subprojects involved:
+  - `...`
+- Key files/paths:
+  - `...`
+- Entrypoints (API/UI/CLI/Jobs):
+  - `...`
+- Related configs/flags:
+  - `...`
+- Data models/storage touched:
+  - `...`
+- Interfaces/contracts (APIs/events/IPC):
   - `...`
 - Existing patterns to follow:
   - `...`
@@ -28,8 +38,19 @@
 ### Open questions
 - ...
 
-## Q&A (answer before implementation)
-- ...
+## Q&A results (captured after the session)
+- Outcome/acceptance criteria:
+  - ...
+- Scope boundaries:
+  - ...
+- Constraints/non-goals:
+  - ...
+- Known modules/paths/subprojects:
+  - ...
+- Decisions made in Q&A:
+  - ...
+- Remaining open questions (if any):
+  - ...
 
 ## Implementation plan
 1) ...
