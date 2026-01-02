@@ -1,6 +1,6 @@
 {
   "version": "1.6.0",
-  "updated": "2026-01-02T00:22:42Z",
+  "updated": "2026-01-02T23:17:27Z",
   "total": 21,
   "skills": [
     {
@@ -136,17 +136,6 @@
       "verified": true
     },
     {
-      "name": "frontend-design",
-      "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics.",
-      "category": "development",
-      "author": "steipete",
-      "source": "steipete/agent-scripts",
-      "license": "MIT",
-      "path": "frontend-design",
-      "featured": false,
-      "verified": true
-    },
-    {
       "name": "oracle",
       "description": "Use the @steipete/oracle CLI to bundle a prompt plus the right files and get a second-model review (API or browser) for debugging, refactors, design checks, or cross-validation.",
       "category": "development",
@@ -209,6 +198,17 @@
       "source": "jMerta/codex-skills",
       "license": "MIT",
       "path": "sessions-to-blog",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "description": "UI/UX design intelligence. 50 styles, 21 palettes, 50 font pairings, 20 charts, 8 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor, check UI/UX code. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, mobile app, .html, .tsx, .vue, .svelte. Elements: button, modal, navbar, sidebar, card, table, form, chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, flat design. Topics: color palette, accessibility, animation, layout, typography, font pairing, spacing, hover, shadow, gradient.",
+      "category": "development",
+      "author": "Next Level Builder",
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "license": "MIT",
+      "path": "ui-ux-pro-max",
       "featured": false,
       "verified": true
     },

@@ -66,6 +66,11 @@
       "author": "steipete",
       "source": "steipete/agent-scripts",
       "license": "MIT"
+    },
+    "ui-ux-pro-max": {
+      "author": "Next Level Builder",
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "license": "MIT"
     }
   }
 }

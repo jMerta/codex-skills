@@ -182,7 +182,7 @@ If you add or rename skills:
 - `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed). (Author: @jMerta)
 
 ## Third-party skills
-The following skills are sourced from `steipete/agent-scripts` (MIT). Author:
+The following skills are sourced from `steipete/agent-scripts` (MIT). Author:   
 @steipete
 - `agent-scripts` (scripts bundle)
 - `brave-search`
@@ -191,9 +191,14 @@ The following skills are sourced from `steipete/agent-scripts` (MIT). Author:
 - `oracle`
 - `video-transcript-downloader`
 
-Each copied skill folder includes a `LICENSE`, `ATTRIBUTION.md`, and an Attribution
-section in `SKILL.md`. Related scripts live in `skills/agent-scripts` and include
-their own `LICENSE`/`ATTRIBUTION.md`.
+Each copied skill folder includes a `LICENSE` and `ATTRIBUTION.md`. The
+steipete-derived skills also include attribution sections in `SKILL.md`. Related
+scripts live in `skills/agent-scripts` and include their own
+`LICENSE`/`ATTRIBUTION.md`.
+
+Additional third-party skills:
+- `ui-ux-pro-max` (source: `nextlevelbuilder/ui-ux-pro-max-skill`, MIT). Author:
+  Next Level Builder
 
 ## Contributing
 - Each skill is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body).
