@@ -35,7 +35,7 @@ Produce a plan that is:
    - If there are open questions, ask them and stop.
    - Do not propose implementation steps until the user answers (or explicitly accepts assumptions).
    - First pass: ask 1-5 questions that eliminate whole branches of work.
-   - Do not limit yourself to just 3-4 questions overall; continue asking until everything needed for a proper implementation plan is clarified.
+   - Do not limit yourself to just 1-5 questions overall; continue asking until everything needed for a proper implementation plan is clarified.
    - Make questions scannable: numbered, short, multiple-choice when possible.
    - Include defaults/recommendations and a fast-path response (e.g., reply "defaults").
      - Do not label any option as the default within the option list; if needed, state defaults in a separate note.
@@ -54,29 +54,29 @@ Produce a plan that is:
    - If the change spans modules, include coordination steps (contract changes, client regen, versioning).
 
 ## Q&A template (short, feature plan)
-Before I start, I need: (1) outcome/acceptance criteria, (2) scope boundaries, (3) constraints/non-goals. If you do not care about (2) or (3), say "Not sure" and I will propose a starting point based on repo patterns.
+Before I start, I need: (1) question (2) question (3) question.
 This is a starting set; I will continue with follow-up questions until everything needed for a proper implementation plan is clarified.
 
 Need to know
-1) Outcome/acceptance criteria?
-   a) You provide 1-3 bullets (most precise)
-   b) I draft 1-3 bullets for confirmation (faster start, may miss edge cases)
-   c) Not sure - draft and confirm
-2) Scope boundaries?
-   a) Minimal change to deliver the feature (lower risk)
-   b) Refactor nearby code while touching the area (more time, potentially cleaner)
-   c) Not sure - propose scope
-3) Constraints/non-goals?
-   a) None beyond project norms
-   b) Backwards compatibility required (may limit refactors)
-   c) Performance, security, data migration, or compliance constraints (specify)
-   d) Not sure - propose constraints
+1) 
+   a) 
+   b) 
+   c) 
+2) 
+   a) 
+   b) 
+   c) 
+3) C
+   a) 
+   b) 
+   c) 
+   d) 
 
 Nice to know
-4) Known modules/paths/subprojects to touch (monorepos)?
-   a) You provide file paths or module names (fastest)
-   b) I infer from repo scan (may require follow-ups)
-   c) Not sure - suggest likely locations
+4) 
+   a) 
+   b) 
+   c) 
 
 Reply with: "1a 2b 3c 4a" (or "propose" to have me choose and confirm).
 
