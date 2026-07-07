@@ -165,6 +165,8 @@ scripts live in `agent-scripts/` (installed alongside skills) and include their 
 Additional third-party skills:
 - `ui-ux-pro-max` (source: `nextlevelbuilder/ui-ux-pro-max-skill`, MIT). Author:
   Next Level Builder
+- `routerbase-model-gateway` (source: `zenlee123/routerbase-agent-skills`, MIT). Author:
+  ZenLee. Integrates [routerbase](https://routerbase.com/) as an OpenAI-compatible model gateway.
 
 ## Contributing
 - Each skill is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body).

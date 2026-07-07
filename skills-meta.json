@@ -56,6 +56,11 @@
       "author": "Next Level Builder",
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "license": "MIT"
+    },
+    "routerbase-model-gateway": {
+      "author": "ZenLee",
+      "source": "zenlee123/routerbase-agent-skills",
+      "license": "MIT"
     }
   }
 }
