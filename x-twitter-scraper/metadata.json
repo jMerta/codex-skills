@@ -1,0 +1,14 @@
+{
+  "version": "2.6.5",
+  "organization": "Xquik",
+  "date": "August 2026",
+  "abstract": "Integration guide for the closed-source Xquik hosted X (Twitter) data platform. Covers tweet search, user lookup, timelines, extraction jobs, monitors, events, webhooks, trends, compose workflows, drafts, draws, confirmation-gated writes, credits, support, MCP, and TypeScript types. The MIT license applies to this skill, not the hosted Xquik service.",
+  "references": [
+    "https://docs.xquik.com",
+    "https://docs.xquik.com/api-reference/overview",
+    "https://docs.xquik.com/mcp/overview",
+    "https://docs.xquik.com/webhooks/overview",
+    "https://docs.xquik.com/guides/billing",
+    "https://docs.xquik.com/mpp/overview"
+  ]
+}

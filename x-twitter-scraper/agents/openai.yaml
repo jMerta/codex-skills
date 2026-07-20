@@ -1,0 +1,4 @@
+interface:
+  display_name: "X Twitter Scraper"
+  short_description: "Use Xquik for X data and approved account actions"
+  default_prompt: "Use $x-twitter-scraper to complete this X data task safely through the narrowest supported Xquik surface."

@@ -1,7 +1,7 @@
 {
   "version": "3.0.0",
-  "updated": "2026-08-17T22:32:22Z",
-  "total": 20,
+  "updated": "2026-08-17T23:49:10Z",
+  "total": 21,
   "skills": [
     {
       "name": "branch-cleaner",
@@ -222,6 +222,17 @@
       "path": "write-ui-copy",
       "featured": false,
       "verified": true
+    },
+    {
+      "name": "x-twitter-scraper",
+      "description": "Use when the user needs X (Twitter) data or confirmation-gated X actions through Xquik, including tweet search, user lookup, follower extraction, media, monitoring, webhooks, MCP, SDKs, posting, likes, DMs, or profile updates. REST uses a Xquik API key; MCP supports OAuth 2.1 or an API key. Never ask for X login material.",
+      "category": "development",
+      "author": "Xquik",
+      "source": "Xquik-dev/x-twitter-scraper",
+      "license": "MIT",
+      "path": "x-twitter-scraper",
+      "featured": false,
+      "verified": true
     }
   ],
   "categories": [
@@ -229,7 +240,7 @@
       "id": "development",
       "name": "Development",
       "description": "Coding and software development skills",
-      "count": 9
+      "count": 10
     },
     {
       "id": "documentation",

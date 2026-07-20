@@ -151,10 +151,15 @@ If you add, rename, or update skill metadata:
 - `review-test-coverage`: Review tests, CI evidence, and proportional validation gaps. (Author: @jMerta)
 - `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed). (Author: @jMerta)
 - `write-ui-copy`: Draft and review clear Polish and English interface copy. (Author: @jMerta)
+- `x-twitter-scraper`: Use Xquik for X data and confirmation-gated actions. (Author: Xquik)
 
 ## Third-party scripts
 The optional `agent-scripts` bundle is sourced from `steipete/agent-scripts`
 under the MIT license and keeps its upstream `LICENSE` and `ATTRIBUTION.md`.
+
+## Third-party skills
+- `x-twitter-scraper` (source: `Xquik-dev/x-twitter-scraper`, MIT). Author:
+  Xquik. The MIT license covers the skill files, not the hosted Xquik service.
 
 ## Contributing
 - Each skill is a folder with required `SKILL.md` and `agents/openai.yaml` files.
