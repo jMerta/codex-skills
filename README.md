@@ -143,6 +143,7 @@ If you add or rename skills:
 - `coding-guidelines-gen`: Generate nested `AGENTS.md` coding guidelines per module + set up missing formatters/linters. (Author: @jMerta)
 - `coding-guidelines-verify`: Verify changes follow scoped `AGENTS.md` rules; auto-fix formatting + run lint/tests. (Author: @jMerta)
 - `commit-work`: Stage/split commits and write Conventional Commit messages. (Author: @jMerta)
+- `codex-skin-pack-installer`: Install public-safe Codex desktop skin packs from GitHub releases. (Author: @ChannelerH)
 - `create-pr`: Create PRs using GitHub CLI (`gh`). (Author: @jMerta)
 - `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely. (Author: @jMerta)
 - `docs-sync`: Keep `docs/` and other docs in sync with code changes. (Author: @jMerta)
@@ -163,6 +164,8 @@ scripts live in `agent-scripts/` (installed alongside skills) and include their 
 `LICENSE`/`ATTRIBUTION.md`.
 
 Additional third-party skills:
+- `codex-skin-pack-installer` (source: `ChannelerH/codex-skin-packs`, MIT). Author:
+  ChannelerH
 - `ui-ux-pro-max` (source: `nextlevelbuilder/ui-ux-pro-max-skill`, MIT). Author:
   Next Level Builder
 

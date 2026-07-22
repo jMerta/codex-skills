@@ -56,6 +56,11 @@
       "author": "Next Level Builder",
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "license": "MIT"
+    },
+    "codex-skin-pack-installer": {
+      "author": "ChannelerH",
+      "source": "ChannelerH/codex-skin-packs",
+      "license": "MIT"
     }
   }
 }

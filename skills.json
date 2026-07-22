@@ -1,7 +1,7 @@
 {
   "version": "2.0.0",
-  "updated": "2026-02-06T11:39:27Z",
-  "total": 19,
+  "updated": "2026-07-22T01:07:08Z",
+  "total": 20,
   "skills": [
     {
       "name": "agents-md",
@@ -44,6 +44,17 @@
       "source": "jMerta/codex-skills",
       "license": "MIT",
       "path": "ci-fix",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "codex-skin-pack-installer",
+      "description": "Install public-safe Codex desktop skin packs from ChannelerH/codex-skin-packs, stage verified theme.json/background.png files, and keep restore guidance visible.",
+      "category": "development",
+      "author": "ChannelerH",
+      "source": "ChannelerH/codex-skin-packs",
+      "license": "MIT",
+      "path": "codex-skin-pack-installer",
       "featured": false,
       "verified": true
     },
@@ -218,7 +229,7 @@
       "id": "development",
       "name": "Development",
       "description": "Coding and software development skills",
-      "count": 14
+      "count": 15
     },
     {
       "id": "documentation",
