@@ -10,6 +10,7 @@ import os
 import shutil
 import sys
 import tempfile
+import urllib.error
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -62,11 +63,16 @@ def validate_theme(pack_root: Path) -> None:
 
 def download(url: str, destination: Path) -> None:
     request = urllib.request.Request(url, headers={"User-Agent": "codex-skin-pack-installer"})
-    with urllib.request.urlopen(request, timeout=60) as response:
-        if response.status >= 400:
-            fail(f"download failed with HTTP {response.status}")
-        with destination.open("wb") as handle:
-            shutil.copyfileobj(response, handle)
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            if response.status >= 400:
+                fail(f"download failed with HTTP {response.status}")
+            with destination.open("wb") as handle:
+                shutil.copyfileobj(response, handle)
+    except urllib.error.HTTPError as exc:
+        fail(f"download failed with HTTP {exc.code}")
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        fail(f"download failed: {exc}")
 
 
 def stage_pack(slug: str, output_dir: Path) -> Path:
