@@ -17,6 +17,9 @@ from pathlib import Path
 
 
 RELEASE_BASE = "https://github.com/ChannelerH/codex-skin-packs/releases/download/v0.1.0"
+MAX_DOWNLOAD_BYTES = 25 * 1024 * 1024
+MAX_ZIP_MEMBERS = 64
+MAX_UNCOMPRESSED_BYTES = 50 * 1024 * 1024
 
 PACKS = {
     "caishen-readable": "Low-strain light fortune skin.",
@@ -33,10 +36,30 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
+def remove_path(path: Path) -> None:
+    if not path.exists():
+        return
+    if path.is_dir():
+        shutil.rmtree(path)
+    else:
+        path.unlink()
+
+
 def safe_extract(zip_path: Path, destination: Path) -> None:
     destination = destination.resolve()
     with zipfile.ZipFile(zip_path) as archive:
-        for member in archive.infolist():
+        members = archive.infolist()
+        if len(members) > MAX_ZIP_MEMBERS:
+            fail(f"zip has too many entries: {len(members)} > {MAX_ZIP_MEMBERS}")
+
+        total_size = 0
+        for member in members:
+            total_size += member.file_size
+            if total_size > MAX_UNCOMPRESSED_BYTES:
+                fail(
+                    "zip uncompressed size exceeds limit: "
+                    f"{total_size} > {MAX_UNCOMPRESSED_BYTES} bytes"
+                )
             target = (destination / member.filename).resolve()
             if destination != target and destination not in target.parents:
                 fail(f"unsafe zip path: {member.filename}")
@@ -67,12 +90,47 @@ def download(url: str, destination: Path) -> None:
         with urllib.request.urlopen(request, timeout=60) as response:
             if response.status >= 400:
                 fail(f"download failed with HTTP {response.status}")
+            content_length = response.headers.get("Content-Length")
+            if content_length:
+                try:
+                    content_bytes = int(content_length)
+                except ValueError:
+                    content_bytes = None
+                if content_bytes is not None and content_bytes > MAX_DOWNLOAD_BYTES:
+                    fail(f"download is too large: {content_bytes} > {MAX_DOWNLOAD_BYTES} bytes")
             with destination.open("wb") as handle:
-                shutil.copyfileobj(response, handle)
+                downloaded = 0
+                while True:
+                    chunk = response.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    downloaded += len(chunk)
+                    if downloaded > MAX_DOWNLOAD_BYTES:
+                        fail(f"download exceeded {MAX_DOWNLOAD_BYTES} bytes")
+                    handle.write(chunk)
     except urllib.error.HTTPError as exc:
         fail(f"download failed with HTTP {exc.code}")
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         fail(f"download failed: {exc}")
+
+
+def activate_replacement(replacement: Path, destination: Path) -> None:
+    backup = None
+    if destination.exists():
+        stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d%H%M%S%f")
+        backup = destination.parent / f".{destination.name}.backup-{os.getpid()}-{stamp}"
+        destination.rename(backup)
+
+    try:
+        replacement.rename(destination)
+    except OSError as exc:
+        remove_path(replacement)
+        if backup is not None and backup.exists():
+            backup.rename(destination)
+        fail(f"failed to activate staged pack: {exc}")
+
+    if backup is not None:
+        remove_path(backup)
 
 
 def stage_pack(slug: str, output_dir: Path) -> Path:
@@ -80,7 +138,8 @@ def stage_pack(slug: str, output_dir: Path) -> Path:
         fail(f"unknown pack '{slug}'. Run with --list to see available packs.")
 
     url = f"{RELEASE_BASE}/{slug}.zip"
-    destination = output_dir.expanduser() / slug
+    output_root = output_dir.expanduser()
+    destination = output_root / slug
 
     with tempfile.TemporaryDirectory(prefix="codex-skin-pack-") as temp_dir:
         temp_root = Path(temp_dir)
@@ -93,25 +152,35 @@ def stage_pack(slug: str, output_dir: Path) -> Path:
         pack_root = locate_pack_root(staging)
         validate_theme(pack_root)
 
-        if destination.exists():
-            shutil.rmtree(destination)
-        destination.mkdir(parents=True, exist_ok=True)
+        output_root.mkdir(parents=True, exist_ok=True)
+        replacement = Path(tempfile.mkdtemp(prefix=f".{slug}.replacement-", dir=output_root))
 
-        if pack_root == staging:
-            final_pack_root = destination
-            for child in pack_root.iterdir():
-                shutil.move(str(child), final_pack_root / child.name)
-        else:
-            final_pack_root = destination / pack_root.name
-            shutil.move(str(pack_root), final_pack_root)
+        try:
+            if pack_root == staging:
+                replacement_pack_root = replacement
+                final_pack_root = destination
+                for child in pack_root.iterdir():
+                    shutil.move(str(child), replacement_pack_root / child.name)
+            else:
+                replacement_pack_root = replacement / pack_root.name
+                final_pack_root = destination / pack_root.name
+                shutil.move(str(pack_root), replacement_pack_root)
 
-    manifest = {
-        "slug": slug,
-        "source": url,
-        "stagedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "packRoot": str(final_pack_root),
-    }
-    (destination / "source.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+            manifest = {
+                "slug": slug,
+                "source": url,
+                "stagedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
+                "packRoot": str(final_pack_root),
+            }
+            (replacement / "source.json").write_text(
+                json.dumps(manifest, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            activate_replacement(replacement, destination)
+        except OSError as exc:
+            remove_path(replacement)
+            fail(f"failed to stage pack replacement: {exc}")
+
     return final_pack_root
 
 

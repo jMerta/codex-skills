@@ -29,8 +29,9 @@ Stage the readable starter pack:
 python3 "$CODEX_SKILL_DIR/scripts/fetch_skin_pack.py" caishen-readable
 ```
 
-The helper downloads from the public GitHub release, checks zip path safety,
-requires `theme.json` and `background.png`, validates JSON, and extracts to
+The helper downloads from the public GitHub release, enforces download and zip
+size limits, checks zip path safety, requires `theme.json` and
+`background.png`, validates JSON, and atomically stages the replacement under
 `~/.codexthemes/packs/<slug>` unless `--out` is provided.
 
 ## Workflow

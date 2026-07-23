@@ -165,7 +165,8 @@ scripts live in `agent-scripts/` (installed alongside skills) and include their 
 
 Additional third-party skills:
 - `codex-skin-pack-installer` (source: `ChannelerH/codex-skin-packs`, MIT). Author:
-  ChannelerH
+  ChannelerH. The skill folder includes its own `LICENSE` and
+  `ATTRIBUTION.md`.
 - `ui-ux-pro-max` (source: `nextlevelbuilder/ui-ux-pro-max-skill`, MIT). Author:
   Next Level Builder
 
