@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import http.client
 import json
 import os
 import shutil
@@ -47,23 +48,26 @@ def remove_path(path: Path) -> None:
 
 def safe_extract(zip_path: Path, destination: Path) -> None:
     destination = destination.resolve()
-    with zipfile.ZipFile(zip_path) as archive:
-        members = archive.infolist()
-        if len(members) > MAX_ZIP_MEMBERS:
-            fail(f"zip has too many entries: {len(members)} > {MAX_ZIP_MEMBERS}")
+    try:
+        with zipfile.ZipFile(zip_path) as archive:
+            members = archive.infolist()
+            if len(members) > MAX_ZIP_MEMBERS:
+                fail(f"zip has too many entries: {len(members)} > {MAX_ZIP_MEMBERS}")
 
-        total_size = 0
-        for member in members:
-            total_size += member.file_size
-            if total_size > MAX_UNCOMPRESSED_BYTES:
-                fail(
-                    "zip uncompressed size exceeds limit: "
-                    f"{total_size} > {MAX_UNCOMPRESSED_BYTES} bytes"
-                )
-            target = (destination / member.filename).resolve()
-            if destination != target and destination not in target.parents:
-                fail(f"unsafe zip path: {member.filename}")
-        archive.extractall(destination)
+            total_size = 0
+            for member in members:
+                total_size += member.file_size
+                if total_size > MAX_UNCOMPRESSED_BYTES:
+                    fail(
+                        "zip uncompressed size exceeds limit: "
+                        f"{total_size} > {MAX_UNCOMPRESSED_BYTES} bytes"
+                    )
+                target = (destination / member.filename).resolve()
+                if destination != target and destination not in target.parents:
+                    fail(f"unsafe zip path: {member.filename}")
+            archive.extractall(destination)
+    except zipfile.BadZipFile as exc:
+        fail(f"downloaded archive is not a valid zip file: {exc}")
 
 
 def locate_pack_root(destination: Path) -> Path:
@@ -110,7 +114,7 @@ def download(url: str, destination: Path) -> None:
                     handle.write(chunk)
     except urllib.error.HTTPError as exc:
         fail(f"download failed with HTTP {exc.code}")
-    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+    except (urllib.error.URLError, TimeoutError, OSError, http.client.IncompleteRead) as exc:
         fail(f"download failed: {exc}")
 
 
@@ -152,10 +156,11 @@ def stage_pack(slug: str, output_dir: Path) -> Path:
         pack_root = locate_pack_root(staging)
         validate_theme(pack_root)
 
-        output_root.mkdir(parents=True, exist_ok=True)
-        replacement = Path(tempfile.mkdtemp(prefix=f".{slug}.replacement-", dir=output_root))
-
+        replacement = None
         try:
+            output_root.mkdir(parents=True, exist_ok=True)
+            replacement = Path(tempfile.mkdtemp(prefix=f".{slug}.replacement-", dir=output_root))
+
             if pack_root == staging:
                 replacement_pack_root = replacement
                 final_pack_root = destination
@@ -178,7 +183,8 @@ def stage_pack(slug: str, output_dir: Path) -> Path:
             )
             activate_replacement(replacement, destination)
         except OSError as exc:
-            remove_path(replacement)
+            if replacement is not None:
+                remove_path(replacement)
             fail(f"failed to stage pack replacement: {exc}")
 
     return final_pack_root
