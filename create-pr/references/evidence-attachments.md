@@ -22,7 +22,7 @@ Do not fabricate a before state after the fix. State when before evidence was un
 
 ## Upload to GitHub
 
-1. Create the PR as a draft with its textual body first.
+1. Create the PR with its textual body first. Use draft only when the user explicitly requested it.
 2. Open the PR description editor or a PR comment in GitHub.
 3. Drag and drop the file, choose it with the attachment control, or paste an image from the clipboard.
 4. Wait for GitHub to finish uploading and insert its generated anonymized URL.

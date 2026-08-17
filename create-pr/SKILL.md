@@ -39,7 +39,7 @@ description: Use when the user asks to prepare, publish, or open a GitHub pull r
 1. Push only when the user requested or confirmed publication. For a new remote branch, use `git push -u <remote> <branch>`.
 2. Never force-push without separate explicit approval. If approved, use `--force-with-lease` against the intended remote branch.
 3. Resolve repository, base, and head explicitly, especially for forks.
-4. Open a draft unless the user asks for ready-for-review. Carry that decision into the exact API field or CLI flags.
+4. Open a ready-for-review PR by default. Use draft only when the user explicitly asks for a draft. Carry that decision into the exact API field or CLI flags.
 
 Preferred connector fields:
 
@@ -49,26 +49,26 @@ base: <target-branch>
 head: <source-branch or owner:branch>
 title: <reviewed title>
 body: <reviewed Markdown>
-draft: <true by default; false when ready-for-review was requested>
+draft: <false by default; true only when a draft was explicitly requested>
 ```
 
 `gh` fallback for the same repository or a user-owned fork:
 
 ```text
-# Draft (default)
-gh pr create --repo <owner/repo> --base <base> --head <branch-or-user:branch> --title "<title>" --body-file <prepared-body.md> --draft
-
-# Ready for review (only when requested)
+# Ready for review (default)
 gh pr create --repo <owner/repo> --base <base> --head <branch-or-user:branch> --title "<title>" --body-file <prepared-body.md>
+
+# Draft (only when explicitly requested)
+gh pr create --repo <owner/repo> --base <base> --head <branch-or-user:branch> --title "<title>" --body-file <prepared-body.md> --draft
 ```
 
 `gh pr create --head` does not support an organization as the head owner. For a cross-repository PR whose base and fork belong to the same organization, use a connector that accepts the head repository or GitHub's REST endpoint:
 
 ```text
-gh api --method POST repos/<base-owner>/<base-repo>/pulls -f title="<title>" -F body=@<prepared-body.md> -f base="<base>" -f head="<organization>:<branch>" -f head_repo="<fork-repo>" -F draft=true
+gh api --method POST repos/<base-owner>/<base-repo>/pulls -f title="<title>" -F body=@<prepared-body.md> -f base="<base>" -f head="<organization>:<branch>" -f head_repo="<fork-repo>" -F draft=false
 ```
 
-Use `-F draft=false` only when ready-for-review was requested. Verify the base and head repositories before sending the request.
+Use `-F draft=true` only when a draft was explicitly requested. Verify the base and head repositories before sending the request.
 
 Prefer explicit title and body over unreviewed `--fill`. `--body-file` publishes Markdown text; it does not upload files referenced by local paths.
 
@@ -76,7 +76,7 @@ Prefer explicit title and body over unreviewed `--fill`. `--body-file` publishes
 
 1. Inventory relevant screenshots, recordings, previews, logs, or other evidence already created during the work. Use them when they still represent the final change and pass the safety checks.
 2. If useful evidence does not exist, capture it only when doing so is easy and proportionate to the review value.
-3. Create the draft PR with the textual evidence section first.
+3. Create the PR with the textual evidence section first.
 4. Upload local screenshots or recordings through GitHub's attachment UI, or through a connected tool only if it supports user-attachment uploads.
 5. Replace placeholders with GitHub-generated URLs, add accessible labels and context, then save the description or evidence comment.
 6. Reopen the PR and verify every image or recording renders for the intended audience. Do not claim an attachment exists until the remote PR shows it.
