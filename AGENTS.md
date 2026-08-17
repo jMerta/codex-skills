@@ -14,7 +14,9 @@
 - Run validator regression tests: `python3 -m unittest discover -s scripts -p "test_*.py"`
 - Validate skill metadata: `python3 scripts/validate_skills.py`
 - Scan tracked content for suspicious invisible characters: `python3 scripts/check_invisible_chars.py --all`
-- Test the CLI: `node --test cli/test/cli.test.js`
+- Install CLI dependencies: `npm ci --ignore-scripts --prefix cli`
+- Audit CLI runtime dependencies: `npm audit --omit=dev --prefix cli`
+- Test the CLI: `npm test --prefix cli`
 - CI mirrors these commands in the GitHub Actions workflow **Validate skills**.
 
 ## Releases (GitHub Releases)
