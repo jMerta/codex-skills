@@ -1,6 +1,6 @@
 {
   "version": "3.0.0",
-  "updated": "2026-08-17T11:02:43Z",
+  "updated": "2026-08-17T11:45:43Z",
   "total": 11,
   "skills": [
     {
@@ -60,7 +60,7 @@
     },
     {
       "name": "dependency-upgrader",
-      "description": "Use when the user asks to update, bump, or migrate Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies, or to remediate a dependency vulnerability. Preserves the repository package manager, applies small verified upgrades, and checks release age and supply-chain risk.",
+      "description": "Use when the user asks to update, bump, or migrate Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies; audit direct or transitive dependencies for CVEs or security advisories; or remediate a dependency vulnerability. Preserves the package manager, applies small verified upgrades, and checks vulnerability, release-age, and supply-chain risk.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
