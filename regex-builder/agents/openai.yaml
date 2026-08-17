@@ -1,0 +1,4 @@
+interface:
+  display_name: "Regex Builder"
+  short_description: "Build and verify regexes in the target engine"
+  default_prompt: "Use $regex-builder to create and verify a regex for the specified target engine and examples."

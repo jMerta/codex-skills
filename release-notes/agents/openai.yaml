@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Notes"
+  short_description: "Draft accurate notes from an exact Git range"
+  default_prompt: "Use $release-notes to draft accurate release notes from the exact Git range."

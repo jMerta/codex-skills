@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rebase Assistant"
+  short_description: "Rebase Git branches with safe conflict handling"
+  default_prompt: "Use $rebase-assistant to rebase this branch safely and verify the rewritten history."

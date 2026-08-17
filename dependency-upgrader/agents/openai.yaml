@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dependency Upgrader"
+  short_description: "Upgrade dependencies with supply-chain safeguards"
+  default_prompt: "Use $dependency-upgrader to plan and apply the smallest safe dependency upgrade with supply-chain checks."

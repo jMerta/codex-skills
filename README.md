@@ -154,10 +154,16 @@ The optional `agent-scripts` bundle is sourced from `steipete/agent-scripts`
 under the MIT license and keeps its upstream `LICENSE` and `ATTRIBUTION.md`.
 
 ## Contributing
-- Each skill is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body).
+- Each skill is a folder with required `SKILL.md` and `agents/openai.yaml` files.
 - Frontmatter requirements:
+  - only `name` and `description` are allowed
   - `name`: lowercase letters, digits, and hyphens; non-empty, <= 64 chars, single line
   - `description`: non-empty, <= 500 chars, single line
+- `agents/openai.yaml` requirements:
+  - `display_name`: non-empty
+  - `short_description`: 25-64 characters
+  - `default_prompt`: mentions the skill as `$skill-name`
+- Validate locally: `python -m pip install pyyaml` then `python scripts/validate_skills.py`.
 
 ## Prompt-injection hardening (invisible characters)
 This repo includes a CI check that scans for invisible/suspicious Unicode characters commonly used for deception/prompt injection:

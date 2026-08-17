@@ -1,0 +1,4 @@
+interface:
+  display_name: "Branch Cleaner"
+  short_description: "Audit and safely remove stale Git branches"
+  default_prompt: "Use $branch-cleaner to audit this repository and propose only safe branch cleanup."
