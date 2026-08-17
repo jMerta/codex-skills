@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch Pages workflow on main
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.actions.createWorkflowDispatch({

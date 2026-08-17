@@ -423,7 +423,7 @@ function installAgentScriptsFromRepo(repoRoot, destDir, options) {
 
 function showPostInstallInstructions(skillName, destPath) {
   log(`${colors.dim}To use it in Codex, mention "${skillName}" (or "$${skillName}") in your prompt.${colors.reset}`);
-  log(`${colors.dim}If you don't see it, ensure skills are enabled (codex --enable skills).${colors.reset}`);
+  log(`${colors.dim}Codex detects skill changes automatically; restart it if the skill does not appear.${colors.reset}`);
   info(`Location: ${destPath}`);
 }
 

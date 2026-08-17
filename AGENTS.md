@@ -10,12 +10,15 @@
 - Avoid bulk-loading `references/` unless the task requires it.
 
 ## Verification (preferred commands)
+- Verify the generated catalog: `python3 scripts/build_skills_json.py --check`
 - Validate skill metadata: `python3 scripts/validate_skills.py`
-- CI mirrors this as the GitHub Actions workflow **Validate skills**.
+- Scan tracked content for suspicious invisible characters: `python3 scripts/check_invisible_chars.py --all`
+- Test the CLI: `node --test cli/test/cli.test.js`
+- CI mirrors these commands in the GitHub Actions workflow **Validate skills**.
 
 ## Releases (GitHub Releases)
 - Use SemVer tags without a `v` prefix (example: `1.2.3`).
-- Cut releases from `main` with a clean working tree (`git status` should be empty) and passing validation (`python3 scripts/validate_skills.py`).
+- Cut releases from `main` with a clean working tree (`git status` should be empty) and all verification commands above passing.
 - Keep `cli/package.json` version aligned with the release tag (the npm publish workflow enforces this).
 - Ensure npm trusted publishing is configured for this repo (GitHub Actions OIDC).
 - Decide the release range:

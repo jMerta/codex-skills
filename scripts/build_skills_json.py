@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+import argparse
 import json
 import os
 import re
+import sys
 from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
@@ -50,7 +52,7 @@ def parse_frontmatter(path):
     return name, desc
 
 
-def build_skills_index():
+def build_skills_index(updated=None):
     meta = load_meta()
     defaults = meta.get("defaults", {})
     overrides = meta.get("skills", {})
@@ -110,16 +112,44 @@ def build_skills_index():
 
     output = {
         "version": meta.get("version", "1.0.0"),
-        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "updated": updated or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "total": len(skills),
         "skills": sorted(skills, key=lambda s: s["name"]),
         "categories": categories
     }
 
+    return output
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Build or verify the generated skills catalog.")
+    parser.add_argument("--check", action="store_true", help="Fail when skills.json is stale.")
+    args = parser.parse_args()
+
+    if args.check:
+        try:
+            with open(OUT_PATH, "r", encoding="utf-8") as handle:
+                current = json.load(handle)
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"ERROR: unable to read skills.json: {exc}", file=sys.stderr)
+            return 1
+        if not isinstance(current, dict):
+            print("ERROR: skills.json must contain a JSON object", file=sys.stderr)
+            return 1
+        expected = build_skills_index(updated=current.get("updated", ""))
+        if current != expected:
+            print("ERROR: skills.json is stale; run python scripts/build_skills_json.py", file=sys.stderr)
+            return 1
+        print("OK: skills.json matches the skill sources and metadata.")
+        return 0
+
+    output = build_skills_index()
+
     with open(OUT_PATH, "w", encoding="utf-8") as handle:
         json.dump(output, handle, indent=2, ensure_ascii=True)
         handle.write("\n")
+    return 0
 
 
 if __name__ == "__main__":
-    build_skills_index()
+    raise SystemExit(main())

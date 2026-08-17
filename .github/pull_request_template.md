@@ -18,7 +18,10 @@
 
 | Check | Result |
 |---|---|
+| `python scripts/build_skills_json.py --check` | ... |
 | `python scripts/validate_skills.py` | ... |
+| `python scripts/check_invisible_chars.py --all` | ... |
+| `node --test cli/test/cli.test.js` | ... |
 
 ## Evidence
 

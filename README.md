@@ -5,17 +5,10 @@ Catalog: https://jmerta.github.io/codex-skills/
 
 ## How it works
 - Codex discovers skills from `~/.agents/skills/**/SKILL.md` (user scope) and `.agents/skills/**/SKILL.md` in repos (repo scope).
-- The standard is `.agents/skills` (repo) and `~/.agents/skills` (user). Legacy `~/.codex/skills/**/SKILL.md` is still supported.
-- Only `name`, `description`, and the SKILL.md path are injected into context; bodies and `references/` are not auto-loaded (Codex can open/read them when needed).
+- The standard locations are `.agents/skills` (repo) and `~/.agents/skills` (user).
+- Codex initially exposes each skill's name, description, and path, then loads the full `SKILL.md` when the skill is selected.
 
-## Enable skills (Codex CLI)
-- Check: `codex features list` (look for `skills ... true`)
-- Enable for the current run: `codex --enable skills`
-- Enable permanently: add to `~/.codex/config.toml`:
-  ```toml
-  [features]
-  skills = true
-  ```
+Codex detects installed skill changes automatically. If a new or updated skill does not appear, restart Codex. Invoke a skill explicitly with `/skills` or `$skill-name`, or let Codex match the request to the skill description. See the [official skill guide](https://learn.chatgpt.com/docs/build-skills).
 
 ## Global AGENTS.MD ledger (not a skill)
 Codex also supports a single, global ledger file that applies across projects. This is **not** a skill and does not live in the skills catalog.
@@ -131,10 +124,10 @@ The public catalog is published on GitHub Pages and updates on releases:
 - Repo local: `./.agents/skills/` (use `--dir .agents/skills`)
 
 ### Maintaining the registry
-If you add or rename skills:
+If you add, rename, or update skill metadata:
 1) Update `skills-meta.json` (category/author/license overrides as needed).
 2) Run `python3 scripts/build_skills_json.py` to regenerate `skills.json`.
-3) Commit both files.
+3) Run `python3 scripts/build_skills_json.py --check` before committing both files.
 
 ## Skills
 - `branch-cleaner`: Audit and safely remove stale Git branches. (Author: @jMerta)
@@ -142,7 +135,7 @@ If you add or rename skills:
 - `ci-fix`: Diagnose and fix failing GitHub Actions checks. (Author: @jMerta)
 - `commit-work`: Stage intended changes and create reviewable commits. (Author: @jMerta)
 - `create-pr`: Prepare, validate, publish, and open a pull request. (Author: @jMerta)
-- `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely. (Author: @jMerta)
+- `dependency-upgrader`: Upgrade JVM and Node dependencies with CVE, release-age, and supply-chain checks. (Author: @jMerta)
 - `docs-sync`: Keep `docs/` and other docs in sync with code changes. (Author: @jMerta)
 - `rebase-assistant`: Rebase branches safely and resolve conflicts. (Author: @jMerta)
 - `regex-builder`: Build and verify regular expressions in their target engine. (Author: @jMerta)
@@ -163,7 +156,12 @@ under the MIT license and keeps its upstream `LICENSE` and `ATTRIBUTION.md`.
   - `display_name`: non-empty
   - `short_description`: 25-64 characters
   - `default_prompt`: mentions the skill as `$skill-name`
-- Validate locally: `python -m pip install pyyaml` then `python scripts/validate_skills.py`.
+- Install the validator dependency once: `python -m pip install pyyaml`.
+- Run the same checks as CI:
+  - `python scripts/build_skills_json.py --check`
+  - `python scripts/validate_skills.py`
+  - `python scripts/check_invisible_chars.py --all`
+  - `node --test cli/test/cli.test.js`
 
 ## Prompt-injection hardening (invisible characters)
 This repo includes a CI check that scans for invisible/suspicious Unicode characters commonly used for deception/prompt injection:

@@ -41,7 +41,7 @@ description: Browse and install Codex CLI skills.
       <a href="#instructions">How it works</a>
       <a href="#ledger">Global ledger</a>
       <a href="#skills">Skills</a>
-      <a href="#third-party">Third-party skills</a>
+      <a href="#third-party">Third-party scripts</a>
       <a href="#cli">CLI</a>
     </nav>
     <div class="sidebar-card">
@@ -62,7 +62,7 @@ description: Browse and install Codex CLI skills.
         <h1>Browse, filter, and install skills in minutes.</h1>
         <p class="lede">
           This page lists all available skills, their purpose, and how to use them in Codex CLI.
-          Install by name or category and enable skills once to use them in your prompts.
+          Install by name or category, then invoke a skill explicitly or let Codex match your request.
         </p>
       </div>
     </section>
@@ -81,8 +81,8 @@ description: Browse and install Codex CLI skills.
         <code>npx codex-skills install &lt;skill-name&gt;</code>
       </div>
       <div class="cta">
-        <span class="cta-label">Enable skills</span>
-        <code>codex --enable skills</code>
+        <span class="cta-label">Invoke a skill</span>
+        <code>$&lt;skill-name&gt;</code>
       </div>
     </section>
 
@@ -90,8 +90,8 @@ description: Browse and install Codex CLI skills.
       <h2>How to use skills</h2>
       <ol>
         <li>Install all skills (recommended for first-time setup) or pick a category/skill.</li>
-        <li>Enable skills in Codex: <code>codex --enable skills</code>.</li>
-        <li>Mention the skill name in your prompt to trigger it.</li>
+        <li>Codex detects installed skill changes automatically; restart it if a skill does not appear.</li>
+        <li>Use <code>/skills</code> or <code>$&lt;skill-name&gt;</code> for explicit invocation, or describe a request that matches the skill.</li>
       </ol>
     </section>
 
@@ -150,14 +150,12 @@ description: Browse and install Codex CLI skills.
     </section>
 
     <section id="third-party" class="instructions">
-      <h2>Third-party skills</h2>
+      <h2>Third-party scripts</h2>
       <p>
-        Some skills in this workspace are sourced from external repositories (for
-        example, <code>steipete/agent-scripts</code>). When copied, each skill
-        folder includes a <code>LICENSE</code>, an <code>ATTRIBUTION.md</code>,
-        and an Attribution section in <code>SKILL.md</code>. Related scripts live
-        in <code>agent-scripts/</code> and include their own
-        <code>LICENSE</code>/<code>ATTRIBUTION.md</code>.
+        The optional <code>agent-scripts</code> bundle is sourced from
+        <code>steipete/agent-scripts</code> under the MIT license. It is separate
+        from the published skill catalog and keeps its upstream
+        <code>LICENSE</code> and <code>ATTRIBUTION.md</code> files.
       </p>
     </section>
 
