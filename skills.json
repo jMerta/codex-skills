@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "updated": "2026-08-17T10:28:28Z",
+  "updated": "2026-08-17T10:33:08Z",
   "total": 11,
   "skills": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "name": "bug-triage",
-      "description": "Reproduce, isolate, and fix a bug (or failing build/test), then summarize root cause, fix, and verification steps. Use when the user reports a bug, regression, or failing build/test and wants a fix.",
+      "description": "Reproduce and isolate a reported bug or failing check, explain the root cause, and implement a minimal verified fix when authorized. Use for regressions, runtime failures, and broken builds or tests.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -60,7 +60,7 @@
     },
     {
       "name": "dependency-upgrader",
-      "description": "Upgrade dependencies for Java/Kotlin (Gradle/Maven) and TypeScript/Node projects with minimal risk: plan the bump, apply changes incrementally, run tests/builds, and document breaking changes. Use when the user asks to bump deps, update frameworks, or address CVEs.",
+      "description": "Upgrade Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies with small verified changes and supply-chain safeguards. Use for routine version bumps, framework migrations, and vulnerability remediation.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -71,7 +71,7 @@
     },
     {
       "name": "docs-sync",
-      "description": "Keep documentation in sync with code changes across README, docs sites, API docs, runbooks, and configuration. Use when the user asks to update docs, ensure docs match behavior, or prepare docs for a release/PR.",
+      "description": "Update only the documentation affected by a code or configuration change and verify examples, links, contracts, and operational steps against their source of truth. Use for README, API, runbook, and release documentation drift.",
       "category": "documentation",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -93,7 +93,7 @@
     },
     {
       "name": "regex-builder",
-      "description": "Build, test, and explain regular expressions against sample text or files using CLI tools (rg, python) and specific regex flavors. Use when asked to craft, debug, or validate regexes or search patterns.",
+      "description": "Build, debug, explain, and verify regular expressions for a specified engine using representative matches and non-matches. Use for search, validation, extraction, capture groups, and replacements.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -104,7 +104,7 @@
     },
     {
       "name": "release-notes",
-      "description": "Draft release notes and changelog entries from git history or merged PRs between two refs (tags/SHAs/branches), including breaking changes, migrations, and upgrade steps. Use when the user asks for release notes, changelog updates, or a GitHub Release draft.",
+      "description": "Draft accurate release notes or changelog entries from an exact Git range and repository metadata, including breaking changes, migrations, security impact, and upgrade steps. Use for releases, tags, and change summaries.",
       "category": "documentation",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -115,7 +115,7 @@
     },
     {
       "name": "vps-checkup",
-      "description": "SSH into an Ubuntu VPS (Docker) for a read-only health/security/update report (UFW + fail2ban) and propose fixes; apply updates/restarts only with explicit confirmation. Use when the user wants a read-only VPS health/security check.",
+      "description": "Audit an Ubuntu VPS and optional Docker workloads through SSH, producing an evidence-based health, exposure, update, and security report. Use for read-only server checkups; mutate or restart only with explicit approval.",
       "category": "operations",
       "author": "jMerta",
       "source": "jMerta/codex-skills",

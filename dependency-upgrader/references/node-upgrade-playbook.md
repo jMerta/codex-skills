@@ -1,23 +1,40 @@
-# Node/TypeScript upgrade playbook
+# Node dependency upgrade playbook
 
-## Choose the package manager
-- If `pnpm-lock.yaml` exists: use `pnpm`.
-- If `yarn.lock` exists: use `yarn`.
-- If `package-lock.json` exists: use `npm`.
-- If `bun.lock` exists: use `bun`.
+## Preserve the selected manager
 
-## Find the latest versions (up-to-date)
-- Prefer the registry as the source of truth; use `npm view` as the universal fallback (works regardless of pnpm/yarn/bun).
-  - Latest stable: `npm view <pkg> version`
-  - Dist tags (avoid pre-releases unless asked): `npm view <pkg> dist-tags --json`
-- Use web search (if available) to find official release notes/migration guides for major bumps and note any breaking changes.
+Use the `packageManager` field and committed lockfile. If they disagree, stop and report the ambiguity.
 
-## Common commands (pick what fits the repo)
-- List outdated deps: `npm outdated` / `pnpm outdated` / `yarn outdated`
-- Upgrade a single dep: `npm i <pkg>@<ver>` / `pnpm add <pkg>@<ver>` / `yarn add <pkg>@<ver>`
-- Upgrade dev dep: `npm i -D <pkg>@<ver>` / `pnpm add -D <pkg>@<ver>` / `yarn add -D <pkg>@<ver>`
-- Run tests/build: `npm test` / `pnpm test` / `yarn test` and `npm run build` / `pnpm build` / `yarn build`
+| Lockfile | Manager | Routine age gate when no policy exists |
+|---|---|---|
+| `package-lock.json` | npm | `min-release-age=3` |
+| `pnpm-lock.yaml` | pnpm | `minimumReleaseAge: 4320` |
+| `yarn.lock` | Yarn | `npmMinimalAgeGate: 3d` |
+| `bun.lock` or `bun.lockb` | Bun | `minimumReleaseAge = 259200` |
 
-## Notes
-- Prefer updating types packages together with their runtime dep.
-- For majors, search the repo for removed APIs and follow upstream migration notes.
+These values represent 72 hours in each manager's units. Use them only when the selected manager version supports the setting; otherwise verify publication timestamps and defer routine upgrades manually. They do not replace advisory, integrity, provenance, or code review. Prefer the repository's stricter value and configure exceptions narrowly for a verified urgent fix.
+
+## Inspect before installing
+
+- Query the selected registry for stable versions and dist-tags.
+- Read official migration notes for majors and framework releases.
+- Inspect current package metadata, repository URL, publication time, maintainers, dependencies, and lifecycle scripts when available.
+- Avoid broad `latest` updates and manager substitution.
+
+## Update narrowly
+
+Use the selected manager's single-package add/update command with an explicit version. Preserve dependency versus dev-dependency placement. Keep runtime packages and their type packages compatible.
+
+Before accepting the result, inspect both manifest and lockfile diffs. Pay special attention to:
+
+- registry or tarball URL changes;
+- git and exotic dependencies;
+- integrity removal or churn;
+- unexpected transitive packages;
+- install, preinstall, postinstall, and prepare scripts;
+- peer dependency warnings and runtime/engine changes.
+
+For npm registries that support it, `npm audit signatures` verifies registry signatures and provenance attestations. Run the repository's dependency-review workflow when available. Do not claim that either proves the package's code is safe.
+
+## Verify
+
+Run the repository's focused tests, type checks, lint, build, and frozen-lockfile install as applicable. Report exact commands and distinguish new failures from the recorded baseline.

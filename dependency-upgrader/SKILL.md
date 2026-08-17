@@ -1,53 +1,48 @@
 ---
 name: dependency-upgrader
-description: "Upgrade dependencies for Java/Kotlin (Gradle/Maven) and TypeScript/Node projects with minimal risk: plan the bump, apply changes incrementally, run tests/builds, and document breaking changes. Use when the user asks to bump deps, update frameworks, or address CVEs."
+description: Upgrade Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies with small verified changes and supply-chain safeguards. Use for routine version bumps, framework migrations, and vulnerability remediation.
 ---
 
 # Dependency upgrader
 
-## Goal
-Safely upgrade dependencies with minimal, reviewable diffs and clear verification.
+## Establish the contract
 
-## Inputs to ask for (if missing)
-- Which ecosystem: Gradle/Maven, Node/TypeScript, or both.
-- Scope: one dependency, a set (e.g., Spring Boot), or "everything".
-- Constraints: patch/minor only vs allow majors; time budget; CI requirements.
-- Motivation: CVE fix, feature need, or routine maintenance.
-- Can the agent use web search to confirm latest versions and read migration notes? (If not, rely on registry lookups.)
+1. Read repository instructions and detect the manifests, wrapper, version catalog, lockfile, and selected package manager.
+2. Confirm the requested packages, allowed version range, motivation, and whether major migrations are in scope. Treat "update dependencies" as the smallest compatible stable updates, not permission to upgrade every major.
+3. Record the current versions and run the smallest reliable baseline check before editing.
+4. Stop and report when the working tree contains overlapping changes or the required tool is unavailable; do not switch package managers or regenerate a foreign lockfile.
 
-## Workflow (checklist)
-1) Detect the project type and package manager
-   - Node: `package.json` + lock file (`pnpm-lock.yaml`, `package-lock.json`, `yarn.lock`, `bun.lock`).
-   - Gradle: `gradlew`, `build.gradle(.kts)`, `settings.gradle(.kts)`, `gradle/libs.versions.toml`.
-   - Maven: `pom.xml`.
-   - If the required package manager or build tool is missing (npm/pnpm/yarn/bun, Gradle, Maven), tell the user and ask whether to install it or proceed with a manual edit-only upgrade.
-2) Establish a baseline
-   - Record current versions (dependency file + lock files).
-   - Run the smallest reliable test/build command the repo uses (then expand if needed).
-3) Plan the upgrade
-   - Prefer the smallest bump that solves the problem.
-   - Choose target versions using up-to-date sources:
-     - Use web search (if available) to confirm latest stable versions and skim official release notes/migration guides.
-     - Cross-check with the registry/source of truth (npm registry, Maven Central, Gradle Plugin Portal).
-   - Group by risk:
-     - low: patches/minors, leaf deps
-     - medium: build tools/plugins
-     - high: framework majors (Spring Boot), runtime bumps (Java/Node)
-   - For majors: skim upstream migration notes and list expected breakpoints before editing.
-4) Apply upgrades incrementally
-   - Update one group at a time; keep diffs focused.
-   - After each group: run tests/build and fix breakages immediately.
-   - Use the playbooks in `references/` for ecosystem-specific commands.
-5) Validate and document
-   - Run the repo's "CI equivalent" commands (tests + build).
-   - Document:
-     - what changed (versions)
-     - why (CVE, compatibility, feature)
-     - notable migrations or breaking changes
-     - any follow-ups (deprecations, future majors)
+## Select versions
 
-## Deliverable
-Provide:
-- The list of version bumps (old -> new).
-- The commands run and their result (tests/build).
-- Any breaking changes and required code/config migrations.
+1. Use current registry metadata plus official release notes, migration guides, compatibility tables, and security advisories.
+2. Prefer the smallest stable version that solves the stated problem. Do not select prereleases or release candidates unless requested.
+3. Group tightly coupled packages; otherwise update one dependency or low-risk group at a time.
+4. For majors, identify runtime requirements, removed APIs, configuration changes, and rollback constraints before editing.
+
+## Check supply-chain risk
+
+Honor the repository's existing policy. If it has none, recommend a 72-hour minimum release-age gate for routine upgrades and document any exception for an urgent security fix. See `references/node-upgrade-playbook.md` for manager-specific settings.
+
+Before accepting the lockfile diff:
+
+- review all new direct and transitive packages, versions, registries, URLs, integrity values, and lifecycle scripts;
+- investigate unexpected package replacements, new maintainers, provenance changes, git/tarball sources, or a large transitive expansion;
+- use registry signature or provenance verification when the selected manager and registry support it, without treating provenance as proof that code is safe;
+- keep frozen-lockfile and dependency-review checks enabled where the repository already uses them;
+- never bypass an integrity, signature, policy, or vulnerability failure merely to finish the upgrade.
+
+An urgent CVE may justify bypassing the age gate only when the chosen version and advisory are verified, the exception is explicit, and focused validation passes.
+
+## Apply and verify
+
+1. Use the repository's package manager or build wrapper and preserve its lockfile format.
+2. Make the smallest manifest and lockfile change that represents the upgrade.
+3. Inspect the diff before running package scripts. Use lockfile-only or ignore-scripts modes for discovery when supported; enable scripts only when required and trusted.
+4. Run focused tests after each risk group, then the repository's relevant CI-equivalent checks.
+5. Compare failures with the baseline and revert unrelated churn rather than normalizing it.
+
+Use `references/node-upgrade-playbook.md` or `references/gradle-upgrade-playbook.md` only for the detected ecosystem.
+
+## Report
+
+List old and new versions, reason, migration work, supply-chain checks, commands and results, baseline failures, and any unresolved risks or deferred majors.

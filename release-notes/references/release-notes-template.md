@@ -1,48 +1,29 @@
 # Release notes template
 
+Use only sections supported by the release range and audience.
+
 ```markdown
-# <Product> <version> (<YYYY-MM-DD>)
+# <Product> <version> (<date or Unreleased>)
+
+<One-paragraph release summary.>
 
 ## Highlights
-- ...
+- <Change and why it matters> ([#123](link))
 
 ## Breaking changes
-- ...
-
-## Upgrade notes
-- ...
-
-## Deprecations
-- ...
-
-## Features
-- ...
+- <Impact>
+  - Upgrade: <required action>
+  - Rollback: <constraint, when relevant>
 
 ## Fixes
-- ...
-
-## Performance
-- ...
+- <User-visible fix>
 
 ## Security
-- ...
+- <Impact and safe disclosure detail>
 
-## Dependencies
-- ...
-
-## Operations / infrastructure
-- ...
-
-## Database / migrations
-- ...
+## Operations and migrations
+- <Configuration, database, deployment, or runtime action>
 
 ## Known issues
-- ...
-
-## Verification
-- ...
-
-## Risk / notes
-- ...
+- <Issue and workaround>
 ```
-

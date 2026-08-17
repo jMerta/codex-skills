@@ -1,59 +1,49 @@
 ---
 name: bug-triage
-description: Reproduce, isolate, and fix a bug (or failing build/test), then summarize root cause, fix, and verification steps. Use when the user reports a bug, regression, or failing build/test and wants a fix.
+description: Reproduce and isolate a reported bug or failing check, explain the root cause, and implement a minimal verified fix when authorized. Use for regressions, runtime failures, and broken builds or tests.
 ---
 
 # Bug triage
 
-## Goal
-Turn an ambiguous bug report into:
-- a reliable repro (or a clear “cannot reproduce yet” with next info to collect)
-- a root-cause explanation
-- a minimal, reviewed fix
-- verification steps (commands + manual checks)
+## Establish scope
 
-## First checks
-1) Read any repo-specific guidance (`AGENTS.md`, `CONTRIBUTING.md`, README).
-2) Clarify impact: severity, who is affected, and whether it’s a regression.
+1. Read repository instructions and inspect the current branch, status, and relevant diff.
+2. Determine whether the user asked only for diagnosis or also authorized a fix.
+3. Inspect available errors, logs, tests, and code before asking for missing details.
+4. Record expected behavior, actual behavior, environment, frequency, and last known good state when they affect the investigation.
 
-## If info is missing, ask for it
-- Exact steps to reproduce (starting state + inputs).
-- Expected vs actual behavior.
-- Error text / stack trace / logs (full, unedited if possible).
-- Environment: OS, runtime versions (Node/Bun), browser, commit hash/tag.
-- Frequency: always / sometimes / only certain data.
-- “Last known good” version or approximate date when it started.
+## Reproduce and isolate
 
-## Workflow (checklist)
-1) Reproduce locally
-   - Prefer the simplest, fastest repro.
-   - If it’s flaky, try to reduce nondeterminism (seed, fixed time, retries).
-2) Localize the failure
-   - Narrow to a file/function/component/config.
-   - Use `rg` to find relevant code paths and error strings.
-3) Identify root cause
-   - Form a hypothesis, confirm with logs/breakpoints, then refine.
-   - If it’s a regression and git history exists, consider `git bisect`.
-4) Implement the minimal fix
-   - Fix the cause, not the symptom.
-   - Avoid drive-by refactors and formatting churn.
-5) Verify
-   - Run the project’s standard checks (lint/tests/build).
-   - Re-run the repro steps and confirm the fix.
+1. Use the smallest reliable reproduction. Preserve the original failure output.
+2. If the failure is intermittent, control time, randomness, concurrency, data, and retries one variable at a time.
+3. Trace the failing path end to end. Search every caller of the function or component before editing it.
+4. Form a falsifiable hypothesis and run the narrowest check that can confirm or reject it.
+5. Use history or `git bisect` only when a regression boundary will materially shorten the search.
 
-## Repo-aware command hints
-Use what the repo actually uses:
-- If `bun.lock` exists: prefer `bun ...` (e.g. `bun lint`, `bun build`, `bun dev`).
-- Otherwise: use the project’s documented commands (`npm`, `pnpm`, `yarn`, etc.).
- - If `bun.lock` exists but `bun` is not available, tell the user and ask whether to install `bun` or use the repo’s alternative package manager.
+Separate these outcomes explicitly:
 
-## Deliverable (paste this in the chat / PR / issue)
-Use this format:
-- **Summary:** ...
-- **Repro:** ...
-- **Root cause:** ...
-- **Fix:** ...
-- **Verification:** ...
-- **Risk/notes:** ...
+- confirmed product regression;
+- pre-existing or baseline failure;
+- environment, credentials, service, or dependency failure;
+- insufficient evidence to reproduce.
 
-If you need a bug-report structure to ask the user for, use `references/bug-report-template.md`.
+## Fix when authorized
+
+1. Add or adapt the smallest regression check that fails for the confirmed cause.
+2. Fix the shared root cause rather than guarding one visible caller.
+3. Avoid unrelated refactors, dependency upgrades, formatting churn, and broad exception handling.
+4. Re-run the reproduction, focused regression check, and the smallest relevant project checks.
+
+Use the package manager, wrapper, and commands already selected by the repository. Infer them from repository instructions, manifests, lockfiles, and scripts; do not substitute another tool just because it is installed locally.
+
+## Report
+
+Include:
+
+- **Observed:** exact symptom and affected scope.
+- **Root cause:** confirmed explanation, or the leading hypothesis clearly labeled.
+- **Change:** files and behavior changed, or `diagnosis only`.
+- **Verification:** commands and results, including baseline failures.
+- **Remaining risk:** untested paths, flaky behavior, or external blockers.
+
+Use `references/bug-report-template.md` only when the user needs a reusable intake form.

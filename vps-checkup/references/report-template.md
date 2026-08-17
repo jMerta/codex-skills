@@ -1,49 +1,41 @@
-# VPS checkup report template
+# VPS checkup report
+
+## Scope
+
+- Host and timestamp:
+- Expected workloads and exposed ports:
+- Access level and unavailable checks:
+- Changes applied: none / listed below
 
 ## Summary
-- **Host:** `<ssh-alias-or-host>` (`<public-ip>` optional)
-- **When:** `<ISO timestamp>`
-- **Scope:** read-only (no changes applied) / changes applied (list below)
 
-## System overview
-- **OS / kernel:** …
-- **Uptime / load:** …
-- **CPU / memory:** …
-- **Disk:** …
-- **Failed services:** …
+- Overall status:
+- Highest-priority finding:
+- Update data: current / stale because package indexes were not refreshed
 
-## Security posture
-- **SSHD:** key settings and concerns (root login, password auth, MFA/2FA, allowed users)
-- **Firewall (UFW):** status + exposed ports
-- **Fail2ban:** status + jails
+## Evidence
 
-## Updates
-- **Apt security updates pending:** …
-- **Reboot required:** yes/no (`/var/run/reboot-required`)
-- **Unattended upgrades:** enabled/disabled/unknown + evidence
+| Area | Status | Evidence |
+|---|---|---|
+| Capacity and filesystems | | |
+| Failed services and logs | | |
+| SSH and listening ports | | |
+| Firewall and banning | | |
+| Time, updates, and reboot | | |
+| Docker workloads | present / absent / unchecked | |
+| Backups | confirmed / unknown / absent | |
 
-## Docker
-- **Docker daemon:** healthy/unhealthy + evidence
-- **Containers:** unhealthy/restarting containers + evidence
-- **Resources:** notable CPU/mem usage
-- **Disk:** `docker system df` summary + top offenders if known
-- **Compose projects:** key projects + status
+## Findings
 
-## Findings (ranked)
-| Severity | Area | Finding | Evidence | Recommendation |
+| Severity | Finding | Evidence | Minimal recommendation | Approval required |
 |---|---|---|---|---|
-| Critical/High/Med/Low | … | … | … | … |
+| Critical / High / Medium / Low | | | | yes / no |
 
-## Recommended actions (no changes yet)
-1) …
-2) …
+## Approved changes applied
 
-## Approved changes applied (only if requested)
-- …
+- None, unless explicitly listed with command and result.
 
-## Commands run (high level)
-- …
+## Follow-up
 
-## Follow-ups
-- …
-
+- Unverified assumptions:
+- Recommended next check:
