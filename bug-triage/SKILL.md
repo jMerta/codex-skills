@@ -1,6 +1,6 @@
 ---
 name: bug-triage
-description: Reproduce and isolate a reported bug or failing check, explain the root cause, and implement a minimal verified fix when authorized. Use for regressions, runtime failures, and broken builds or tests.
+description: Use when the user reports a bug, regression, runtime error, failing build, or broken test and wants reproduction, diagnosis, root-cause analysis, or an authorized fix. Isolates the shared cause and verifies the smallest relevant change.
 ---
 
 # Bug triage

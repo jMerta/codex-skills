@@ -1,6 +1,6 @@
 ---
 name: regex-builder
-description: Build, debug, explain, and verify regular expressions for a specified engine using representative matches and non-matches. Use for search, validation, extraction, capture groups, and replacements.
+description: Use when the user asks to create, debug, explain, validate, or optimize a regular expression or replacement for a specific engine. Verifies representative matches, non-matches, captures, escaping, portability limits, and backtracking risk in the target runtime.
 ---
 
 # Regex builder

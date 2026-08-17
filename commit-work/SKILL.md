@@ -1,6 +1,6 @@
 ---
 name: commit-work
-description: Create reviewable Git commits by inspecting the worktree, staging only intended changes, choosing logical boundaries, and writing repository-appropriate messages. Use when asked to stage, commit, split commits, or craft commit messages.
+description: Use when the user asks to stage changes, create a Git commit, split work into logical commits, or craft a commit message. Inspects the worktree, preserves unrelated changes, stages only intended files or hunks, and follows repository conventions.
 ---
 
 # Commit work

@@ -1,6 +1,6 @@
 ---
 name: ci-fix
-description: Diagnose and fix failing GitHub Actions checks using GitHub connector context plus gh logs and local verification. Use when a pull request, branch, or workflow run is failing in GitHub Actions.
+description: Use when the user asks to diagnose or fix failing GitHub Actions checks on a pull request, branch, or workflow run, or wants CI log and root-cause analysis. Prefers GitHub connector context, uses gh for Actions logs, and verifies authorized fixes locally.
 ---
 
 # CI fix

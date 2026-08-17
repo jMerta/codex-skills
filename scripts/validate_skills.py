@@ -84,6 +84,8 @@ def validate_skill_file(path: Path) -> tuple[list[str], dict]:
     else:
         if "\n" in description or "\r" in description:
             errors.append("description must be single-line")
+        if not description.startswith("Use when the user "):
+            errors.append("description must start with 'Use when the user' and state invocation triggers")
         if len(description) > 500:
             errors.append(f"description too long ({len(description)}>500)")
 

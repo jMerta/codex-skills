@@ -1,6 +1,6 @@
 ---
 name: docs-sync
-description: Update only the documentation affected by a code or configuration change and verify examples, links, contracts, and operational steps against their source of truth. Use for README, API, runbook, and release documentation drift.
+description: Use when the user asks to update documentation after code or configuration changes, audit documentation drift, or prepare README, API, runbook, or release docs. Changes only affected documentation and verifies examples, links, contracts, and operational steps against source code.
 ---
 
 # Docs sync

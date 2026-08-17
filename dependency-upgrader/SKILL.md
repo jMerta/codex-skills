@@ -1,6 +1,6 @@
 ---
 name: dependency-upgrader
-description: Upgrade Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies with small verified changes and supply-chain safeguards. Use for routine version bumps, framework migrations, and vulnerability remediation.
+description: Use when the user asks to update, bump, or migrate Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies, or to remediate a dependency vulnerability. Preserves the repository package manager, applies small verified upgrades, and checks release age and supply-chain risk.
 ---
 
 # Dependency upgrader

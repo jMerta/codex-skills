@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Prepare and open a focused GitHub pull request from a local checkout, including branch strategy, validation, commits, push, and a truthful PR description. Use when asked to prepare, publish, or open a PR.
+description: Use when the user asks to prepare, publish, or open a GitHub pull request from a local checkout. Verifies branch and diff scope, runs relevant checks, creates needed commits, pushes only when authorized, and opens a truthful draft or ready PR.
 ---
 
 # Create a pull request

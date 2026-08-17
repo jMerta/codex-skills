@@ -1,11 +1,11 @@
 {
   "version": "3.0.0",
-  "updated": "2026-08-17T10:38:59Z",
+  "updated": "2026-08-17T11:02:43Z",
   "total": 11,
   "skills": [
     {
       "name": "branch-cleaner",
-      "description": "Audit and safely remove stale, merged, or gone Git branches locally and on remotes. Use when the user asks to list, prune, or delete old branches or review branch hygiene.",
+      "description": "Use when the user asks to list, audit, prune, or delete local or remote Git branches, especially stale, merged, gone-upstream, protected, worktree-bound, or open-PR branches. Identifies safe candidates and performs only explicitly authorized cleanup.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -16,7 +16,7 @@
     },
     {
       "name": "bug-triage",
-      "description": "Reproduce and isolate a reported bug or failing check, explain the root cause, and implement a minimal verified fix when authorized. Use for regressions, runtime failures, and broken builds or tests.",
+      "description": "Use when the user reports a bug, regression, runtime error, failing build, or broken test and wants reproduction, diagnosis, root-cause analysis, or an authorized fix. Isolates the shared cause and verifies the smallest relevant change.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -27,7 +27,7 @@
     },
     {
       "name": "ci-fix",
-      "description": "Diagnose and fix failing GitHub Actions checks using GitHub connector context plus gh logs and local verification. Use when a pull request, branch, or workflow run is failing in GitHub Actions.",
+      "description": "Use when the user asks to diagnose or fix failing GitHub Actions checks on a pull request, branch, or workflow run, or wants CI log and root-cause analysis. Prefers GitHub connector context, uses gh for Actions logs, and verifies authorized fixes locally.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -38,7 +38,7 @@
     },
     {
       "name": "commit-work",
-      "description": "Create reviewable Git commits by inspecting the worktree, staging only intended changes, choosing logical boundaries, and writing repository-appropriate messages. Use when asked to stage, commit, split commits, or craft commit messages.",
+      "description": "Use when the user asks to stage changes, create a Git commit, split work into logical commits, or craft a commit message. Inspects the worktree, preserves unrelated changes, stages only intended files or hunks, and follows repository conventions.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -49,7 +49,7 @@
     },
     {
       "name": "create-pr",
-      "description": "Prepare and open a focused GitHub pull request from a local checkout, including branch strategy, validation, commits, push, and a truthful PR description. Use when asked to prepare, publish, or open a PR.",
+      "description": "Use when the user asks to prepare, publish, or open a GitHub pull request from a local checkout. Verifies branch and diff scope, runs relevant checks, creates needed commits, pushes only when authorized, and opens a truthful draft or ready PR.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -60,7 +60,7 @@
     },
     {
       "name": "dependency-upgrader",
-      "description": "Upgrade Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies with small verified changes and supply-chain safeguards. Use for routine version bumps, framework migrations, and vulnerability remediation.",
+      "description": "Use when the user asks to update, bump, or migrate Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies, or to remediate a dependency vulnerability. Preserves the repository package manager, applies small verified upgrades, and checks release age and supply-chain risk.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -71,7 +71,7 @@
     },
     {
       "name": "docs-sync",
-      "description": "Update only the documentation affected by a code or configuration change and verify examples, links, contracts, and operational steps against their source of truth. Use for README, API, runbook, and release documentation drift.",
+      "description": "Use when the user asks to update documentation after code or configuration changes, audit documentation drift, or prepare README, API, runbook, or release docs. Changes only affected documentation and verifies examples, links, contracts, and operational steps against source code.",
       "category": "documentation",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -82,7 +82,7 @@
     },
     {
       "name": "rebase-assistant",
-      "description": "Safely rebase a Git branch onto an explicit or discovered target, resolve conflicts by intent, and verify rewritten history. Use when asked to rebase, update a branch, or handle rebase conflicts.",
+      "description": "Use when the user asks to rebase or update a Git branch onto another ref, handle rebase conflicts, or verify rewritten history. Protects dirty worktrees, resolves conflicts by intent, and keeps force-push as a separate authorized action.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -93,7 +93,7 @@
     },
     {
       "name": "regex-builder",
-      "description": "Build, debug, explain, and verify regular expressions for a specified engine using representative matches and non-matches. Use for search, validation, extraction, capture groups, and replacements.",
+      "description": "Use when the user asks to create, debug, explain, validate, or optimize a regular expression or replacement for a specific engine. Verifies representative matches, non-matches, captures, escaping, portability limits, and backtracking risk in the target runtime.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -104,7 +104,7 @@
     },
     {
       "name": "release-notes",
-      "description": "Draft accurate release notes or changelog entries from an exact Git range and repository metadata, including breaking changes, migrations, security impact, and upgrade steps. Use for releases, tags, and change summaries.",
+      "description": "Use when the user asks to draft release notes, changelog entries, or GitHub Release text from commits, tags, branches, or merged pull requests. Resolves an exact Git range and surfaces breaking changes, migrations, security impact, and upgrade steps.",
       "category": "documentation",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -115,7 +115,7 @@
     },
     {
       "name": "vps-checkup",
-      "description": "Audit an Ubuntu VPS and optional Docker workloads through SSH, producing an evidence-based health, exposure, update, and security report. Use for read-only server checkups; mutate or restart only with explicit approval.",
+      "description": "Use when the user asks for a read-only health, security, network exposure, update, backup, or Docker audit of an Ubuntu VPS over SSH. Produces an evidence-based report and requires explicit approval before package refreshes, configuration changes, restarts, pruning, or reboot.",
       "category": "operations",
       "author": "jMerta",
       "source": "jMerta/codex-skills",

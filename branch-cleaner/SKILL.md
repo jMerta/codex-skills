@@ -1,6 +1,6 @@
 ---
 name: branch-cleaner
-description: Audit and safely remove stale, merged, or gone Git branches locally and on remotes. Use when the user asks to list, prune, or delete old branches or review branch hygiene.
+description: Use when the user asks to list, audit, prune, or delete local or remote Git branches, especially stale, merged, gone-upstream, protected, worktree-bound, or open-PR branches. Identifies safe candidates and performs only explicitly authorized cleanup.
 ---
 
 # Branch cleaner

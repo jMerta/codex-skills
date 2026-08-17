@@ -158,7 +158,7 @@ under the MIT license and keeps its upstream `LICENSE` and `ATTRIBUTION.md`.
 - Frontmatter requirements:
   - only `name` and `description` are allowed
   - `name`: lowercase letters, digits, and hyphens; non-empty, <= 64 chars, single line
-  - `description`: non-empty, <= 500 chars, single line
+  - `description`: starts with `Use when the user...`, names concrete invocation triggers, then summarizes scope; <= 500 chars, single line
 - `agents/openai.yaml` requirements:
   - `display_name`: non-empty
   - `short_description`: 25-64 characters

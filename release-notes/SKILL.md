@@ -1,6 +1,6 @@
 ---
 name: release-notes
-description: Draft accurate release notes or changelog entries from an exact Git range and repository metadata, including breaking changes, migrations, security impact, and upgrade steps. Use for releases, tags, and change summaries.
+description: Use when the user asks to draft release notes, changelog entries, or GitHub Release text from commits, tags, branches, or merged pull requests. Resolves an exact Git range and surfaces breaking changes, migrations, security impact, and upgrade steps.
 ---
 
 # Release notes

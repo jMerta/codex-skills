@@ -1,6 +1,6 @@
 ---
 name: vps-checkup
-description: Audit an Ubuntu VPS and optional Docker workloads through SSH, producing an evidence-based health, exposure, update, and security report. Use for read-only server checkups; mutate or restart only with explicit approval.
+description: Use when the user asks for a read-only health, security, network exposure, update, backup, or Docker audit of an Ubuntu VPS over SSH. Produces an evidence-based report and requires explicit approval before package refreshes, configuration changes, restarts, pruning, or reboot.
 ---
 
 # VPS checkup

@@ -1,6 +1,6 @@
 ---
 name: rebase-assistant
-description: Safely rebase a Git branch onto an explicit or discovered target, resolve conflicts by intent, and verify rewritten history. Use when asked to rebase, update a branch, or handle rebase conflicts.
+description: Use when the user asks to rebase or update a Git branch onto another ref, handle rebase conflicts, or verify rewritten history. Protects dirty worktrees, resolves conflicts by intent, and keeps force-push as a separate authorized action.
 ---
 
 # Rebase assistant
