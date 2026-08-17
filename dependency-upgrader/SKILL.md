@@ -31,7 +31,7 @@ Read `references/vulnerability-audit-playbook.md` for every dependency upgrade o
 
 ## Check supply-chain risk
 
-Honor the repository's existing policy. If it has none, recommend a 72-hour minimum release-age gate for routine upgrades and document any exception for an urgent security fix. See `references/node-upgrade-playbook.md` for manager-specific settings.
+Honor the repository's existing policy. If it has none, recommend a 72-hour minimum release-age gate for routine upgrades and document any exception for an urgent security fix. For Node, use the selected manager's setting from `references/node-upgrade-playbook.md`. For Gradle or Maven, follow repository policy or verify publication timestamps manually; do not invent a manager-neutral setting.
 
 Before accepting the lockfile diff:
 

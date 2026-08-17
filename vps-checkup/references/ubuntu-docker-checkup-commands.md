@@ -38,16 +38,35 @@ The package list may be stale. Run `sudo apt update` only after explicit approva
 
 ## Docker when installed
 
-```sh
-docker info
-docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.RunningFor}}'
-docker ps --filter health=unhealthy --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'
-docker stats --no-stream
+Discover the active Docker context and endpoint first. Use the current user's active context; do not retry with `sudo` merely because access fails. A `sudo docker` fallback is allowed only after confirming the intended endpoint is the local rootful daemon and receiving authorization. Otherwise report Docker as `unchecked`.
+
+```bash
+docker_context=$(docker context show)
+docker context inspect "$docker_context" --format '{{.Name}}\t{{.Endpoints.docker.Host}}'
+docker info --format 'Server={{.ServerVersion}} RootDir={{.DockerRootDir}} LoggingDriver={{.LoggingDriver}} CgroupDriver={{.CgroupDriver}} SecurityOptions={{json .SecurityOptions}} Containers={{.Containers}} Images={{.Images}}'
+docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.RunningFor}}' | head -n 101
+docker ps --filter health=unhealthy --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | head -n 101
+docker ps -q | head -n 100 | xargs -r docker stats --no-stream
 docker system df
-docker compose ls
+docker compose ls | head -n 101
+docker ps -aq | head -n 100 | while IFS= read -r id; do
+  docker inspect --format '{{.Name}}\t{{.RestartCount}}\t{{.HostConfig.LogConfig.Type}}\t{{index .HostConfig.LogConfig.Config "max-size"}}\t{{index .HostConfig.LogConfig.Config "max-file"}}\t{{.LogPath}}' "$id"
+done
+docker ps -aq | head -n 100 | while IFS= read -r id; do
+  log_path=$(docker inspect --format '{{.LogPath}}' "$id")
+  test -n "$log_path" && stat -Lc '%s\t%y\t%n' -- "$log_path" 2>/dev/null
+done
+measure_log_sizes() {
+  docker ps -aq | head -n 100 | while IFS= read -r id; do
+    log_path=$(docker inspect --format '{{.LogPath}}' "$id")
+    log_size=$(stat -Lc '%s' -- "$log_path" 2>/dev/null) && printf '%s\t%s\n' "$id" "$log_size"
+  done
+}
+paste <(measure_log_sizes) <(sleep 10; measure_log_sizes) | awk -F '\t' '$1 == $3 { printf "%s\t%d bytes delta\t%.1f bytes/s\n", $1, $4 - $2, ($4 - $2) / 10 }'
+docker image ls --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | head -n 101
 ```
 
-Inspect a container's bounded recent logs only when its health or restart state requires it. Do not print environment variables or inspect secrets.
+The log-size loop reports metadata only where the active user can read it; do not elevate merely to fill gaps. Inspect a container's bounded recent logs only when its health or restart state requires it. Do not print log content during the inventory, environment variables, full container configuration, or remote logging options that may contain credentials.
 
 ## Mutating commands
 

@@ -9,6 +9,7 @@ Thanks for contributing!
 4) Install the validator dependency once: `python -m pip install pyyaml`.
 5) Run the repository checks:
    - `python scripts/build_skills_json.py --check`
+   - `python -m unittest discover -s scripts -p "test_*.py"`
    - `python scripts/validate_skills.py`
    - `python scripts/check_invisible_chars.py --all`
    - `node --test cli/test/cli.test.js`

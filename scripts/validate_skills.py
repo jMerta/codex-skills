@@ -21,6 +21,8 @@ def load_mapping(text: str, label: str) -> tuple[dict, list[str]]:
         return {}, [f"invalid YAML in {label}: {exc}"]
     if not isinstance(data, dict):
         return {}, [f"{label} must be a YAML mapping"]
+    if any(not isinstance(key, str) for key in data):
+        return {}, [f"{label} keys must be strings"]
     return data, []
 
 
@@ -43,7 +45,8 @@ def validate_openai_yaml(skill_dir: Path, name: str) -> list[str]:
         errors.append("agents/openai.yaml: short_description must be 25-64 characters")
 
     default_prompt = interface.get("default_prompt")
-    if not isinstance(default_prompt, str) or f"${name}" not in default_prompt:
+    skill_token = re.compile(rf"\${re.escape(name)}(?![A-Za-z0-9_-])")
+    if not isinstance(default_prompt, str) or skill_token.search(default_prompt) is None:
         errors.append(f"agents/openai.yaml: default_prompt must mention ${name}")
 
     return errors

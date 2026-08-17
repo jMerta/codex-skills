@@ -51,7 +51,7 @@ Before accepting the result, inspect both manifest and lockfile diffs. Pay speci
 - install, preinstall, postinstall, and prepare scripts;
 - peer dependency warnings and runtime/engine changes.
 
-For npm registries that support it, `npm audit signatures` verifies registry signatures and provenance attestations. Run the repository's dependency-review workflow when available. Do not claim that either proves the package's code is safe.
+When npm is the selected manager, run `npm audit signatures` only after a successful `npm install` or `npm ci` and only when the repository's selected npm CLI is 9.5.0 or newer. With an older selected CLI, report the check as unavailable instead of changing the toolchain solely for the audit. Do not invoke npm to audit a pnpm, Yarn, or Bun lockfile. For those managers, use documented manager-native integrity or signature checks when available; otherwise rely on the frozen-lockfile result and integrity diff, and report signature/provenance verification as not applicable or unavailable. Run the repository's dependency-review workflow when available. None of these checks proves the package's code is safe.
 
 ## Verify
 

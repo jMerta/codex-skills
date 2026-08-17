@@ -11,6 +11,7 @@
 
 ## Verification (preferred commands)
 - Verify the generated catalog: `python3 scripts/build_skills_json.py --check`
+- Run validator regression tests: `python3 -m unittest discover -s scripts -p "test_*.py"`
 - Validate skill metadata: `python3 scripts/validate_skills.py`
 - Scan tracked content for suspicious invisible characters: `python3 scripts/check_invisible_chars.py --all`
 - Test the CLI: `node --test cli/test/cli.test.js`

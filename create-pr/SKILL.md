@@ -39,7 +39,7 @@ description: Use when the user asks to prepare, publish, or open a GitHub pull r
 1. Push only when the user requested or confirmed publication. For a new remote branch, use `git push -u <remote> <branch>`.
 2. Never force-push without separate explicit approval. If approved, use `--force-with-lease` against the intended remote branch.
 3. Resolve repository, base, and head explicitly, especially for forks.
-4. Open a draft unless the user asks for ready-for-review.
+4. Open a draft unless the user asks for ready-for-review. Carry that decision into the exact API field or CLI flags.
 
 Preferred connector fields:
 
@@ -49,14 +49,26 @@ base: <target-branch>
 head: <source-branch or owner:branch>
 title: <reviewed title>
 body: <reviewed Markdown>
-draft: true
+draft: <true by default; false when ready-for-review was requested>
 ```
 
-`gh` fallback:
+`gh` fallback for the same repository or a user-owned fork:
 
 ```text
-gh pr create --repo <owner/repo> --base <base> --head <head-or-owner:branch> --title "<title>" --body-file <prepared-body.md> --draft
+# Draft (default)
+gh pr create --repo <owner/repo> --base <base> --head <branch-or-user:branch> --title "<title>" --body-file <prepared-body.md> --draft
+
+# Ready for review (only when requested)
+gh pr create --repo <owner/repo> --base <base> --head <branch-or-user:branch> --title "<title>" --body-file <prepared-body.md>
 ```
+
+`gh pr create --head` does not support an organization as the head owner. For a cross-repository PR whose base and fork belong to the same organization, use a connector that accepts the head repository or GitHub's REST endpoint:
+
+```text
+gh api --method POST repos/<base-owner>/<base-repo>/pulls -f title="<title>" -F body=@<prepared-body.md> -f base="<base>" -f head="<organization>:<branch>" -f head_repo="<fork-repo>" -F draft=true
+```
+
+Use `-F draft=false` only when ready-for-review was requested. Verify the base and head repositories before sending the request.
 
 Prefer explicit title and body over unreviewed `--fill`. `--body-file` publishes Markdown text; it does not upload files referenced by local paths.
 

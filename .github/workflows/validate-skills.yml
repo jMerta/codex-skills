@@ -14,7 +14,8 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v6
+          persist-credentials: false
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.x"
       - uses: actions/setup-node@v6
@@ -22,6 +23,7 @@ jobs:
           node-version: 24
       - run: pip install pyyaml
       - run: python scripts/build_skills_json.py --check
+      - run: python -m unittest discover -s scripts -p "test_*.py"
       - run: python scripts/validate_skills.py
       - run: python scripts/check_invisible_chars.py --all --github-event
       - run: node --test cli/test/cli.test.js

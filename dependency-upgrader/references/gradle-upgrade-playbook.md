@@ -54,7 +54,7 @@ For framework and build-tool majors, identify removed APIs, configuration-key ch
 
 ## Apply and verify
 
-Use the committed Gradle wrapper or documented Maven wrapper. Update the central version source, refresh only the required dependencies where possible, inspect lock and verification metadata, then rerun the vulnerability task and dependency-path report. Confirm the targeted advisory disappeared, then run focused tests followed by the repository's relevant build or CI-equivalent tasks.
+Use the committed Gradle wrapper or documented Maven wrapper. Update the central version source, refresh only the required dependencies where possible, and inspect lock and verification metadata. Repeat the same vulnerability check used for the baseline: rerun the configured task, or repeat the same OSV scan or exact-coordinate queries used when no task exists. Compare the complete before/after findings and dependency-path report. If no scanner or supported lock data exists, state that automated transitive coverage remains incomplete. Confirm the targeted advisory disappeared, then run focused tests followed by the repository's relevant build or CI-equivalent tasks.
 
 Report old and new resolved versions, advisory IDs, dependency paths, compatibility decisions, scan coverage, metadata changes, commands, baseline comparison, and any migration or rollback requirement.
 

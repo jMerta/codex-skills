@@ -9,7 +9,7 @@ description: Use when the user asks to rebase or update a Git branch onto anothe
 
 1. Resolve the current branch, remote, and target. Use the requested target; otherwise discover the remote default branch from `refs/remotes/<remote>/HEAD` or remote metadata.
 2. Record the current HEAD and inspect `git status -sb`. Stop on a detached HEAD or dirty worktree rather than stashing or discarding changes automatically.
-3. Fetch and prune the target remote, then confirm the target ref exists.
+3. Fetch and prune the target remote, confirm the target ref exists, and record the old series base with `git merge-base <target> <old-head>`.
 4. Run `git rebase <target>`. A direct rebase request authorizes this command; do not add an extra confirmation when the target is unambiguous.
 5. For conflicts:
    - list unresolved paths with `git diff --name-only --diff-filter=U`;
@@ -22,7 +22,7 @@ description: Use when the user asks to rebase or update a Git branch onto anothe
 7. Verify:
    - clean `git status -sb` and no rebase state;
    - target ancestry with `git merge-base --is-ancestor <target> HEAD`;
-   - commit equivalence with `git range-diff <target>...<old-head> <target>...HEAD` when the branch had commits to replay;
+   - commit equivalence with `git range-diff <old-base>..<old-head> <target>..HEAD` when the branch had commits to replay;
    - changed-file scope and the smallest relevant tests.
 8. Do not push unless requested. Rewritten published history requires separate explicit approval for `git push --force-with-lease`.
 

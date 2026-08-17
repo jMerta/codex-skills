@@ -16,7 +16,7 @@ description: Use when the user asks to diagnose or fix failing GitHub Actions ch
 
 1. Resolve the repository and failing PR, branch, or run from the request and local Git context. Ask only if the target remains ambiguous.
 2. Inspect the failing checks and record the check name, run URL, job, failing step, head SHA, and conclusion.
-3. Pull the smallest useful log slice with `gh pr checks`, `gh run view`, or `gh api`. Never expose secrets from logs.
+3. Use `gh pr checks` only to discover the failing check and its run or job identifiers. Pull the smallest useful log slice with `gh run view <run-id> --log-failed`, `gh run view <run-id> --job <job-id> --log`, or the job-logs endpoint through `gh api`. Never expose secrets from logs.
 4. Compare the failure with the local diff and a known baseline. Distinguish a regression from flaky infrastructure, external service failure, missing credentials, or an unrelated baseline failure.
 5. State the evidence-backed root cause and focused fix. Stop after diagnosis when the request does not authorize code or workflow changes.
 6. Apply the smallest authorized fix. Read `references/ci-failure-playbook.md` only when its failure class is relevant.
