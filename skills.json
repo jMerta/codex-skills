@@ -1,7 +1,7 @@
 {
   "version": "3.0.0",
-  "updated": "2026-08-17T11:45:43Z",
-  "total": 11,
+  "updated": "2026-08-17T22:32:22Z",
+  "total": 20,
   "skills": [
     {
       "name": "branch-cleaner",
@@ -81,6 +81,39 @@
       "verified": true
     },
     {
+      "name": "focused-tdd",
+      "description": "Use when the user asks for test-first development, TDD, or a regression test before a fix, or when implementing deterministic business rules, state transitions, authorization boundaries, idempotency, and other behavior where observing a focused failing test would materially reduce risk. Selects strict TDD, regression-first, or proportional validation.",
+      "category": "development",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "focused-tdd",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "manage-product-ideas",
+      "description": "Use when the user asks to capture, clarify, document, audit, generate, compare, prioritize, validate, or realize product ideas. Guides one-question-at-a-time discovery, evidence-based scoring, explicit readiness decisions, and scoped delivery without assuming a specific product, repository layout, or planning plugin.",
+      "category": "product",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "manage-product-ideas",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "pr-visual-explainer",
+      "description": "Use when the user asks to explain a pull request visually, create an HTML walkthrough, show before-and-after behavior, or add diagrams for a PR. Triggers automatically for requests such as \"explain this PR\" when a visual artifact would materially improve understanding; does not run merely because a PR was created.",
+      "category": "documentation",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "pr-visual-explainer",
+      "featured": false,
+      "verified": true
+    },
+    {
       "name": "rebase-assistant",
       "description": "Use when the user asks to rebase or update a Git branch onto another ref, handle rebase conflicts, or verify rewritten history. Protects dirty worktrees, resolves conflicts by intent, and keeps force-push as a separate authorized action.",
       "category": "development",
@@ -114,6 +147,61 @@
       "verified": true
     },
     {
+      "name": "review-architecture-scope",
+      "description": "Use when the user asks for a pre-PR or diff review of changes crossing application, API contract, runtime, tenant, deployment, infrastructure, observability, or intended-outcome boundaries. Traces producers, consumers, compatibility windows, asynchronous context, rollout paths, and scope without treating diff size as risk.",
+      "category": "review",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "review-architecture-scope",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "review-backend-change",
+      "description": "Use when the user asks for a pre-PR or diff review of backend controllers, APIs, domain services, authorization, tenant context, jobs, transactions, repositories, SQL, ORM or mapper code, schema migrations, constraints, indexes, or backfills. Reviews reachable domain, persistence, and rollout regressions across the full call chain.",
+      "category": "review",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "review-backend-change",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "review-frontend-change",
+      "description": "Use when the user asks for a pre-PR or diff review of frontend API clients, authentication requests, cache or query keys, DTO decoding, normalization, components, copy, localization, responsive layout, accessibility, modals, navigation, or visual evidence. Reviews reachable data-flow and UI regressions using the owning application's actual contracts.",
+      "category": "review",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "review-frontend-change",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "review-security-privacy",
+      "description": "Use when the user asks for a pre-PR or diff security and privacy review, especially for authentication, authorization, tenant isolation, public endpoints, webhooks, payments, secrets, logs, personal data, files, exports, or observability access. Reports only reachable regressions introduced or materially changed by the diff.",
+      "category": "review",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "review-security-privacy",
+      "featured": false,
+      "verified": true
+    },
+    {
+      "name": "review-test-coverage",
+      "description": "Use when the user asks for a pre-PR or diff review of tests, CI evidence, test harness changes, screenshots, recordings, or proportional validation. Finds reachable behavior that the changed tests or evidence fail to protect, separates code defects from external CI outages, and recommends the narrowest meaningful check.",
+      "category": "review",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "review-test-coverage",
+      "featured": false,
+      "verified": true
+    },
+    {
       "name": "vps-checkup",
       "description": "Use when the user asks for a read-only health, security, network exposure, update, backup, or Docker audit of an Ubuntu VPS over SSH. Produces an evidence-based report and requires explicit approval before package refreshes, configuration changes, restarts, pruning, or reboot.",
       "category": "operations",
@@ -123,6 +211,17 @@
       "path": "vps-checkup",
       "featured": false,
       "verified": true
+    },
+    {
+      "name": "write-ui-copy",
+      "description": "Use when the user asks to draft, rewrite, translate, or review user-facing interface copy in Polish or English, including titles, descriptions, buttons, links, labels, hints, toasts, errors, empty states, statuses, payment messages, and confirmations. Keeps Polish and English meaning aligned when both locales exist.",
+      "category": "product",
+      "author": "jMerta",
+      "source": "jMerta/codex-skills",
+      "license": "MIT",
+      "path": "write-ui-copy",
+      "featured": false,
+      "verified": true
     }
   ],
   "categories": [
@@ -130,19 +229,31 @@
       "id": "development",
       "name": "Development",
       "description": "Coding and software development skills",
-      "count": 8
+      "count": 9
     },
     {
       "id": "documentation",
       "name": "Documentation",
       "description": "Documentation and release notes",
-      "count": 2
+      "count": 3
     },
     {
       "id": "operations",
       "name": "Operations",
       "description": "Infrastructure and system checks",
       "count": 1
+    },
+    {
+      "id": "product",
+      "name": "Product",
+      "description": "Product discovery and interface communication skills",
+      "count": 2
+    },
+    {
+      "id": "review",
+      "name": "Review",
+      "description": "Evidence-based code and change review skills",
+      "count": 5
     }
   ]
 }

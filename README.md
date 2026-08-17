@@ -137,10 +137,19 @@ If you add, rename, or update skill metadata:
 - `create-pr`: Prepare, validate, publish, and open a pull request. (Author: @jMerta)
 - `dependency-upgrader`: Upgrade JVM and Node dependencies with CVE, release-age, and supply-chain checks. (Author: @jMerta)
 - `docs-sync`: Keep `docs/` and other docs in sync with code changes. (Author: @jMerta)
+- `focused-tdd`: Apply test-first development only when observing a focused failure reduces risk. (Author: @jMerta)
+- `manage-product-ideas`: Clarify, document, evaluate, and realize product ideas. (Author: @jMerta)
+- `pr-visual-explainer`: Create local visual HTML walkthroughs for pull requests. (Author: @jMerta)
 - `rebase-assistant`: Rebase branches safely and resolve conflicts. (Author: @jMerta)
 - `regex-builder`: Build and verify regular expressions in their target engine. (Author: @jMerta)
 - `release-notes`: Draft release notes/changelog entries from git ranges. (Author: @jMerta)
+- `review-architecture-scope`: Review cross-boundary architecture, rollout, and change scope. (Author: @jMerta)
+- `review-backend-change`: Review backend domain, persistence, and migration changes. (Author: @jMerta)
+- `review-frontend-change`: Review frontend data flow, UI, and accessibility changes. (Author: @jMerta)
+- `review-security-privacy`: Review reachable security and privacy regressions. (Author: @jMerta)
+- `review-test-coverage`: Review tests, CI evidence, and proportional validation gaps. (Author: @jMerta)
 - `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed). (Author: @jMerta)
+- `write-ui-copy`: Draft and review clear Polish and English interface copy. (Author: @jMerta)
 
 ## Third-party scripts
 The optional `agent-scripts` bundle is sourced from `steipete/agent-scripts`

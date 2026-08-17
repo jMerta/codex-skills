@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Change Review"
+  short_description: "Review backend domain, persistence, and migrations."
+  default_prompt: "Use $review-backend-change to review this backend diff for reachable regressions."

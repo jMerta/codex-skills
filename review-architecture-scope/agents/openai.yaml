@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Scope Review"
+  short_description: "Review cross-boundary architecture and change scope."
+  default_prompt: "Use $review-architecture-scope to review this change for architecture and scope regressions."

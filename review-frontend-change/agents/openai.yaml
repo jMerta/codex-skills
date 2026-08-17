@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Change Review"
+  short_description: "Review frontend data flow, UI, and accessibility."
+  default_prompt: "Use $review-frontend-change to review this frontend diff for reachable regressions."

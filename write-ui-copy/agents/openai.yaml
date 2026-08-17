@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write UI Copy"
+  short_description: "Write clear interface copy in Polish and English."
+  default_prompt: "Use $write-ui-copy to draft or review this interface copy in Polish and English."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Product Ideas"
+  short_description: "Turn product ideas into evidence-backed decisions."
+  default_prompt: "Use $manage-product-ideas to clarify, document, and evaluate this product idea."
