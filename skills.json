@@ -1,11 +1,11 @@
 {
   "version": "2.0.0",
-  "updated": "2026-08-17T10:25:38Z",
+  "updated": "2026-08-17T10:28:28Z",
   "total": 11,
   "skills": [
     {
       "name": "branch-cleaner",
-      "description": "Identify and clean up stale git branches locally and on remotes with safe, reversible steps. Use when asked to prune, list, or delete merged/old branches or audit branch hygiene.",
+      "description": "Audit and safely remove stale, merged, or gone Git branches locally and on remotes. Use when the user asks to list, prune, or delete old branches or review branch hygiene.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -27,7 +27,7 @@
     },
     {
       "name": "ci-fix",
-      "description": "Fix GitHub Actions CI failures using GitHub CLI (gh): inspect runs/logs, identify root cause, patch workflows/code, rerun jobs, and summarize verification. Use when GitHub Actions CI is failing or needs diagnosis.",
+      "description": "Diagnose and fix failing GitHub Actions checks using GitHub connector context plus gh logs and local verification. Use when a pull request, branch, or workflow run is failing in GitHub Actions.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -38,7 +38,7 @@
     },
     {
       "name": "commit-work",
-      "description": "Create high-quality git commits: review/stage intended changes, split into logical commits, and write clear commit messages (including Conventional Commits). Use when the user asks to commit, craft a commit message, stage changes, or split work into multiple commits.",
+      "description": "Create reviewable Git commits by inspecting the worktree, staging only intended changes, choosing logical boundaries, and writing repository-appropriate messages. Use when asked to stage, commit, split commits, or craft commit messages.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -49,7 +49,7 @@
     },
     {
       "name": "create-pr",
-      "description": "Create a high-quality pull request: branch, focused changes, lint/build, conventional commit, and a clear PR description with validation steps. Use when the user asks to open or prepare a PR.",
+      "description": "Prepare and open a focused GitHub pull request from a local checkout, including branch strategy, validation, commits, push, and a truthful PR description. Use when asked to prepare, publish, or open a PR.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -82,7 +82,7 @@
     },
     {
       "name": "rebase-assistant",
-      "description": "Guide a safe git rebase of the current branch onto a target branch, including conflict triage and resolution steps. Use when asked to rebase, update a branch, or resolve rebase conflicts.",
+      "description": "Safely rebase a Git branch onto an explicit or discovered target, resolve conflicts by intent, and verify rewritten history. Use when asked to rebase, update a branch, or handle rebase conflicts.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",

@@ -1,45 +1,35 @@
 ---
 name: create-pr
-description: "Create a high-quality pull request: branch, focused changes, lint/build, conventional commit, and a clear PR description with validation steps. Use when the user asks to open or prepare a PR."
+description: Prepare and open a focused GitHub pull request from a local checkout, including branch strategy, validation, commits, push, and a truthful PR description. Use when asked to prepare, publish, or open a PR.
 ---
 
-# Create a PR
+# Create a pull request
 
-## Goal
-Produce a PR that’s easy to review and safe to merge:
-- small, scoped changes
-- green checks (lint/tests/build as appropriate)
-- clear description + validation steps
+## Tool routing
 
-## Workflow (checklist)
-1) Confirm scope
-   - Restate the goal and acceptance criteria.
-   - Identify files likely to change; avoid unrelated cleanup.
-2) Create a branch
-   - Use a descriptive name: `fix/<topic>`, `feat/<topic>`, `chore/<topic>`.
-3) Implement changes
-   - Keep diffs focused; prefer small commits.
-4) Run quality gates
-   - Run the repo’s standard commands (lint/tests/build).
-   - If `bun.lock` exists, prefer `bun lint` / `bun build`.
-   - If `bun.lock` exists but `bun` is not available, tell the user and ask whether to install `bun` or use the repo’s alternative package manager.
-5) Commit
-   - Prefer Conventional Commits: `fix: ...`, `feat: ...`, `chore: ...`.
-6) Push + open PR
-   - Always use GitHub CLI (`gh`) for PR workflows (e.g. `gh pr create --fill`).
-   - If `gh` is not authenticated, run `gh auth login` (or `gh auth status` to check).
-   - If `gh` is not installed or cannot be authenticated, tell the user and ask whether to install/authenticate or proceed with manual PR creation steps.
-7) Fill in PR body
-   - Use `references/pr-description-template.md`.
+- Use local Git for branch, diff, staging, commits, and push.
+- Prefer the GitHub connector for repository and PR context and for PR creation after the branch is pushed.
+- Use `gh` as a fallback for authentication checks, current-branch PR discovery, forked-head syntax, or PR creation when connector coverage is insufficient.
 
-## Notes
-- Don't force-push unless you're sure it's safe for collaborators.
-- If the PR changes UX, include screenshots or a short GIF.
-- Prefer `gh` for create/view/checks (e.g. `gh pr view`, `gh pr checks`).
+## Workflow
+
+1. Read repository instructions. Inspect status, branch, remotes, upstream, remote default branch, and the diff from the merge base.
+2. Confirm the intended scope only when the worktree mixes unrelated changes. Preserve user changes outside that scope.
+3. Stay on an existing feature branch. When starting from the default branch, create a descriptive branch using the repository or host convention.
+4. Implement the focused change and run the repository's relevant checks. Record blockers separately from regressions.
+5. Create reviewable commits. Follow the repository's message convention and inspect the staged diff before every commit.
+6. Push only when publication is requested or confirmed. Never force-push without explicit approval; if approved, use `--force-with-lease`.
+7. Resolve the base repository, base branch, and head branch explicitly, especially for forks.
+8. Open a draft PR unless the user asks for ready-for-review. Prefer the GitHub connector; fall back to `gh pr create` when needed.
+9. Build the title and body from the actual diff and commits. Include what changed, why, validation, user impact, risk, migrations, and screenshots only when they exist.
+10. Verify the PR URL, base/head branches, draft state, included commits, and check status.
+
+## Safety
+
+- Do not silently stage unrelated work or create a PR from the wrong repository or branch.
+- Do not run interactive authentication on the user's behalf; report the exact prerequisite when authentication is missing.
+- Do not describe unrun checks as successful or attach placeholder evidence.
 
 ## Deliverable
-Provide:
-- Branch name and PR URL (or the exact steps to open it manually).
-- PR title/body (using `references/pr-description-template.md`).
-- Commits included and verification commands run.
-- Screenshots/GIFs if UX changed.
+
+Report the branch, commits, push target, PR URL and state, validation, and unresolved risks.
