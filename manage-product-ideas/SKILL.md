@@ -7,7 +7,7 @@ description: Use when the user asks to capture, clarify, document, audit, genera
 
 Turn a fuzzy opportunity into a documented, evidence-backed decision. Treat current code, tests, contracts, analytics, and operations as truth about the product; treat idea documents and Git history as decision context.
 
-Read [references/idea-workflow.md](references/idea-workflow.md) for `DOCUMENT`, `AUDIT`, `GENERATE`, `SELECT`, or `REALIZE`. Also read it for `GRILL` when the request includes documentation updates.
+Read [references/idea-workflow.md](references/idea-workflow.md) before using any routed mode.
 
 ## Route the request
 
