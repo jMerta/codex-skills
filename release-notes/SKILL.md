@@ -1,46 +1,29 @@
 ---
 name: release-notes
-description: Draft release notes and changelog entries from git history or merged PRs between two refs (tags/SHAs/branches), including breaking changes, migrations, and upgrade steps. Use when the user asks for release notes, changelog updates, or a GitHub Release draft.
+description: Use when the user asks to draft release notes, changelog entries, or GitHub Release text from commits, tags, branches, or merged pull requests. Resolves an exact Git range and surfaces breaking changes, migrations, security impact, and upgrade steps.
 ---
 
 # Release notes
 
-## Goal
-Produce accurate, scannable release notes (Markdown) for a specific release range.
+## Resolve the range
 
-## Inputs to ask for (if missing)
-- Release version + date (or "unreleased").
-- Range to summarize: `from_ref..to_ref` (tags/SHAs/branches). If unknown, ask: "last release tag?" and "target branch/tag?"
-- Target audience: end users, developers, internal ops, or all.
-- What to include/exclude: internal refactors, dependency bumps, infra-only changes.
+1. Read repository release conventions and determine the version, audience, and exact `from_ref..to_ref` range.
+2. Derive the previous release from reachable tags when unambiguous. Ask before proceeding if multiple release lines or an unknown target make the range materially ambiguous.
+3. Verify both refs and record their SHAs. Do not use a date window when an exact range is available.
 
-## Workflow (checklist)
-1) Determine the release range
-   - Prefer tags: pick the previous tag and the new tag/HEAD.
-   - If no tags: use the last release branch point or a date-based window.
-   - Commands to gather candidates:
-     - `git tag --sort=-creatordate | Select-Object -First 20`
-     - `git log --first-parent --oneline <from_ref>..<to_ref>`
-     - If GitHub CLI is available: list merged PRs for the range and use titles for grouping.
-2) Collect and categorize changes
-   - Start from merge commits (first-parent) to avoid noise.
-   - Categorize into: Highlights, Breaking changes, Features, Fixes, Performance, Security, Deprecations, Docs, Dependencies, Infra/ops.
-   - Flag anything requiring action: config changes, env vars, DB migrations, API contract changes.
-3) Identify breaking changes and upgrade steps
-   - Look for: renamed/removed endpoints, changed request/response fields, changed config keys, Java/Kotlin/Node version bumps, DB schema changes.
-   - Add explicit "Upgrade" and "Rollback" notes when impact is non-trivial.
-4) Write release notes using the template
-   - Use short bullets, active voice, and user-facing wording.
-   - Prefer "what changed" + "why it matters" over implementation details.
-   - Include PR/issue references only if they are stable in your repo hosting.
-   - Use `references/release-notes-template.md` to keep structure consistent.
-5) Sanity check for omissions and accuracy
-   - Diff the range: `git diff --stat <from_ref>..<to_ref>`
-   - Scan for config/migrations: `rg -n \"ENV|config|migration|Flyway|Liquibase\" -S`
-   - Ensure breaking changes are called out and have upgrade steps.
+## Gather evidence
 
-## Deliverable
-Provide:
-- Release notes Markdown (ready to paste into a GitHub Release / changelog).
-- A short "Risk/notes" section listing any required migrations, config changes, or rollback concerns.
+1. Use first-parent history to identify release-sized changes, then inspect the full commit list and diff so squash, rebase, and direct commits are not missed.
+2. Prefer the repository connector for linked PR and issue metadata; use the hosting CLI or local Git as fallback.
+3. Read relevant diffs for configuration, API, schema, migration, dependency, runtime, deployment, and security changes. Do not infer impact from titles alone.
+4. Separate user-visible changes from internal maintenance and omit noise that does not help the target audience.
 
+## Write and verify
+
+- Lead with what changed and why it matters.
+- Call out breaking changes, prerequisites, data or configuration migrations, deprecations, security fixes, known issues, and rollback constraints explicitly.
+- Include stable PR or issue references when available.
+- Omit empty sections. Never invent verification, issue links, compatibility claims, or a release date.
+- Recheck the range, diff statistics, and any migration or upgrade instruction before delivery.
+
+Use `references/release-notes-template.md` as a menu, not a requirement to include every heading. Publishing a tag or hosted release requires separate explicit authorization.

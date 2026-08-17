@@ -1,45 +1,104 @@
 ---
 name: create-pr
-description: "Create a high-quality pull request: branch, focused changes, lint/build, conventional commit, and a clear PR description with validation steps. Use when the user asks to open or prepare a PR."
+description: Use when the user asks to prepare, publish, or open a GitHub pull request from a local checkout. Verifies branch and diff scope, runs relevant checks, creates needed commits, pushes only when authorized, and opens a truthful draft or ready PR.
 ---
 
-# Create a PR
+# Create a pull request
 
-## Goal
-Produce a PR that’s easy to review and safe to merge:
-- small, scoped changes
-- green checks (lint/tests/build as appropriate)
-- clear description + validation steps
+## Tool routing
 
-## Workflow (checklist)
-1) Confirm scope
-   - Restate the goal and acceptance criteria.
-   - Identify files likely to change; avoid unrelated cleanup.
-2) Create a branch
-   - Use a descriptive name: `fix/<topic>`, `feat/<topic>`, `chore/<topic>`.
-3) Implement changes
-   - Keep diffs focused; prefer small commits.
-4) Run quality gates
-   - Run the repo’s standard commands (lint/tests/build).
-   - If `bun.lock` exists, prefer `bun lint` / `bun build`.
-   - If `bun.lock` exists but `bun` is not available, tell the user and ask whether to install `bun` or use the repo’s alternative package manager.
-5) Commit
-   - Prefer Conventional Commits: `fix: ...`, `feat: ...`, `chore: ...`.
-6) Push + open PR
-   - Always use GitHub CLI (`gh`) for PR workflows (e.g. `gh pr create --fill`).
-   - If `gh` is not authenticated, run `gh auth login` (or `gh auth status` to check).
-   - If `gh` is not installed or cannot be authenticated, tell the user and ask whether to install/authenticate or proceed with manual PR creation steps.
-7) Fill in PR body
-   - Use `references/pr-description-template.md`.
+- Use local Git for repository identity, branch, diff, staging, commits, and push.
+- Prefer the GitHub connector for repository and PR context and for PR creation after the branch is pushed.
+- Use `gh` for authentication checks, Actions logs, current-branch PR discovery, forked-head syntax, or PR creation when connector coverage is insufficient.
 
-## Notes
-- Don't force-push unless you're sure it's safe for collaborators.
-- If the PR changes UX, include screenshots or a short GIF.
-- Prefer `gh` for create/view/checks (e.g. `gh pr view`, `gh pr checks`).
+## Prepare the branch
+
+1. Read repository instructions and resolve the repository root, current branch, remotes, upstream, and remote default branch.
+2. Inspect `git status --short --branch`, the merge base, `git log --oneline <base>..HEAD`, `git diff --stat <base>...HEAD`, and the full diff.
+3. Confirm scope only when the worktree mixes unrelated changes. Preserve user changes outside the requested scope.
+4. Stay on an existing feature branch. If currently on the default branch, create a descriptive branch using the repository or host convention.
+5. Fetch the target remote when current remote state matters. Rebase or merge only when requested or required by repository policy.
+
+## Validate and commit
+
+1. Run the relevant focused checks and any required repository gates. Separate regressions from baseline or environment failures.
+2. Create the fewest reviewable commits. Follow repository message conventions and inspect the staged diff before every commit.
+3. Recheck the final range and worktree. Do not include unrelated commits, local-only files, credentials, or generated artifacts by accident.
+
+## Write the PR
+
+1. Build the title from the actual outcome. Follow the repository's title convention; do not copy a vague branch name.
+2. Start from `references/pr-description-template.md` or the repository's own pull request template.
+3. State what changed, why, validation with real results, user or operational impact, risk, migrations, rollout, and related issues.
+4. Delete empty optional sections. Never claim unrun checks, nonexistent screenshots, or future work as completed.
+5. Reuse relevant, current, and safe screenshots or recordings already produced during implementation or validation. Do not omit useful existing evidence merely because it was not created specifically for the PR.
+6. When visual evidence would materially help review and is easy to capture, create it. Do not block the PR or manufacture low-value media when evidence is irrelevant, impractical, redundant, or unsafe. Follow `references/evidence-attachments.md`.
+
+## Publish and open
+
+1. Push only when the user requested or confirmed publication. For a new remote branch, use `git push -u <remote> <branch>`.
+2. Never force-push without separate explicit approval. If approved, use `--force-with-lease` against the intended remote branch.
+3. Resolve repository, base, and head explicitly, especially for forks.
+4. Open a ready-for-review PR by default. Use draft only when the user explicitly asks for a draft. Carry that decision into the exact API field or CLI flags.
+
+Preferred connector fields:
+
+```text
+repository_full_name: <owner/repo>
+base: <target-branch>
+head: <source-branch or owner:branch>
+title: <reviewed title>
+body: <reviewed Markdown>
+draft: <false by default; true only when a draft was explicitly requested>
+```
+
+`gh` fallback for the same repository or a user-owned fork:
+
+```text
+# Ready for review (default)
+gh pr create --repo <owner/repo> --base <base> --head <branch-or-user:branch> --title "<title>" --body-file <prepared-body.md>
+
+# Draft (only when explicitly requested)
+gh pr create --repo <owner/repo> --base <base> --head <branch-or-user:branch> --title "<title>" --body-file <prepared-body.md> --draft
+```
+
+`gh pr create --head` does not support an organization as the head owner. For a cross-repository PR whose base and fork belong to the same organization, use a connector that accepts the head repository or GitHub's REST endpoint:
+
+```text
+gh api --method POST repos/<base-owner>/<base-repo>/pulls -f title="<title>" -F body=@<prepared-body.md> -f base="<base>" -f head="<organization>:<branch>" -f head_repo="<fork-repo>" -F draft=false
+```
+
+Use `-F draft=true` only when a draft was explicitly requested. Verify the base and head repositories before sending the request.
+
+Prefer explicit title and body over unreviewed `--fill`. `--body-file` publishes Markdown text; it does not upload files referenced by local paths.
+
+## Attach and verify evidence
+
+1. Inventory relevant screenshots, recordings, previews, logs, or other evidence already created during the work. Use them when they still represent the final change and pass the safety checks.
+2. If useful evidence does not exist, capture it only when doing so is easy and proportionate to the review value.
+3. Create the PR with the textual evidence section first.
+4. Upload local screenshots or recordings through GitHub's attachment UI, or through a connected tool only if it supports user-attachment uploads.
+5. Replace placeholders with GitHub-generated URLs, add accessible labels and context, then save the description or evidence comment.
+6. Reopen the PR and verify every image or recording renders for the intended audience. Do not claim an attachment exists until the remote PR shows it.
+
+## Verify the PR
+
+Confirm URL, repository, base/head, draft state, title/body, included commits, changed-file scope, evidence links, and current checks. Connector metadata is preferred; `gh` fallbacks include:
+
+```text
+gh pr view --json url,number,title,baseRefName,headRefName,isDraft,commits,mergeable,statusCheckRollup
+gh pr checks <number>
+```
+
+Do not manually rerun checks unless the user authorizes it.
+
+## Safety
+
+- Do not silently stage unrelated work or create a PR from the wrong repository or branch.
+- Do not run interactive authentication on the user's behalf; report the exact prerequisite when authentication is missing.
+- Do not expose secrets, personal data, private URLs, customer data, or unrelated browser content in PR evidence.
+- Do not commit screenshots or recordings solely to attach them unless the repository explicitly requires versioned evidence.
 
 ## Deliverable
-Provide:
-- Branch name and PR URL (or the exact steps to open it manually).
-- PR title/body (using `references/pr-description-template.md`).
-- Commits included and verification commands run.
-- Screenshots/GIFs if UX changed.
+
+Report branch, commits, push target, PR URL and state, validation, attached evidence, pending manual evidence steps, check status, and unresolved risks. When visual evidence would normally help but is omitted, state the concise reason.

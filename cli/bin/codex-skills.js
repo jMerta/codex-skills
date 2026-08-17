@@ -423,7 +423,7 @@ function installAgentScriptsFromRepo(repoRoot, destDir, options) {
 
 function showPostInstallInstructions(skillName, destPath) {
   log(`${colors.dim}To use it in Codex, mention "${skillName}" (or "$${skillName}") in your prompt.${colors.reset}`);
-  log(`${colors.dim}If you don't see it, ensure skills are enabled (codex --enable skills).${colors.reset}`);
+  log(`${colors.dim}Codex detects skill changes automatically; restart it if the skill does not appear.${colors.reset}`);
   info(`Location: ${destPath}`);
 }
 
@@ -559,15 +559,15 @@ ${colors.bold}Options:${colors.reset}
 
 ${colors.bold}Examples:${colors.reset}
   npx codex-skills list
-  npx codex-skills search browser
-  npx codex-skills install agents-md
-  npx codex-skills install agents-md --dir .agents/skills
+  npx codex-skills search git
+  npx codex-skills install bug-triage
+  npx codex-skills install bug-triage --dir .agents/skills
   npx codex-skills install-category development
   npx codex-skills install-all
   npx codex-skills install-agent-scripts
-  npx codex-skills install agents-md --ref main
+  npx codex-skills install bug-triage --ref main
   npx codex-skills init-ledger
-  npx codex-skills verify agents-md
+  npx codex-skills verify bug-triage
 `);
 }
 

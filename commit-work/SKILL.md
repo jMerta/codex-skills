@@ -1,61 +1,38 @@
 ---
 name: commit-work
-description: "Create high-quality git commits: review/stage intended changes, split into logical commits, and write clear commit messages (including Conventional Commits). Use when the user asks to commit, craft a commit message, stage changes, or split work into multiple commits."
+description: Use when the user asks to stage changes, create a Git commit, split work into logical commits, or craft a commit message. Inspects the worktree, preserves unrelated changes, stages only intended files or hunks, and follows repository conventions.
 ---
 
 # Commit work
 
-## Goal
-Make commits that are easy to review and safe to ship:
-- only intended changes are included
-- commits are logically scoped (split when needed)
-- commit messages describe what changed and why
+## Workflow
 
-## Inputs to ask for (if missing)
-- Single commit or multiple commits? (If unsure: default to multiple small commits when there are unrelated changes.)
-- Commit style: Conventional Commits are required.
-- Any rules: max subject length, required scopes.
+1. Read repository instructions and inspect the current branch, `git status`, unstaged diff, and staged diff.
+2. Identify the user-authorized scope. Preserve unrelated, pre-existing, ignored, and untracked work.
+3. Choose the fewest logical commits that keep unrelated concerns separate. Keep inseparable implementation and focused tests together.
+4. Infer the message convention from repository instructions and recent commits. Use Conventional Commits only when required by the repository or requested by the user.
+5. Stage explicit paths. Use patch staging for mixed files. Avoid `git add .`, `git add -A`, and `git commit -am` unless the whole worktree is confirmed in scope.
+6. Review `git diff --cached`, `git diff --cached --stat`, and `git diff --cached --check`. Check for unrelated churn, debug output, credentials, generated files, and accidental deletions.
+7. Run the smallest meaningful verification for the staged behavior and record the real result.
+8. Compose the message from the staged outcome:
+   - make the subject specific and imperative;
+   - explain why or user-visible impact in the body only when it is not obvious;
+   - add issue, co-author, sign-off, or breaking-change trailers only when true and repository-appropriate.
+9. Commit without bypassing hooks. Verify the resulting subject and scope with `git show --stat --oneline --decorate HEAD`.
+10. Repeat for the next boundary, then verify `git status -sb` and the resulting commit list.
 
-## Workflow (checklist)
-1) Inspect the working tree before staging
-   - `git status`
-   - `git diff` (unstaged)
-   - If many changes: `git diff --stat`
-2) Decide commit boundaries (split if needed)
-   - Split by: feature vs refactor, backend vs frontend, formatting vs logic, tests vs prod code, dependency bumps vs behavior changes.
-   - If changes are mixed in one file, plan to use patch staging.
-3) Stage only what belongs in the next commit
-   - Prefer patch staging for mixed changes: `git add -p`
-   - To unstage a hunk/file: `git restore --staged -p` or `git restore --staged <path>`
-   - If the commit is whole-file (no partial hunks), prefer the committer helper:
-     - `committer.ps1 "type(scope): summary" path1 path2 ...`
-       - If script execution is blocked, run: `pwsh -File committer.ps1 "type(scope): summary" path1 path2 ...`
-     - It clears the index and stages exactly the files you list (never use `.`).
-     - Use `--force` only if git reports a stale `.git/index.lock`.
-     - Skip it when you need partial hunks or a multi-line commit message body.
-4) Review what will actually be committed
-   - `git diff --cached`
-   - Sanity checks:
-     - no secrets or tokens
-     - no accidental debug logging
-     - no unrelated formatting churn
-5) Describe the staged change in 1-2 sentences (before writing the message)
-   - "What changed?" + "Why?"
-   - If you cannot describe it cleanly, the commit is probably too big or mixed; go back to step 2.
-6) Write the commit message
-   - Use Conventional Commits (required):
-     - `type(scope): short summary`
-     - blank line
-     - body (what/why, not implementation diary)
-     - footer (BREAKING CHANGE) if needed
-   - Prefer an editor for multi-line messages: `git commit -v`
-   - Use `references/commit-message-template.md` if helpful.
-7) Run the smallest relevant verification
-   - Run the repo's fastest meaningful check (unit tests, lint, or build) before moving on.
-8) Repeat for the next commit until the working tree is clean
+## Safety
+
+- A direct request to commit authorizes staging and committing the intended scope, not pushing it.
+- Never discard, reset, amend, rebase, or include unrelated user changes without explicit authorization.
+- Never use `--no-verify` merely to make a commit pass.
+- Do not claim a check ran or passed unless its output was observed.
+
+## References
+
+- Read `references/commit-message-template.md` when drafting or reviewing a commit message.
+- Read `references/conventional-commit-types.md` only when the repository uses Conventional Commits.
 
 ## Deliverable
-Provide:
-- the final commit message(s)
-- a short summary per commit (what/why)
-- the commands used to stage/review (at minimum: `git diff --cached`, plus any tests run)
+
+Report each commit hash and subject, its scope, checks run, and any remaining worktree changes.

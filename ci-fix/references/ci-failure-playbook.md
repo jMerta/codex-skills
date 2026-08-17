@@ -1,74 +1,38 @@
-# CI failure playbook (GitHub Actions)
+# GitHub Actions failure playbook
 
-Use this to quickly map symptoms to likely causes, next commands, and safe fixes.
+Load only the section matching the observed failure.
 
-## Fast path
-1) Get the failing step output: `gh run view <id> --log-failed`
-2) Identify if it’s:
-   - config/workflow syntax
-   - permissions/secrets
-   - environment mismatch (tool/runtime)
-   - flaky test / external dependency
-   - action/tooling regression
-3) Apply the smallest safe fix, then rerun failures: `gh run rerun <id> --failed`
+## Workflow does not start
 
-## Common failures (symptom -> fix direction)
+- Compare workflow and required-check names with repository rules.
+- Check event, branch, and path filters.
+- Treat workflow renames as compatibility changes for branch protection.
 
-### Workflow doesn’t start / missing required check
-- **Symptoms:** no run created; branch protection says a check is missing; expected workflow name differs.
-- **Check:** workflow name/job names match required checks; triggers include the target event/branch.
-- **Fixes:**
-  - Align `name:` (workflow) and job names with branch protection expectations.
-  - Fix `on:` filters (`push.branches`, `pull_request.branches`, `paths`, `paths-ignore`).
-  - If a workflow was renamed, update branch protection rules accordingly.
+## Invalid workflow
 
-### YAML / workflow syntax errors
-- **Symptoms:** "Invalid workflow file", "Unexpected value", "Unrecognized named-value".
-- **Fixes:**
-  - Validate indentation and list/map structure (YAML is whitespace-sensitive).
-  - Quote strings that contain `:` or `{`/`}` when they are meant to be literal.
-  - Ensure expressions are in `${{ ... }}` and not mixed with shell interpolation.
+- Validate YAML structure, expressions, reusable-workflow inputs, and action versions.
+- Check the workflow file at the failing head SHA, not only the current checkout.
 
-### “Resource not accessible by integration” / permission errors
-- **Symptoms:** checkout, commenting, releases, packages, or API calls fail with 403/404.
-- **Check:** whether the run is `pull_request` from a fork (secrets/token are restricted).
-- **Fixes:**
-  - Add least-privilege `permissions:` at workflow/job level (e.g., `contents: read`).
-  - For deployments using OIDC, ensure `id-token: write` is set where needed.
-  - Avoid “fixes” that expose secrets to fork PR code; prefer splitting privileged jobs to `push` on trusted branches.
+## Permissions or secrets
 
-### Secrets not available (especially fork PRs)
-- **Symptoms:** missing env vars, auth failures, “secret not set”, deploy steps skipped.
-- **Fix direction:**
-  - For fork PRs, redesign the workflow so untrusted code doesn’t need secrets (build/test only).
-  - Gate privileged steps behind trusted events/branches.
-- **High risk:** switching to `pull_request_target` can leak secrets if you check out / run PR code.
+- Identify the event and whether the run comes from a fork.
+- Add only the permission required by the failing step.
+- Do not switch to `pull_request_target` or execute untrusted code with secrets as a shortcut.
 
-### Checkout / git history / submodules issues
-- **Symptoms:** missing tags/commits, versioning tools fail, submodule fetch fails.
-- **Fixes:**
-  - Use `actions/checkout` with `fetch-depth: 0` when full history is required.
-  - Enable submodules explicitly (`submodules: recursive`) when needed.
-  - Ensure credentials are available for private submodules (often needs a PAT; call out risk).
+## Checkout, history, or submodules
 
-### Cache problems
-- **Symptoms:** stale deps, intermittent build failures, cache restore misses.
-- **Fixes:**
-  - Include lockfiles in cache keys and bump keys when the cache format changes.
-  - Prefer the package manager’s official cache strategy; avoid caching `node_modules` unless required.
-  - If in doubt, test once with caches disabled to confirm.
+- Use full history only when the failing tool needs it.
+- Verify submodule URLs and credentials without printing tokens.
+- Distinguish missing history from a genuinely missing file or tag.
 
-### Runtime/tooling mismatch
-- **Symptoms:** works locally but fails in CI; “unsupported engine”; Java/Node/Python version mismatch.
-- **Fixes:**
-  - Pin tool versions explicitly (setup actions) and match local dev versions.
-  - Ensure workflow uses the correct working directory and config files.
-  - For monorepos, confirm each job sets `working-directory` appropriately.
+## Cache or environment drift
 
-### Flaky tests / external services
-- **Symptoms:** timeouts, sporadic failures, rate limits.
-- **Fix direction:**
-  - Stabilize tests (seed randomness, isolate shared state, increase timeouts with justification).
-  - Add retries only for clearly flaky, idempotent operations (and track follow-up).
-  - Consider quarantining truly flaky tests with a clear ticket and owner.
+- Compare runtime, package-manager, lockfile, working directory, and environment with local development.
+- Test once without cache only when cache corruption is plausible.
+- Do not hide lockfile or tool-version drift with retries.
 
+## Flaky tests or external services
+
+- Confirm nondeterminism from multiple runs or existing evidence before calling a test flaky.
+- Prefer fixing time, randomness, isolation, or service stubbing over adding retries.
+- Add a bounded retry only for an idempotent operation with a tracked follow-up.

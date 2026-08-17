@@ -45,27 +45,27 @@ test("--agent exits with a helpful error", () => {
 test("verify succeeds for a well-formed skill", () => {
   withTempDir((tempDir) => {
     const skillsDir = path.join(tempDir, ".agents", "skills");
-    const skillDir = path.join(skillsDir, "agents-md");
+    const skillDir = path.join(skillsDir, "sample-skill");
     fs.mkdirSync(skillDir, { recursive: true });
     fs.writeFileSync(
       path.join(skillDir, "SKILL.md"),
-      "---\nname: agents-md\ndescription: Test skill\n---\n\n# Sample\n",
+      "---\nname: sample-skill\ndescription: Test skill\n---\n\n# Sample\n",
       "utf8"
     );
 
-    const result = runCli(["verify", "agents-md", "--dir", skillsDir], {
+    const result = runCli(["verify", "sample-skill", "--dir", skillsDir], {
       cwd: tempDir
     });
 
     assert.equal(result.status, 0);
-    assert.match(result.stdout, /Verified: agents-md/);
+    assert.match(result.stdout, /Verified: sample-skill/);
   });
 });
 
 test("verify warns on name mismatch", () => {
   withTempDir((tempDir) => {
     const skillsDir = path.join(tempDir, ".agents", "skills");
-    const skillDir = path.join(skillsDir, "agents-md");
+    const skillDir = path.join(skillsDir, "sample-skill");
     fs.mkdirSync(skillDir, { recursive: true });
     fs.writeFileSync(
       path.join(skillDir, "SKILL.md"),
@@ -73,13 +73,13 @@ test("verify warns on name mismatch", () => {
       "utf8"
     );
 
-    const result = runCli(["verify", "agents-md", "--dir", skillsDir], {
+    const result = runCli(["verify", "sample-skill", "--dir", skillsDir], {
       cwd: tempDir
     });
 
     assert.equal(result.status, 0);
     assert.match(result.stdout, /does not match/);
-    assert.match(result.stdout, /Verified: agents-md/);
+    assert.match(result.stdout, /Verified: sample-skill/);
   });
 });
 

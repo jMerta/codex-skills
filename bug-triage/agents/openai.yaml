@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bug Triage"
+  short_description: "Reproduce, isolate, and fix reported bugs"
+  default_prompt: "Use $bug-triage to reproduce this failure, identify its root cause, and verify the smallest authorized fix."

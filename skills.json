@@ -1,22 +1,11 @@
 {
-  "version": "2.0.0",
-  "updated": "2026-02-06T11:39:27Z",
-  "total": 19,
+  "version": "3.0.0",
+  "updated": "2026-08-17T11:45:43Z",
+  "total": 11,
   "skills": [
     {
-      "name": "agents-md",
-      "description": "Create or update root and nested AGENTS.md files that document scoped conventions, monorepo module maps, cross-domain workflows, and (optionally) per-module feature maps (feature -> paths, entrypoints, tests, docs). Use when the user asks for AGENTS.md, nested agent instructions, or a module/feature map.",
-      "category": "development",
-      "author": "jMerta",
-      "source": "jMerta/codex-skills",
-      "license": "MIT",
-      "path": "agents-md",
-      "featured": false,
-      "verified": true
-    },
-    {
       "name": "branch-cleaner",
-      "description": "Identify and clean up stale git branches locally and on remotes with safe, reversible steps. Use when asked to prune, list, or delete merged/old branches or audit branch hygiene.",
+      "description": "Use when the user asks to list, audit, prune, or delete local or remote Git branches, especially stale, merged, gone-upstream, protected, worktree-bound, or open-PR branches. Identifies safe candidates and performs only explicitly authorized cleanup.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -27,7 +16,7 @@
     },
     {
       "name": "bug-triage",
-      "description": "Reproduce, isolate, and fix a bug (or failing build/test), then summarize root cause, fix, and verification steps. Use when the user reports a bug, regression, or failing build/test and wants a fix.",
+      "description": "Use when the user reports a bug, regression, runtime error, failing build, or broken test and wants reproduction, diagnosis, root-cause analysis, or an authorized fix. Isolates the shared cause and verifies the smallest relevant change.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -38,7 +27,7 @@
     },
     {
       "name": "ci-fix",
-      "description": "Fix GitHub Actions CI failures using GitHub CLI (gh): inspect runs/logs, identify root cause, patch workflows/code, rerun jobs, and summarize verification. Use when GitHub Actions CI is failing or needs diagnosis.",
+      "description": "Use when the user asks to diagnose or fix failing GitHub Actions checks on a pull request, branch, or workflow run, or wants CI log and root-cause analysis. Prefers GitHub connector context, uses gh for Actions logs, and verifies authorized fixes locally.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -48,30 +37,8 @@
       "verified": true
     },
     {
-      "name": "coding-guidelines-gen",
-      "description": "Generate nested AGENTS.md coding guidelines per module (monorepo-aware), detect languages/tooling, ask architecture preferences, and set up missing formatters/linters (Spotless for JVM). Use when the user wants module-scoped AGENTS.md coding guidelines or to set up missing formatters/linters.",
-      "category": "development",
-      "author": "jMerta",
-      "source": "jMerta/codex-skills",
-      "license": "MIT",
-      "path": "coding-guidelines-gen",
-      "featured": false,
-      "verified": true
-    },
-    {
-      "name": "coding-guidelines-verify",
-      "description": "Verify changes follow nearest-scoped AGENTS.md rules: group changed files by nested scope, auto-fix formatting, run lint/tests, and report violations. Use when the user wants scoped compliance checks for changed files.",
-      "category": "development",
-      "author": "jMerta",
-      "source": "jMerta/codex-skills",
-      "license": "MIT",
-      "path": "coding-guidelines-verify",
-      "featured": false,
-      "verified": true
-    },
-    {
       "name": "commit-work",
-      "description": "Create high-quality git commits: review/stage intended changes, split into logical commits, and write clear commit messages (including Conventional Commits). Use when the user asks to commit, craft a commit message, stage changes, or split work into multiple commits.",
+      "description": "Use when the user asks to stage changes, create a Git commit, split work into logical commits, or craft a commit message. Inspects the worktree, preserves unrelated changes, stages only intended files or hunks, and follows repository conventions.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -81,19 +48,8 @@
       "verified": true
     },
     {
-      "name": "create-cli",
-      "description": "Design command-line interface parameters and UX: arguments, flags, subcommands, help text, output formats, error messages, exit codes, prompts, config/env precedence, and safe/dry-run behavior. Use when designing a CLI spec (before implementation) or refactoring an existing CLI's surface area for consistency, composability, and discoverability.",
-      "category": "development",
-      "author": "steipete",
-      "source": "steipete/agent-scripts",
-      "license": "MIT",
-      "path": "create-cli",
-      "featured": false,
-      "verified": true
-    },
-    {
       "name": "create-pr",
-      "description": "Create a high-quality pull request: branch, focused changes, lint/build, conventional commit, and a clear PR description with validation steps. Use when the user asks to open or prepare a PR.",
+      "description": "Use when the user asks to prepare, publish, or open a GitHub pull request from a local checkout. Verifies branch and diff scope, runs relevant checks, creates needed commits, pushes only when authorized, and opens a truthful draft or ready PR.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -104,7 +60,7 @@
     },
     {
       "name": "dependency-upgrader",
-      "description": "Upgrade dependencies for Java/Kotlin (Gradle/Maven) and TypeScript/Node projects with minimal risk: plan the bump, apply changes incrementally, run tests/builds, and document breaking changes. Use when the user asks to bump deps, update frameworks, or address CVEs.",
+      "description": "Use when the user asks to update, bump, or migrate Java, Kotlin, Gradle, Maven, Node, or TypeScript dependencies; audit direct or transitive dependencies for CVEs or security advisories; or remediate a dependency vulnerability. Preserves the package manager, applies small verified upgrades, and checks vulnerability, release-age, and supply-chain risk.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -115,7 +71,7 @@
     },
     {
       "name": "docs-sync",
-      "description": "Keep documentation in sync with code changes across README, docs sites, API docs, runbooks, and configuration. Use when the user asks to update docs, ensure docs match behavior, or prepare docs for a release/PR.",
+      "description": "Use when the user asks to update documentation after code or configuration changes, audit documentation drift, or prepare README, API, runbook, or release docs. Changes only affected documentation and verifies examples, links, contracts, and operational steps against source code.",
       "category": "documentation",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -125,19 +81,8 @@
       "verified": true
     },
     {
-      "name": "plan-work",
-      "description": "Plan work before coding: do repo research, analyze options/risks, and ask clarifying questions before proposing an implementation plan. Use when the user asks for a plan, design/approach, scope breakdown, or implementation steps.",
-      "category": "planning",
-      "author": "jMerta",
-      "source": "jMerta/codex-skills",
-      "license": "MIT",
-      "path": "plan-work",
-      "featured": false,
-      "verified": true
-    },
-    {
       "name": "rebase-assistant",
-      "description": "Guide a safe git rebase of the current branch onto a target branch, including conflict triage and resolution steps. Use when asked to rebase, update a branch, or resolve rebase conflicts.",
+      "description": "Use when the user asks to rebase or update a Git branch onto another ref, handle rebase conflicts, or verify rewritten history. Protects dirty worktrees, resolves conflicts by intent, and keeps force-push as a separate authorized action.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -148,7 +93,7 @@
     },
     {
       "name": "regex-builder",
-      "description": "Build, test, and explain regular expressions against sample text or files using CLI tools (rg, python) and specific regex flavors. Use when asked to craft, debug, or validate regexes or search patterns.",
+      "description": "Use when the user asks to create, debug, explain, validate, or optimize a regular expression or replacement for a specific engine. Verifies representative matches, non-matches, captures, escaping, portability limits, and backtracking risk in the target runtime.",
       "category": "development",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -159,7 +104,7 @@
     },
     {
       "name": "release-notes",
-      "description": "Draft release notes and changelog entries from git history or merged PRs between two refs (tags/SHAs/branches), including breaking changes, migrations, and upgrade steps. Use when the user asks for release notes, changelog updates, or a GitHub Release draft.",
+      "description": "Use when the user asks to draft release notes, changelog entries, or GitHub Release text from commits, tags, branches, or merged pull requests. Resolves an exact Git range and surfaces breaking changes, migrations, security impact, and upgrade steps.",
       "category": "documentation",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -169,41 +114,8 @@
       "verified": true
     },
     {
-      "name": "sessions-to-blog",
-      "description": "Generate MDX blog posts or recaps from session logs in `sessions/articles`. Use when the user asks to turn daily session notes into publishable blog posts, define writing style or linking rules for those posts, or produce MDX drafts that follow the project's standards and file location.",
-      "category": "documentation",
-      "author": "jMerta",
-      "source": "jMerta/codex-skills",
-      "license": "MIT",
-      "path": "sessions-to-blog",
-      "featured": false,
-      "verified": true
-    },
-    {
-      "name": "ui-ux-pro-max",
-      "description": "Use when designing, building, or refining frontend UI/UX: layouts, components, visual systems, typography, color, and UX patterns for websites, landing pages, dashboards, and product interfaces. Provides searchable styles, palettes, font pairings, charts, and stack best practices (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind).",
-      "category": "development",
-      "author": "Next Level Builder",
-      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
-      "license": "MIT",
-      "path": "ui-ux-pro-max",
-      "featured": false,
-      "verified": true
-    },
-    {
-      "name": "video-transcript-downloader",
-      "description": "Download videos, audio, subtitles, and clean paragraph-style transcripts from YouTube and any other yt-dlp supported site. Use when asked to \u201cdownload this video\u201d, \u201csave this clip\u201d, \u201crip audio\u201d, \u201cget subtitles\u201d, \u201cget transcript\u201d, or to troubleshoot yt-dlp/ffmpeg and formats/playlists.",
-      "category": "development",
-      "author": "steipete",
-      "source": "steipete/agent-scripts",
-      "license": "MIT",
-      "path": "video-transcript-downloader",
-      "featured": false,
-      "verified": true
-    },
-    {
       "name": "vps-checkup",
-      "description": "SSH into an Ubuntu VPS (Docker) for a read-only health/security/update report (UFW + fail2ban) and propose fixes; apply updates/restarts only with explicit confirmation. Use when the user wants a read-only VPS health/security check.",
+      "description": "Use when the user asks for a read-only health, security, network exposure, update, backup, or Docker audit of an Ubuntu VPS over SSH. Produces an evidence-based report and requires explicit approval before package refreshes, configuration changes, restarts, pruning, or reboot.",
       "category": "operations",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
@@ -218,24 +130,18 @@
       "id": "development",
       "name": "Development",
       "description": "Coding and software development skills",
-      "count": 14
+      "count": 8
     },
     {
       "id": "documentation",
       "name": "Documentation",
       "description": "Documentation and release notes",
-      "count": 3
+      "count": 2
     },
     {
       "id": "operations",
       "name": "Operations",
       "description": "Infrastructure and system checks",
-      "count": 1
-    },
-    {
-      "id": "planning",
-      "name": "Planning",
-      "description": "Planning and scoping workflows",
       "count": 1
     }
   ]

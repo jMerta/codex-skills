@@ -1,39 +1,41 @@
 ---
 name: branch-cleaner
-description: Identify and clean up stale git branches locally and on remotes with safe, reversible steps. Use when asked to prune, list, or delete merged/old branches or audit branch hygiene.
+description: Use when the user asks to list, audit, prune, or delete local or remote Git branches, especially stale, merged, gone-upstream, protected, worktree-bound, or open-PR branches. Identifies safe candidates and performs only explicitly authorized cleanup.
 ---
+
 # Branch cleaner
 
-## Goal
-Safely identify stale branches and provide explicit delete/prune commands.
-
-## Inputs to confirm (ask if missing)
-- Default branch (main/master/develop).
-- Remote name (origin) and whether remote deletion is desired.
-- Safety rules: keep patterns (release/*, hotfix/*), minimum age, merged-only.
-
 ## Workflow
-1) Sync and inspect
-   - Run `git fetch --prune`.
-   - Check `git status` and note uncommitted changes.
-2) Build candidate lists
-   - Local merged into default: `git branch --merged <base>`
-   - Local not merged (list only): `git branch --no-merged <base>`
-   - Remote merged: `git branch -r --merged <base>`
-   - Stale by date: `git for-each-ref --sort=committerdate refs/heads --format="%(committerdate:short) %(refname:short)"`
-3) Exclude protected branches
-   - Always keep `<base>`, current branch, and user-provided patterns.
-4) Confirm with user
-   - Present candidates grouped by local vs remote.
-5) Provide delete commands
-   - Delete branches approved for deletion by the user
-   - 
 
-## Optional GitHub CLI checks
-- `gh pr list --state merged --base <base>` to correlate merged branches.
-- `gh pr view <branch>` to verify status if needed.
+1. Resolve the repository, current branch, remote, and remote default branch from Git. Ask only when they remain ambiguous.
+2. Fetch and prune remote-tracking refs, then collect evidence:
+   - `git status -sb`
+   - `git worktree list --porcelain`
+   - `git branch --merged <remote>/<default>` and `git branch --no-merged <remote>/<default>`
+   - `git for-each-ref refs/heads --sort=committerdate --format="%(committerdate:iso8601) %(refname:short) %(upstream:short) %(upstream:track)"`
+3. When GitHub context is available, prefer the GitHub connector for open/merged PR metadata and branch protection context. Use `gh` only as a fallback.
+4. Exclude the current branch, the default branch, branches checked out in any worktree, protected branches or rulesets, and branches with open PRs. If open-PR or protection state cannot be verified, keep the branch report-only.
+5. Group candidates by evidence:
+   - merged into the fetched default branch;
+   - upstream gone;
+   - old but unmerged, which is report-only unless the user explicitly approves force deletion.
+6. Present concrete branch names, last commit dates, merge state, and local/remote scope before deleting anything.
+7. Delete only approved candidates:
+   - immediately before each deletion, fetch current evidence and recheck the branch tip SHA, worktree use, open PRs, and protection or ruleset state against the reviewed candidate;
+   - skip the branch if its tip or state changed, or if any safety check is unavailable;
+   - local merged branch: `git branch -d <branch>`;
+   - remote branch: `git push <remote> --delete <branch>` only when remote deletion was explicitly requested;
+   - use `git branch -D` only for an individually named unmerged branch explicitly approved by the user.
+8. Re-run the candidate commands and `git status -sb` to verify the result.
 
-## Deliverables
-- Candidate lists and rationale.
-- Warnings for unmerged or recently updated branches.
-- Don't remove remote branches unless explicitly approved.
+## Safety
+
+- Treat age as a review signal, never proof that a branch is safe to delete.
+- Never delete through an unresolved glob or a generated command string.
+- Do not remove a branch used by another worktree.
+- Do not delete remote branches or force-delete unmerged branches without explicit approval.
+- Preserve unrelated working-tree changes.
+
+## Deliverable
+
+Report deleted branches, skipped branches with reasons, commands run, and any candidates still needing a decision.

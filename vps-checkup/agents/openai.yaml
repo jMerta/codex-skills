@@ -1,0 +1,4 @@
+interface:
+  display_name: "VPS Checkup"
+  short_description: "Audit Ubuntu VPS health and security over SSH"
+  default_prompt: "Use $vps-checkup to perform a read-only Ubuntu VPS audit and report evidence before any changes."

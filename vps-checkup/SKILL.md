@@ -1,57 +1,31 @@
 ---
 name: vps-checkup
-description: "SSH into an Ubuntu VPS (Docker) for a read-only health/security/update report (UFW + fail2ban) and propose fixes; apply updates/restarts only with explicit confirmation. Use when the user wants a read-only VPS health/security check."
+description: Use when the user asks for a read-only health, security, network exposure, update, backup, or Docker audit of an Ubuntu VPS over SSH. Produces an evidence-based report and requires explicit approval before package refreshes, configuration changes, restarts, pruning, or reboot.
 ---
 
-# VPS checkup (Ubuntu + Docker)
+# VPS checkup
 
-## Goal
-- Produce a clear, read-only health/security/update report for an Ubuntu VPS running Docker.
-- Propose safe, minimal fixes; do not apply changes or restart anything unless the user explicitly confirms.
+## Confirm scope
 
-## Inputs to ask for (if missing)
-- SSH target host alias (from `~/.ssh/config` on Windows: `$HOME\\.ssh\\config`) or `user@ip`.
-- Confirm `sudo` access and whether running `apt update` is allowed (it modifies package lists).
-- Required open ports (e.g., `22`, `80`, `443`) and any non-standard SSH port.
-- Where deployments live: confirm if Docker Compose is used on the VPS (common), and whether compose files are in a known path.
-- If the local `ssh` client or required tools are missing, tell the user and ask whether to install them or provide command output manually.
+Obtain the SSH target, required public services and ports, expected workloads, and whether passwordless `sudo` is available. Treat the audit as read-only. `apt update` changes package indexes and requires explicit approval even during a read-only checkup.
 
-## Workflow (checklist)
-1) Connect safely
-   - Keep a second SSH session open before any SSH/firewall changes.
-   - Record identity/time/host: `whoami`, `hostname -f`, `date -Is`, `uptime`.
-2) Collect a read-only baseline (system)
-   - OS/kernel: `lsb_release -a` (or `cat /etc/os-release`), `uname -a`.
-   - CPU/mem/disk: `top` snapshot, `free -h`, `df -hT`, `lsblk`.
-   - Services: `systemctl --failed`, `journalctl -p 3 -xb --no-pager` (use `sudo` if needed).
-3) Check security posture (read-only)
-   - SSH: prefer `sudo sshd -T` (fallback to `sudo cat /etc/ssh/sshd_config` + `sshd_config.d/`).
-   - Firewall: `sudo ufw status verbose` (and `sudo ufw status numbered`).
-   - Fail2ban: `sudo fail2ban-client status` (+ `status sshd` if present).
-   - Listening ports: `ss -tulpn` (use `sudo` if needed).
-4) Check update posture (read-only by default)
-   - If user allows: run `sudo apt update` to ensure accurate results.
-   - Then collect: `apt list --upgradable`, `ubuntu-security-status` (if available), and `/var/run/reboot-required` presence.
-   - Check unattended upgrades: `systemctl status unattended-upgrades --no-pager` and `/var/log/unattended-upgrades/`.
-5) Check Docker health (read-only)
-   - Daemon status: `systemctl status docker --no-pager`, `docker info`.
-   - Containers: `docker ps`, unhealthy/restarting containers, recent restarts, and `docker stats --no-stream`.
-   - Disk usage: `docker system df` and large log growth indicators.
-   - Compose overview: `docker compose ls` (then inspect key projects as needed).
-6) Produce the report + recommendations
-   - Use `references/report-template.md`.
-   - Use `references/ubuntu-docker-checkup-commands.md` for a copy/paste command set.
-   - Rank findings by severity and explicitly list what requires confirmation (updates, firewall changes, SSH changes, restarts, pruning, reboot).
-7) Apply fixes (ONLY with explicit confirmation)
-   - Do not run `apt upgrade`, change UFW rules, change SSH auth, prune Docker, restart services/containers, or reboot unless the user says to.
+Do not request or expose private keys, tokens, environment values, or container secrets. Redact public output that includes credentials or sensitive hostnames.
 
-## Safety gates (non-negotiable)
-- No restarts (Docker/system services) unless the user explicitly asks for restart.
-- No SSH/firewall changes unless you have a backup access path (second session open) and the user confirms the plan.
-- Never paste secrets (tokens, private keys) into chat or logs.
+## Collect evidence
 
-## Deliverable
-Provide:
-- A read-only report using `references/report-template.md`.
-- A prioritized list of recommended fixes and which ones require explicit confirmation.
-- The exact commands run (or requested if the user ran them manually).
+1. Record host identity, UTC/local time, uptime, OS, kernel, virtualization, load, memory, disk space, inode use, mounts, and failed services.
+2. Inspect critical journal entries within a bounded time window; do not dump entire logs.
+3. Inspect effective SSH configuration and listening sockets.
+4. Detect the active firewall rather than assuming UFW: check UFW, nftables, then iptables as available. Compare exposure with the required port list.
+5. Check fail2ban only if installed and report missing tooling as `not installed`, not as failure.
+6. Inspect time synchronization, unattended upgrades, pending packages from current indexes, and reboot-required state. Label package results stale when `apt update` was not approved.
+7. If Docker exists, inspect daemon/rootless mode, containers, health/restarts, resource snapshot, disk use, logging growth, image age, and Compose projects. Skip Docker sections when absent.
+8. Record whether backups exist and their last successful evidence when discoverable; do not trigger a backup or restore test without approval.
+
+Use `references/ubuntu-docker-checkup-commands.md` as a menu and run only commands relevant to the detected host.
+
+## Report and changes
+
+Use `references/report-template.md`. Rank findings by impact and likelihood, cite command evidence, distinguish confirmed findings from unknowns, and list the smallest recommended actions.
+
+Obtain explicit approval for each mutating group, including package-index refresh, upgrades, configuration edits, firewall or SSH changes, service/container restarts, pruning, log deletion, reboot, and backup/restore operations. Before SSH or firewall changes, verify a second access path and configuration syntax. Recheck affected services and access after any approved change.

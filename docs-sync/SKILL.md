@@ -1,46 +1,30 @@
 ---
 name: docs-sync
-description: Keep documentation in sync with code changes across README, docs sites, API docs, runbooks, and configuration. Use when the user asks to update docs, ensure docs match behavior, or prepare docs for a release/PR.
+description: Use when the user asks to update documentation after code or configuration changes, audit documentation drift, or prepare README, API, runbook, or release docs. Changes only affected documentation and verifies examples, links, contracts, and operational steps against source code.
 ---
 
 # Docs sync
 
-## Goal
-Update documentation so it matches the current code and is easy for the target audience to follow.
+## Find the documentation contract
 
-## Inputs to ask for (if missing)
-- What changed (feature/bugfix/refactor) and who the docs are for.
-- Which docs surfaces matter: README, `/docs`, wiki, runbooks, API spec, changelog, onboarding.
-- Any required format/voice (company style guide, "keep it short", etc.).
+1. Read repository instructions and the relevant code diff, commits, or release range.
+2. Inspect existing working-tree changes before editing. Preserve them and stop for direction when required documentation edits overlap.
+3. Identify the source of truth for each claim: code, schema, generated specification, configuration, script, or operational procedure.
+4. Search for affected names, commands, routes, environment variables, defaults, and links across existing documentation.
+5. Determine the audience and the smallest set of docs surfaces that must change.
 
-## Workflow (checklist)
-1) Identify what changed
-   - Use the diff to locate impacted areas:
-     - `git diff --name-only`
-     - `git diff`
-2) Inventory docs surfaces in the repo
-   - Common locations: `README.md`, `docs/`, `CONTRIBUTING.md`, `CHANGELOG.md`, `openapi.*`, `schema.graphql`, `adr/`, `runbooks/`.
-   - For Spring: check for generated OpenAPI/Swagger docs or endpoint annotations.
-   - For Next/TypeScript: check for docs pages, Storybook, or typed API clients.
-   - If your repo uses `docs/` as the primary doc root, see `references/docs-structure.md` for a suggested layout.
-3) Decide what needs updating
-   - Ensure docs cover:
-     - setup and local dev commands
-     - required env vars / config keys
-     - API contract changes (request/response examples)
-     - DB migrations and operational steps
-     - behavior changes visible to users
-   - If the change is an architectural/behavioral decision, add or update an ADR (use `references/adr-template.md`).
-4) Apply edits with minimal churn
-   - Prefer small, targeted edits over rewrites.
-   - Add examples that are copy/paste runnable.
-   - Keep headings stable to avoid breaking deep links.
-   - Use templates in `references/` when helpful.
-5) Verify docs are consistent
-   - Run the repo's existing doc checks if present (md lint, docs build, site build).
-   - At minimum: ensure code fences match the actual commands and file paths, and env var names match the code.
+Do not invent a new docs hierarchy, duplicate generated content, or rewrite unrelated prose. Edit generated docs only through their generator.
 
-## Deliverable
-Provide:
-- The list of docs files updated and why.
-- A short "How to verify" section (commands or manual checks).
+## Update minimally
+
+- Preserve established structure, terminology, voice, headings, anchors, and versioning.
+- Keep commands and examples copy/paste runnable and consistent with repository scripts and supported platforms.
+- Document user-visible behavior, API or schema changes, configuration/default changes, migrations, rollback steps, and operational impact only when the code change creates them.
+- Mark secrets as secrets and never paste real credentials or production values.
+- Add an ADR only when the repository already records ADRs and the change is a durable architectural decision; `references/adr-template.md` is available when that convention applies.
+
+## Verify
+
+Run existing Markdown lint, link checks, snippet tests, API generation checks, or docs builds. Otherwise verify changed commands, paths, anchors, environment-variable names, and examples directly against their source of truth.
+
+Report the files changed, the behavior each now documents, verification performed, and any documentation that remains intentionally unchanged.

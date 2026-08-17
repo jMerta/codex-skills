@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Work"
+  short_description: "Create focused, reviewable Git commits safely"
+  default_prompt: "Use $commit-work to inspect these changes and create the fewest focused, reviewable commits."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs Sync"
+  short_description: "Keep documentation aligned with repository changes"
+  default_prompt: "Use $docs-sync to update only the documentation affected by these repository changes."

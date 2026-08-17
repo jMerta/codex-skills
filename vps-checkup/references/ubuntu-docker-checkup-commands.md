@@ -1,67 +1,93 @@
-# Ubuntu + Docker checkup commands (copy/paste)
+# Ubuntu VPS checkup command menu
 
-These commands are intended for interactive SSH sessions. Prefer read-only commands first.
+Run only commands relevant to the host. Bound output and redact secrets before sharing it.
 
-## 0) Safety / identity
-- `whoami && hostname -f && date -Is && uptime`
-- `id && groups`
+## Identity and capacity
 
-## 1) System (read-only)
-- OS/kernel:
-  - `cat /etc/os-release || true`
-  - `uname -a`
-- CPU/mem:
-  - `free -h`
-  - `ps -eo pid,ppid,cmd,%cpu,%mem --sort=-%cpu | head`
-- Disk:
-  - `df -hT`
-  - `lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT,ROTA,MODEL`
-  - If disk is tight, inspect Docker first: `docker system df`
-- Failed services / logs (may require sudo):
-  - `systemctl --failed || true`
-  - `sudo journalctl -p 3 -xb --no-pager | tail -n 200`
+```sh
+whoami; hostname -f; date -Is; uptime
+cat /etc/os-release; uname -a
+free -h; df -hT; df -ih; lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS,ROTA,MODEL
+systemctl --failed --no-pager
+journalctl -p 3 --since '24 hours ago' --no-pager -n 200
+```
 
-## 2) Security posture (read-only; often requires sudo)
-- SSH effective config (preferred):
-  - `sudo sshd -T 2>/dev/null | egrep -i '^(port|permitrootlogin|passwordauthentication|kbdinteractiveauthentication|challengeresponseauthentication|pubkeyauthentication|authenticationmethods|allowusers|allowgroups|denyusers|denygroups|x11forwarding|allowtcpforwarding|permittty|loglevel) ' || true`
-  - Fallback: `sudo ls -la /etc/ssh/sshd_config /etc/ssh/sshd_config.d || true`
-- UFW:
-  - `sudo ufw status verbose || true`
-  - `sudo ufw status numbered || true`
-- Fail2ban:
-  - `sudo fail2ban-client status || true`
-  - `sudo fail2ban-client status sshd || true`
-- Listening ports:
-  - `sudo ss -tulpn || ss -tulpn`
+## Exposure and access
 
-## 3) Updates (requires confirmation for `apt update`)
-- Confirm first: running `apt update` modifies package lists (safe, but not read-only).
-- If approved:
-  - `sudo apt update`
-  - `apt list --upgradable 2>/dev/null | sed -n '1,200p'`
-  - `test -f /var/run/reboot-required && echo 'REBOOT REQUIRED' || echo 'no reboot-required file'`
-- Unattended upgrades:
-  - `systemctl status unattended-upgrades --no-pager || true`
-  - `sudo tail -n 200 /var/log/unattended-upgrades/unattended-upgrades.log 2>/dev/null || true`
+```sh
+sudo sshd -T
+sudo ss -tulpn
+command -v ufw >/dev/null && sudo ufw status verbose
+command -v nft >/dev/null && sudo nft list ruleset
+command -v iptables >/dev/null && sudo iptables -S
+command -v fail2ban-client >/dev/null && sudo fail2ban-client status
+```
 
-## 4) Docker (read-only; may require sudo or docker group)
-- Daemon:
-  - `systemctl status docker --no-pager || true`
-  - `docker info 2>/dev/null | sed -n '1,120p'`
-- Containers:
-  - `docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.RunningFor}}'`
-  - Unhealthy containers: `docker ps --filter health=unhealthy --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}'`
-  - Restart loops: `docker ps --format '{{.Names}}\t{{.Status}}' | egrep -i 'restarting|restart' || true`
-  - Resource snapshot: `docker stats --no-stream`
-- Disk:
-  - `docker system df`
-- Compose overview:
-  - `docker compose ls || true`
+Inspect only relevant effective SSH settings from `sshd -T`; do not copy keys or secrets.
 
-## 5) High-risk commands (DO NOT run unless user explicitly asks)
-- `sudo apt upgrade` / `sudo apt full-upgrade`
-- `sudo ufw enable` / rule changes
-- SSH config edits + `sudo systemctl restart ssh`
-- `docker system prune` / log deletion
-- `sudo systemctl restart docker` / container restarts / reboot
+## Updates, time, and backups
 
+```sh
+systemctl status unattended-upgrades --no-pager
+timedatectl status
+test -f /var/run/reboot-required && echo 'reboot required' || echo 'no reboot-required file'
+apt list --upgradable 2>/dev/null
+```
+
+The package list may be stale. Run `sudo apt update` only after explicit approval. Discover backup service or job status from the host's existing tooling; do not start a backup or restore.
+
+## Docker when installed
+
+Discover the active Docker context and endpoint first. Use the current user's active context; do not retry with `sudo` merely because access fails. A `sudo docker` fallback is allowed only after confirming the intended endpoint is the local rootful daemon and receiving authorization. Otherwise report Docker as `unchecked`.
+
+```bash
+docker_context=$(docker context show)
+docker context inspect "$docker_context" --format '{{.Name}}\t{{.Endpoints.docker.Host}}'
+docker info --format 'Server={{.ServerVersion}} RootDir={{.DockerRootDir}} LoggingDriver={{.LoggingDriver}} CgroupDriver={{.CgroupDriver}} SecurityOptions={{json .SecurityOptions}} Containers={{.Containers}} Images={{.Images}}'
+docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.RunningFor}}' | head -n 101
+docker ps --filter health=unhealthy --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | head -n 101
+docker ps -q | head -n 100 | xargs -r docker stats --no-stream
+docker system df
+if docker compose version >/dev/null 2>&1; then
+  docker compose ls --all | head -n 101
+else
+  printf 'Compose discovery: unavailable\n'
+fi
+docker ps -aq | head -n 100 | while IFS= read -r id; do
+  docker inspect --format '{{.Name}}\t{{.RestartCount}}\t{{.HostConfig.LogConfig.Type}}\t{{index .HostConfig.LogConfig.Config "max-size"}}\t{{index .HostConfig.LogConfig.Config "max-file"}}\t{{.LogPath}}' "$id"
+done
+docker ps -aq | head -n 100 | while IFS= read -r id; do
+  log_path=$(docker inspect --format '{{.LogPath}}' "$id")
+  test -n "$log_path" && stat -Lc '%s\t%y\t%n' -- "$log_path" 2>/dev/null
+done
+measure_log_sizes() {
+  docker ps -aq | head -n 100 | while IFS= read -r id; do
+    if log_path=$(docker inspect --format '{{.LogPath}}' "$id" 2>/dev/null) &&
+      test -n "$log_path" && log_size=$(stat -Lc '%s' -- "$log_path" 2>/dev/null); then
+      printf '%s\t%s\n' "$id" "$log_size"
+    else
+      printf '%s\tunavailable\n' "$id"
+    fi
+  done
+}
+join -t $'\t' -a 1 -a 2 -e unavailable -o 0,1.2,2.2 \
+  <(measure_log_sizes | sort -t $'\t' -k1,1) \
+  <(sleep 10; measure_log_sizes | sort -t $'\t' -k1,1) |
+awk -F '\t' '
+  $2 == "unavailable" || $3 == "unavailable" {
+    printf "%s\tgrowth unavailable (before=%s, after=%s)\n", $1, $2, $3
+    next
+  }
+  {
+    delta = $3 - $2
+    printf "%s\t%d bytes delta\t%.1f bytes/s\n", $1, delta, delta / 10
+  }
+'
+docker image ls --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | head -n 101
+```
+
+The log-size loop reports metadata only where the active user can read it; do not elevate merely to fill gaps. Inspect a container's bounded recent logs only when its health or restart state requires it. Do not print log content during the inventory, environment variables, full container configuration, or remote logging options that may contain credentials.
+
+## Mutating commands
+
+Do not run package upgrades, configuration edits, firewall changes, restarts, Docker prune, log deletion, reboot, or backup/restore commands without explicit approval.

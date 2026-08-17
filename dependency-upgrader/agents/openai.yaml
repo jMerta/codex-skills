@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dependency Upgrader"
+  short_description: "Upgrade dependencies and audit known vulnerabilities"
+  default_prompt: "Use $dependency-upgrader to audit direct and transitive dependency vulnerabilities, then apply and verify the smallest safe upgrade."
