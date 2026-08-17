@@ -48,7 +48,11 @@ docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.RunningFor}}' 
 docker ps --filter health=unhealthy --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | head -n 101
 docker ps -q | head -n 100 | xargs -r docker stats --no-stream
 docker system df
-docker compose ls | head -n 101
+if docker compose version >/dev/null 2>&1; then
+  docker compose ls --all | head -n 101
+else
+  printf 'Compose discovery: unavailable\n'
+fi
 docker ps -aq | head -n 100 | while IFS= read -r id; do
   docker inspect --format '{{.Name}}\t{{.RestartCount}}\t{{.HostConfig.LogConfig.Type}}\t{{index .HostConfig.LogConfig.Config "max-size"}}\t{{index .HostConfig.LogConfig.Config "max-file"}}\t{{.LogPath}}' "$id"
 done
@@ -58,11 +62,27 @@ docker ps -aq | head -n 100 | while IFS= read -r id; do
 done
 measure_log_sizes() {
   docker ps -aq | head -n 100 | while IFS= read -r id; do
-    log_path=$(docker inspect --format '{{.LogPath}}' "$id")
-    log_size=$(stat -Lc '%s' -- "$log_path" 2>/dev/null) && printf '%s\t%s\n' "$id" "$log_size"
+    if log_path=$(docker inspect --format '{{.LogPath}}' "$id" 2>/dev/null) &&
+      test -n "$log_path" && log_size=$(stat -Lc '%s' -- "$log_path" 2>/dev/null); then
+      printf '%s\t%s\n' "$id" "$log_size"
+    else
+      printf '%s\tunavailable\n' "$id"
+    fi
   done
 }
-paste <(measure_log_sizes) <(sleep 10; measure_log_sizes) | awk -F '\t' '$1 == $3 { printf "%s\t%d bytes delta\t%.1f bytes/s\n", $1, $4 - $2, ($4 - $2) / 10 }'
+join -t $'\t' -a 1 -a 2 -e unavailable -o 0,1.2,2.2 \
+  <(measure_log_sizes | sort -t $'\t' -k1,1) \
+  <(sleep 10; measure_log_sizes | sort -t $'\t' -k1,1) |
+awk -F '\t' '
+  $2 == "unavailable" || $3 == "unavailable" {
+    printf "%s\tgrowth unavailable (before=%s, after=%s)\n", $1, $2, $3
+    next
+  }
+  {
+    delta = $3 - $2
+    printf "%s\t%d bytes delta\t%.1f bytes/s\n", $1, delta, delta / 10
+  }
+'
 docker image ls --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | head -n 101
 ```
 
