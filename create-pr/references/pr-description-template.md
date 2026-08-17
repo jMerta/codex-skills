@@ -1,18 +1,51 @@
-# PR title
-Use Conventional Commits if your team does (e.g. `fix: …`, `feat: …`).
+# Pull request template
 
+Delete optional sections that do not apply. Replace every placeholder with verified information; do not leave fake evidence or successful-looking defaults.
+
+```markdown
 ## Summary
-What changed (1–3 bullets).
+
+- <Outcome visible to users or maintainers>
+- <Second material change, if any>
 
 ## Why
-Context / problem statement / link to issue.
 
-## How to validate
-Steps a reviewer can follow to confirm it works.
+<Problem, constraint, or linked issue that made the change necessary.>
 
-## Screenshots / GIF (if UI changes)
-Before/after or key flows.
+## Changes
 
-## Risk / rollout notes
-Edge cases, migrations, backwards compatibility, follow-ups.
+- <Focused implementation or behavior change>
+- <Migration or compatibility change, if any>
 
+## Validation
+
+| Check | Result |
+|---|---|
+| `<exact command or manual scenario>` | Passed / Failed / Not run - <reason> |
+
+## Evidence
+
+<!-- Delete this section when visual evidence is not relevant. -->
+
+- Scenario: <what the evidence proves>
+- Environment: <browser/device/viewport or application version>
+
+| Before | After |
+|---|---|
+| ![Before: <meaningful state>](<GitHub attachment URL>) | ![After: <meaningful state>](<GitHub attachment URL>) |
+
+Recording: <GitHub-generated video attachment or stable artifact URL>
+
+## Risk and rollout
+
+- Risk: <edge cases, compatibility, security, or operational impact>
+- Rollout: <deployment, migration, feature flag, or none>
+- Rollback: <safe reversal or constraint>
+
+## Related
+
+- Closes #<issue>
+- Follow-up: #<issue>
+```
+
+For non-visual changes, replace Evidence with concise logs, metrics, rendered output, or a reproducible verification result. Follow `evidence-attachments.md` for screenshots and recordings.
