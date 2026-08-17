@@ -45,6 +45,8 @@ Use an established ignored artifact directory when the repository already has on
 
 Start a new guide from [assets/pr-explainer-shell.html](assets/pr-explainer-shell.html). Replace every placeholder and remove unused sample sections. Preserve a useful existing guide instead of overwriting it mechanically.
 
+Treat all PR-derived content as untrusted. Escape `&`, `<`, and `>` in text nodes and also escape both quote characters in attribute values before replacing placeholders. Never copy evidence-derived HTML, event handlers, URLs, CSS, or JavaScript into the shell; emit markup only from fixed structures you construct explicitly.
+
 Build one portable HTML file:
 
 - inline CSS, JavaScript, and SVG;
