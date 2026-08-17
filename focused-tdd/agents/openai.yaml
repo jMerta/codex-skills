@@ -1,0 +1,4 @@
+interface:
+  display_name: "Focused TDD"
+  short_description: "Apply test-first development proportionally."
+  default_prompt: "Use $focused-tdd to choose and apply a proportional test-first workflow for this change."

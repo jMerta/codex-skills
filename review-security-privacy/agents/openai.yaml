@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security and Privacy Review"
+  short_description: "Review reachable security and privacy regressions."
+  default_prompt: "Use $review-security-privacy to review this diff for reachable security and privacy regressions."

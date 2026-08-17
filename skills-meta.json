@@ -20,17 +20,52 @@
     "operations": {
       "name": "Operations",
       "description": "Infrastructure and system checks"
+    },
+    "product": {
+      "name": "Product",
+      "description": "Product discovery and interface communication skills"
+    },
+    "review": {
+      "name": "Review",
+      "description": "Evidence-based code and change review skills"
     }
   },
   "skills": {
     "docs-sync": {
       "category": "documentation"
     },
+    "focused-tdd": {
+      "category": "development"
+    },
+    "manage-product-ideas": {
+      "category": "product"
+    },
+    "pr-visual-explainer": {
+      "category": "documentation"
+    },
     "release-notes": {
       "category": "documentation"
     },
+    "review-architecture-scope": {
+      "category": "review"
+    },
+    "review-backend-change": {
+      "category": "review"
+    },
+    "review-frontend-change": {
+      "category": "review"
+    },
+    "review-security-privacy": {
+      "category": "review"
+    },
+    "review-test-coverage": {
+      "category": "review"
+    },
     "vps-checkup": {
       "category": "operations"
+    },
+    "write-ui-copy": {
+      "category": "product"
     }
   }
 }

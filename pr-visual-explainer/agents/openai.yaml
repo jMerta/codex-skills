@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Visual Explainer"
+  short_description: "Create visual HTML walkthroughs for pull requests."
+  default_prompt: "Use $pr-visual-explainer to create a visual HTML walkthrough for this pull request."

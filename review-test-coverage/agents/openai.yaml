@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Coverage Review"
+  short_description: "Review tests, CI evidence, and validation gaps."
+  default_prompt: "Use $review-test-coverage to review this change for evidence-backed validation gaps."
