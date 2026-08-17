@@ -25,7 +25,7 @@ Delete optional sections that do not apply. Replace every placeholder with verif
 
 ## Evidence
 
-<!-- Delete this section when visual evidence is not relevant. -->
+<!-- Reuse relevant safe screenshots or recordings already made during the work. Capture new evidence when easy and useful. Delete this section when evidence is not relevant or practical. -->
 
 - Scenario: <what the evidence proves>
 - Environment: <browser/device/viewport or application version>

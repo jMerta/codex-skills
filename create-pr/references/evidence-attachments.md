@@ -1,5 +1,7 @@
 # PR evidence attachments
 
+Prefer useful evidence, not evidence for its own sake. Reuse any relevant, current, and safe screenshot or recording already produced during implementation or validation. If none exists, capture new media when it is easy and would materially reduce reviewer effort. Do not block the PR or create low-value media when evidence is irrelevant, impractical, redundant, or unsafe.
+
 ## Choose evidence that proves the change
 
 - UI or visual bug: use before and after screenshots captured with the same data, viewport, theme, and zoom.

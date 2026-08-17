@@ -31,7 +31,8 @@ description: Use when the user asks to prepare, publish, or open a GitHub pull r
 2. Start from `references/pr-description-template.md` or the repository's own pull request template.
 3. State what changed, why, validation with real results, user or operational impact, risk, migrations, rollout, and related issues.
 4. Delete empty optional sections. Never claim unrun checks, nonexistent screenshots, or future work as completed.
-5. Collect visual evidence when the change affects UI, layout, motion, or a visible bug. Follow `references/evidence-attachments.md`.
+5. Reuse relevant, current, and safe screenshots or recordings already produced during implementation or validation. Do not omit useful existing evidence merely because it was not created specifically for the PR.
+6. When visual evidence would materially help review and is easy to capture, create it. Do not block the PR or manufacture low-value media when evidence is irrelevant, impractical, redundant, or unsafe. Follow `references/evidence-attachments.md`.
 
 ## Publish and open
 
@@ -61,10 +62,12 @@ Prefer explicit title and body over unreviewed `--fill`. `--body-file` publishes
 
 ## Attach and verify evidence
 
-1. Create the draft PR with the textual evidence section first.
-2. Upload local screenshots or recordings through GitHub's attachment UI, or through a connected tool only if it supports user-attachment uploads.
-3. Replace placeholders with GitHub-generated URLs, add accessible labels and context, then save the description or evidence comment.
-4. Reopen the PR and verify every image or recording renders for the intended audience. Do not claim an attachment exists until the remote PR shows it.
+1. Inventory relevant screenshots, recordings, previews, logs, or other evidence already created during the work. Use them when they still represent the final change and pass the safety checks.
+2. If useful evidence does not exist, capture it only when doing so is easy and proportionate to the review value.
+3. Create the draft PR with the textual evidence section first.
+4. Upload local screenshots or recordings through GitHub's attachment UI, or through a connected tool only if it supports user-attachment uploads.
+5. Replace placeholders with GitHub-generated URLs, add accessible labels and context, then save the description or evidence comment.
+6. Reopen the PR and verify every image or recording renders for the intended audience. Do not claim an attachment exists until the remote PR shows it.
 
 ## Verify the PR
 
@@ -86,4 +89,4 @@ Do not manually rerun checks unless the user authorizes it.
 
 ## Deliverable
 
-Report branch, commits, push target, PR URL and state, validation, attached evidence, pending manual evidence steps, check status, and unresolved risks.
+Report branch, commits, push target, PR URL and state, validation, attached evidence, pending manual evidence steps, check status, and unresolved risks. When visual evidence would normally help but is omitted, state the concise reason.

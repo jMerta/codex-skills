@@ -23,9 +23,9 @@
 ## Evidence
 
 <!--
-Delete this section when visual evidence is not relevant.
-For UI changes, attach before/after screenshots or a short recording through GitHub's upload UI.
-Include the scenario and environment. Never use local file paths or expose secrets/personal data.
+Reuse relevant safe screenshots or recordings already produced during the work.
+Capture new evidence when it is easy and materially helps review; otherwise delete this section.
+Upload through GitHub's attachment UI. Never use local file paths or expose secrets/personal data.
 -->
 
 ## Risk and rollout
