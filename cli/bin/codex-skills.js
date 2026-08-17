@@ -559,15 +559,15 @@ ${colors.bold}Options:${colors.reset}
 
 ${colors.bold}Examples:${colors.reset}
   npx codex-skills list
-  npx codex-skills search browser
-  npx codex-skills install agents-md
-  npx codex-skills install agents-md --dir .agents/skills
+  npx codex-skills search git
+  npx codex-skills install bug-triage
+  npx codex-skills install bug-triage --dir .agents/skills
   npx codex-skills install-category development
   npx codex-skills install-all
   npx codex-skills install-agent-scripts
-  npx codex-skills install agents-md --ref main
+  npx codex-skills install bug-triage --ref main
   npx codex-skills init-ledger
-  npx codex-skills verify agents-md
+  npx codex-skills verify bug-triage
 `);
 }
 

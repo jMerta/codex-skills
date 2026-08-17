@@ -17,10 +17,6 @@
       "name": "Documentation",
       "description": "Documentation and release notes"
     },
-    "planning": {
-      "name": "Planning",
-      "description": "Planning and scoping workflows"
-    },
     "operations": {
       "name": "Operations",
       "description": "Infrastructure and system checks"
@@ -33,29 +29,8 @@
     "release-notes": {
       "category": "documentation"
     },
-    "sessions-to-blog": {
-      "category": "documentation"
-    },
-    "plan-work": {
-      "category": "planning"
-    },
     "vps-checkup": {
       "category": "operations"
-    },
-    "create-cli": {
-      "author": "steipete",
-      "source": "steipete/agent-scripts",
-      "license": "MIT"
-    },
-    "video-transcript-downloader": {
-      "author": "steipete",
-      "source": "steipete/agent-scripts",
-      "license": "MIT"
-    },
-    "ui-ux-pro-max": {
-      "author": "Next Level Builder",
-      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
-      "license": "MIT"
     }
   }
 }

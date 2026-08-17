@@ -69,14 +69,14 @@ Use the published CLI to list, search, and install skills without cloning.
 
 ```bash
 npx codex-skills list
-npx codex-skills search browser
-npx codex-skills install agents-md
+npx codex-skills search git
+npx codex-skills install bug-triage
 npx codex-skills install-category development
 npx codex-skills install-all
 npx codex-skills install-agent-scripts
-npx codex-skills install agents-md --ref main
+npx codex-skills install bug-triage --ref main
 npx codex-skills init-ledger
-npx codex-skills verify agents-md
+npx codex-skills verify bug-triage
 ```
 
 ### Add agent-scripts to PATH
@@ -137,39 +137,26 @@ If you add or rename skills:
 3) Commit both files.
 
 ## Skills
-- `agents-md`: Create nested `AGENTS.md` + feature maps. (Author: @jMerta)
+- `branch-cleaner`: Audit and safely remove stale Git branches. (Author: @jMerta)
 - `bug-triage`: Reproduce, isolate, and fix bugs. (Author: @jMerta)
-- `ci-fix`: Diagnose and fix failing GitHub Actions CI using GitHub CLI (`gh`). (Author: @jMerta)
-- `coding-guidelines-gen`: Generate nested `AGENTS.md` coding guidelines per module + set up missing formatters/linters. (Author: @jMerta)
-- `coding-guidelines-verify`: Verify changes follow scoped `AGENTS.md` rules; auto-fix formatting + run lint/tests. (Author: @jMerta)
-- `commit-work`: Stage/split commits and write Conventional Commit messages. (Author: @jMerta)
-- `create-pr`: Create PRs using GitHub CLI (`gh`). (Author: @jMerta)
+- `ci-fix`: Diagnose and fix failing GitHub Actions checks. (Author: @jMerta)
+- `commit-work`: Stage intended changes and create reviewable commits. (Author: @jMerta)
+- `create-pr`: Prepare, validate, publish, and open a pull request. (Author: @jMerta)
 - `dependency-upgrader`: Upgrade Java/Kotlin + Node/TypeScript dependencies safely. (Author: @jMerta)
 - `docs-sync`: Keep `docs/` and other docs in sync with code changes. (Author: @jMerta)
-- `plan-work`: Research + analysis + development planning for changes. (Author: @jMerta)
+- `rebase-assistant`: Rebase branches safely and resolve conflicts. (Author: @jMerta)
+- `regex-builder`: Build and verify regular expressions in their target engine. (Author: @jMerta)
 - `release-notes`: Draft release notes/changelog entries from git ranges. (Author: @jMerta)
 - `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed). (Author: @jMerta)
 
-## Third-party skills
-The following skills are sourced from `steipete/agent-scripts` (MIT). Author:   
-@steipete
-- `agent-scripts` (scripts bundle)
-- `create-cli`
-- `video-transcript-downloader`
-
-Each copied skill folder includes a `LICENSE` and `ATTRIBUTION.md`. The
-steipete-derived skills also include attribution sections in `SKILL.md`. Related
-scripts live in `agent-scripts/` (installed alongside skills) and include their own
-`LICENSE`/`ATTRIBUTION.md`.
-
-Additional third-party skills:
-- `ui-ux-pro-max` (source: `nextlevelbuilder/ui-ux-pro-max-skill`, MIT). Author:
-  Next Level Builder
+## Third-party scripts
+The optional `agent-scripts` bundle is sourced from `steipete/agent-scripts`
+under the MIT license and keeps its upstream `LICENSE` and `ATTRIBUTION.md`.
 
 ## Contributing
 - Each skill is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body).
 - Frontmatter requirements:
-  - `name`: non-empty, <= 100 chars, single line
+  - `name`: lowercase letters, digits, and hyphens; non-empty, <= 64 chars, single line
   - `description`: non-empty, <= 500 chars, single line
 
 ## Prompt-injection hardening (invisible characters)
