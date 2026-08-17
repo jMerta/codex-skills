@@ -58,7 +58,8 @@ git clone https://github.com/jMerta/codex-skills.git "$HOME\.agents\skills"
 ```
 
 ## CLI (npx)
-Use the published CLI to list, search, and install skills without cloning.      
+Use the published CLI to list, search, and install skills without cloning.
+Requires Node.js 18 or newer.
 
 ```bash
 npx codex-skills list
@@ -171,7 +172,9 @@ under the MIT license and keeps its upstream `LICENSE` and `ATTRIBUTION.md`.
   - `python -m unittest discover -s scripts -p "test_*.py"`
   - `python scripts/validate_skills.py`
   - `python scripts/check_invisible_chars.py --all`
-  - `node --test cli/test/cli.test.js`
+  - `npm ci --ignore-scripts --prefix cli`
+  - `npm audit --omit=dev --prefix cli`
+  - `npm test --prefix cli`
 
 ## Prompt-injection hardening (invisible characters)
 This repo includes a CI check that scans for invisible/suspicious Unicode characters commonly used for deception/prompt injection:

@@ -7,6 +7,11 @@ const { spawnSync } = require("node:child_process");
 
 const CLI_PATH = path.join(__dirname, "..", "bin", "codex-skills.js");
 
+test("tar dependency exposes the CommonJS extract API", () => {
+  const tar = require("tar");
+  assert.equal(typeof tar.x, "function");
+});
+
 function runCli(args, options = {}) {
   const result = spawnSync(process.execPath, [CLI_PATH, ...args], {
     cwd: options.cwd,

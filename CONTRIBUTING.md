@@ -12,7 +12,9 @@ Thanks for contributing!
    - `python -m unittest discover -s scripts -p "test_*.py"`
    - `python scripts/validate_skills.py`
    - `python scripts/check_invisible_chars.py --all`
-   - `node --test cli/test/cli.test.js`
+   - `npm ci --ignore-scripts --prefix cli`
+   - `npm audit --omit=dev --prefix cli`
+   - `npm test --prefix cli`
 6) Open a PR with the repository template and include safe screenshots or recordings when they already exist or are easy and useful for review.
 
 ## Skill guidelines
