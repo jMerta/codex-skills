@@ -289,10 +289,22 @@ function copyDir(src, dest) {
   for (const entry of entries) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
+    const stat = fs.lstatSync(srcPath);
+
+    if (stat.isSymbolicLink() || entry.isSymbolicLink()) {
+      throw new Error(`Refusing to install symlinked path: ${srcPath}`);
+    }
+
+    if (stat.isFile() && stat.nlink > 1) {
+      throw new Error(`Refusing to install hardlinked file: ${srcPath}`);
+    }
+
     if (entry.isDirectory()) {
       copyDir(srcPath, destPath);
-    } else {
+    } else if (entry.isFile()) {
       fs.copyFileSync(srcPath, destPath);
+    } else {
+      throw new Error(`Refusing to install unsupported file type: ${srcPath}`);
     }
   }
 }
