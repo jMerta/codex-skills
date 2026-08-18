@@ -39,7 +39,6 @@ description: Browse and install Codex CLI skills.
       <a href="#overview">Overview</a>
       <a href="#quickstart">Quick start</a>
       <a href="#instructions">How it works</a>
-      <a href="#ledger">Global ledger</a>
       <a href="#skills">Skills</a>
       <a href="#third-party">Third-party scripts</a>
       <a href="#cli">CLI</a>
@@ -92,20 +91,6 @@ description: Browse and install Codex CLI skills.
         <li>Install all skills (recommended for first-time setup) or pick a category/skill.</li>
         <li>Codex detects installed skill changes automatically; restart it if a skill does not appear.</li>
         <li>Use <code>/skills</code> or <code>$&lt;skill-name&gt;</code> for explicit invocation, or describe a request that matches the skill.</li>
-      </ol>
-    </section>
-
-    <section id="ledger" class="instructions">
-      <h2>Global AGENTS.MD ledger (not a skill)</h2>
-      <p>
-        Codex can use a single ledger file that applies across projects. It lives at
-        <code>~/.codex/AGENTS.MD</code> (Codex home directory).
-      </p>
-      <ol>
-        <li>Create it once with <code>npx codex-skills init-ledger</code>.</li>
-        <li>At the start of each assistant turn, open it and refresh goal, constraints, decisions, and state.</li>
-        <li>Update it when the goal, constraints, decisions, Done/Now/Next, or key tool outcomes change; keep it short and factual and mark unknowns as <code>UNCONFIRMED</code>.</li>
-        <li>Include a brief "Ledger Snapshot" in replies (Goal + Now/Next + Open Questions); show the full ledger only when it changes or when asked.</li>
       </ol>
     </section>
 
@@ -167,7 +152,6 @@ description: Browse and install Codex CLI skills.
         <li><code>npx codex-skills install-agent-scripts</code> — install shared agent scripts.</li>
         <li><code>npx codex-skills install &lt;skill-name&gt;</code> — install one skill.</li>
         <li><code>npx codex-skills install-category &lt;category&gt;</code> — install a category.</li>
-        <li><code>npx codex-skills init-ledger</code> — create a global AGENTS.MD ledger (not a skill).</li>
         <li><code>npx codex-skills verify &lt;skill-name&gt;</code> — verify a local skill install.</li>
         <li><code>npx codex-skills help</code> — full command reference.</li>
       </ul>

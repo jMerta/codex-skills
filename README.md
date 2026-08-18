@@ -10,38 +10,6 @@ Catalog: https://jmerta.github.io/codex-skills/
 
 Codex detects installed skill changes automatically. If a new or updated skill does not appear, restart Codex. Invoke a skill explicitly with `/skills` or `$skill-name`, or let Codex match the request to the skill description. See the [official skill guide](https://learn.chatgpt.com/docs/build-skills).
 
-## Global AGENTS.MD ledger (not a skill)
-Codex also supports a single, global ledger file that applies across projects. This is **not** a skill and does not live in the skills catalog.
-
-### Create it
-```bash
-npx codex-skills init-ledger
-```
-
-Location (Codex home directory):
-- macOS/Linux: `~/.codex/AGENTS.MD`
-- Windows (PowerShell): `$HOME\.codex\AGENTS.MD`
-
-### Working with the ledger
-- Keep exactly one ledger at `~/.codex/AGENTS.MD` so it applies to all projects.
-- At the start of each assistant turn: open the ledger and refresh it with the current goal, constraints/assumptions, decisions, and state.
-- Update it again whenever any of these change: goal, constraints/assumptions, key decisions, progress state (Done/Now/Next), or important tool outcomes.
-- Keep it short and factual: use bullets, avoid transcripts, and mark unknowns as `UNCONFIRMED`.
-- In replies, include a brief “Ledger Snapshot” (Goal + Now/Next + Open Questions); show the full ledger only when it materially changes or when requested.
-
-Recommended ledger headings:
-```md
-- Goal (incl. success criteria):
-- Constraints/Assumptions:
-- Key decisions:
-- State:
-- Done:
-- Now:
-- Next:
-- Open questions (UNCONFIRMED if needed):
-- Working set (files/ids/commands):
-```
-
 ## What it looks like
 ![Codex CLI skills list](.github/codex-clipboard-VN1lya.png)
 
@@ -69,7 +37,6 @@ npx codex-skills install-category development
 npx codex-skills install-all
 npx codex-skills install-agent-scripts
 npx codex-skills install bug-triage --ref main
-npx codex-skills init-ledger
 npx codex-skills verify bug-triage
 ```
 
@@ -111,7 +78,6 @@ The public catalog is published on GitHub Pages and updates on releases:
 - `install-category <category>`: install all skills in a category.
 - `install-all`: install every skill in the catalog.
 - `install-agent-scripts`: install shared agent scripts alongside skills.
-- `init-ledger`: create `~/.codex/AGENTS.MD` (global ledger, not a skill).
 - `verify <name>`: verify a local skill install (checks SKILL.md + frontmatter).
 
 ### Common options
