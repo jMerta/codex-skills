@@ -14,10 +14,6 @@ const DEFAULT_TIMEOUT_MS = 30000;
 const SKILLS_INDEX = "skills.json";
 
 const DEFAULT_SKILLS_DIR = path.join(os.homedir(), ".agents", "skills");
-const CODEX_ROOT = path.join(os.homedir(), ".codex");
-const LEDGER_NAME = "AGENTS.MD";
-const LEDGER_PATH = path.join(CODEX_ROOT, LEDGER_NAME);
-const LEDGER_PATTERN_FILE = "LEDGER-PATTERN.md";
 const AGENT_SCRIPTS_DIR = "agent-scripts";
 
 const USE_COLOR = (process.stdout && process.stdout.isTTY && !process.env.NO_COLOR) ||
@@ -547,7 +543,6 @@ ${colors.bold}Commands:${colors.reset}
   ${colors.green}install-agent-scripts${colors.reset}         Install shared agent scripts
   ${colors.green}search <query>${colors.reset}               Search skills      
   ${colors.green}info <name>${colors.reset}                  Show skill details 
-  ${colors.green}init-ledger${colors.reset}                  Create ${LEDGER_PATH} (not a skill)
   ${colors.green}verify <name>${colors.reset}                Verify a local skill install
   ${colors.green}help${colors.reset}                          Show this help    
 
@@ -566,34 +561,8 @@ ${colors.bold}Examples:${colors.reset}
   npx codex-skills install-all
   npx codex-skills install-agent-scripts
   npx codex-skills install bug-triage --ref main
-  npx codex-skills init-ledger
   npx codex-skills verify bug-triage
 `);
-}
-
-async function initLedgerCommand(options) {
-  if (fs.existsSync(LEDGER_PATH) && !options.force) {
-    error(`Ledger already exists at ${LEDGER_PATH}`);
-    log("Use --force to override the existing file.");
-    return;
-  }
-
-  const resolved = await resolveRef(options.ref);
-  await withRepoRoot(resolved.ref, async (repoRoot) => {
-    const templatePath = path.join(repoRoot, LEDGER_PATTERN_FILE);
-    if (!fs.existsSync(templatePath)) {
-      throw new Error(`Ledger template not found: ${LEDGER_PATTERN_FILE}`);
-    }
-    fs.mkdirSync(CODEX_ROOT, { recursive: true });
-    const contents = fs.readFileSync(templatePath);
-    fs.writeFileSync(LEDGER_PATH, contents);
-  });
-
-  success(`Created ledger: ${LEDGER_NAME}`);
-  info(`Location: ${LEDGER_PATH}`);
-  info(`Ref: ${resolved.ref}`);
-  log(`${colors.dim}This is a global AGENTS.MD ledger (not a skill).${colors.reset}`);
-  log(`${colors.dim}Keep it updated so it applies across projects.${colors.reset}`);
 }
 
 async function verifyCommand(options) {
@@ -869,10 +838,6 @@ async function main() {
         break;
       case "info":
         await infoCommand(parsed);
-        break;
-      case "init-ledger":
-      case "ledger":
-        await initLedgerCommand(parsed);
         break;
       case "verify":
       case "check":

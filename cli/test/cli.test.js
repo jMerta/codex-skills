@@ -33,10 +33,9 @@ function withTempDir(fn) {
   }
 }
 
-test("help lists verify, init-ledger, and install-agent-scripts", () => {
+test("help lists verify and install-agent-scripts", () => {
   const result = runCli(["help"]);
   assert.equal(result.status, 0);
-  assert.match(result.stdout, /init-ledger/);
   assert.match(result.stdout, /verify <name>/);
   assert.match(result.stdout, /install-agent-scripts/);
 });
@@ -148,26 +147,5 @@ test("verify reports missing name or description", () => {
 
     assert.equal(result.status, 0);
     assert.match(result.stdout, /must include non-empty name and description/);
-  });
-});
-
-test("init-ledger warns about existing file and suggests --force", () => {
-  withTempDir((tempDir) => {
-    const codexRoot = path.join(tempDir, ".codex");
-    fs.mkdirSync(codexRoot, { recursive: true });
-    fs.writeFileSync(path.join(codexRoot, "AGENTS.MD"), "existing", "utf8");
-
-    const result = runCli(["init-ledger"], {
-      env: {
-        USERPROFILE: tempDir,
-        HOME: tempDir,
-        HOMEDRIVE: "C:",
-        HOMEPATH: tempDir
-      }
-    });
-
-    assert.equal(result.status, 0);
-    assert.match(result.stdout, /Ledger already exists/);
-    assert.match(result.stdout, /Use --force to override the existing file\./);
   });
 });
