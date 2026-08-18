@@ -1,13 +1,13 @@
 ---
 name: write-ui-copy
-description: Use when the user asks to draft, rewrite, translate, or review user-facing interface copy in Polish or English, including titles, descriptions, buttons, links, labels, hints, toasts, errors, empty states, statuses, payment messages, and confirmations. Keeps Polish and English meaning aligned when both locales exist.
+description: Use when the user asks to draft, rewrite, translate, or review user-facing interface copy in Polish or English, including titles, descriptions, buttons, links, labels, hints, toasts, errors, empty states, statuses, payment messages, and confirmations. Aligns meaning when both supported locales are in scope.
 ---
 
 # Write UI Copy
 
 Write for a busy, non-technical person who wants to complete one task without learning the implementation. Follow the product's established terminology and interaction patterns; do not turn transactional interface text into marketing copy.
 
-Support Polish and English only. Use the requested language. When the owning product ships both locales, update and review both together; do not introduce a new locale or translation requirement on your own.
+Support Polish and English only. Use the requested language. When both supported locales are in scope, update and review them together. Do not draft copy for other locales; report any follow-up they may need to their owners instead of guessing translations or expanding the task.
 
 ## Workflow
 
@@ -17,10 +17,10 @@ Support Polish and English only. Use the requested language. When the owning pro
 4. Read repository terminology, localization instructions, existing nearby copy, and every consumer of shared text before introducing words.
 5. Remove unnecessary text before rewriting. Prefer one clear title, one short supporting block when needed, and explicit actions.
 6. Draft in everyday language, active voice, and sentence case.
-7. Read [references/polish-copy.md](references/polish-copy.md) for Polish, [references/english-copy.md](references/english-copy.md) for English, and both when both locales ship.
+7. Read [references/polish-copy.md](references/polish-copy.md) for Polish, [references/english-copy.md](references/english-copy.md) for English, and both when both supported locales are in scope.
 8. Check the copy against the component rules below and read it aloud.
 9. Rewrite text that sounds like documentation, a system log, advertising, or empty reassurance. Preserve required financial, contractual, and legal meaning; flag ambiguity instead of guessing.
-10. When changing code, keep all existing locale keys aligned and update focused tests for visible text or translation contracts.
+10. When changing code, keep the requested Polish and English locale keys aligned and update focused tests for visible text or translation contracts. Identify unsupported locales that may need owner follow-up without editing them.
 
 ## Core rules
 

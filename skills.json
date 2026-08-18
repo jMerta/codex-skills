@@ -214,7 +214,7 @@
     },
     {
       "name": "write-ui-copy",
-      "description": "Use when the user asks to draft, rewrite, translate, or review user-facing interface copy in Polish or English, including titles, descriptions, buttons, links, labels, hints, toasts, errors, empty states, statuses, payment messages, and confirmations. Keeps Polish and English meaning aligned when both locales exist.",
+      "description": "Use when the user asks to draft, rewrite, translate, or review user-facing interface copy in Polish or English, including titles, descriptions, buttons, links, labels, hints, toasts, errors, empty states, statuses, payment messages, and confirmations. Aligns meaning when both supported locales are in scope.",
       "category": "product",
       "author": "jMerta",
       "source": "jMerta/codex-skills",
