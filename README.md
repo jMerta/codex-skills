@@ -1,161 +1,56 @@
-# Codex skills catalog
+# Codex skills
 
-Personal Codex skills (drop-in folders under `~/.agents/skills/`).
-Catalog: https://jmerta.github.io/codex-skills/
+Reusable engineering, product, documentation, review, and operations workflows for Codex.
 
-## How it works
-- Codex discovers skills from `~/.agents/skills/**/SKILL.md` (user scope) and `.agents/skills/**/SKILL.md` in repos (repo scope).
-- The standard locations are `.agents/skills` (repo) and `~/.agents/skills` (user).
-- Codex initially exposes each skill's name, description, and path, then loads the full `SKILL.md` when the skill is selected.
-
-Codex detects installed skill changes automatically. If a new or updated skill does not appear, restart Codex. Invoke a skill explicitly with `/skills` or `$skill-name`, or let Codex match the request to the skill description. See the [official skill guide](https://learn.chatgpt.com/docs/build-skills).
-
-## What it looks like
-![Codex CLI skills list](.github/codex-clipboard-VN1lya.png)
-
-## Install
-
-### macOS/Linux
-```bash
-git clone https://github.com/jMerta/codex-skills.git ~/.agents/skills
-```
-
-### Windows (PowerShell)
-```powershell
-git clone https://github.com/jMerta/codex-skills.git "$HOME\.agents\skills"
-```
-
-## CLI (npx)
-Use the published CLI to list, search, and install skills without cloning.
-Requires Node.js 18 or newer.
+[Browse the catalog](https://jmerta.github.io/codex-skills/) or list it from the terminal:
 
 ```bash
 npx codex-skills list
-npx codex-skills search git
-npx codex-skills install bug-triage
-npx codex-skills install-category development
-npx codex-skills install-all
-npx codex-skills install-agent-scripts
-npx codex-skills install bug-triage --ref main
-npx codex-skills verify bug-triage
 ```
 
-### Add agent-scripts to PATH
-After running `install-agent-scripts`, the scripts live under the agent skills
-directory (default: `~/.agents/skills/agent-scripts`). Add that folder to your
-PATH if you want to call scripts directly from the terminal.
+## Install
 
-Windows (PowerShell):
-```powershell
-$path = [Environment]::GetEnvironmentVariable("Path", "User")
-[Environment]::SetEnvironmentVariable("Path", "$path;$HOME\\.agents\\skills\\agent-scripts", "User")
-```
-Restart your terminal for changes to take effect.
+The CLI requires Node.js 18 or newer.
 
-macOS/Linux (bash/zsh):
 ```bash
-export PATH="$PATH:$HOME/.agents/skills/agent-scripts"
+# Install one skill for the current user
+npx codex-skills install bug-triage
+
+# Install every published skill
+npx codex-skills install-all
+
+# Install one skill in a repository
+npx codex-skills install bug-triage --dir .agents/skills
 ```
-To persist, add the export to `~/.bashrc` or `~/.zshrc`.
 
-## GitHub Pages catalog
-The public catalog is published on GitHub Pages and updates on releases:
-`https://jMerta.github.io/codex-skills/`
+Run `npx codex-skills help` for the full command reference.
 
-### How it works
-- **Source of truth:** the CLI fetches `skills.json` from GitHub for the selected ref.
-- **Default ref:** latest stable GitHub Release; if no releases exist, it falls back to the latest tag.
-- **Override:** `--ref main` to follow `main`, or `--ref <tag>` to pin a specific release.
-- **Install method:** downloads the repo tarball for the ref and copies only the requested skill folder into your skills directory.
-- **Agent scripts:** `install-agent-scripts` copies `agent-scripts/` into your skills directory.
-- **Auth (optional):** set `GITHUB_TOKEN` to reduce GitHub API rate limits.
+## Use
 
-### Commands
-- `list` / `ls`: show all skills (grouped by category). Supports `--json`.      
-- `search <query>`: search by name/description/category.
-- `info <name>`: show metadata for a single skill.
-- `install <name>`: copy the skill to your skills directory.
-- `install-category <category>`: install all skills in a category.
-- `install-all`: install every skill in the catalog.
-- `install-agent-scripts`: install shared agent scripts alongside skills.
-- `verify <name>`: verify a local skill install (checks SKILL.md + frontmatter).
+Codex discovers skills installed in `~/.agents/skills/` and repository-local
+`.agents/skills/` directories. Invoke a skill explicitly with `$skill-name`,
+or describe a request that matches its purpose.
 
-### Common options
-- `--dir <dir>`: destination skills directory (default: `~/.agents/skills/`).
-- `--ref <ref>`: Git ref (tag or branch).
-- `--force`: overwrite an existing skill install.
-- `--json`: JSON output for `list`.
-
-### Install locations
-- User catalog: `~/.agents/skills/` (default)
-- Repo local: `./.agents/skills/` (use `--dir .agents/skills`)
-
-### Maintaining the registry
-If you add, rename, or update skill metadata:
-1) Update `skills-meta.json` (category/author/license overrides as needed).
-2) Run `python3 scripts/build_skills_json.py` to regenerate `skills.json`.
-3) Run `python3 scripts/build_skills_json.py --check` before committing both files.
-
-## Skills
-- `branch-cleaner`: Audit and safely remove stale Git branches. (Author: @jMerta)
-- `bug-triage`: Reproduce, isolate, and fix bugs. (Author: @jMerta)
-- `ci-fix`: Diagnose and fix failing GitHub Actions checks. (Author: @jMerta)
-- `commit-work`: Stage intended changes and create reviewable commits. (Author: @jMerta)
-- `create-pr`: Prepare, validate, publish, and open a pull request. (Author: @jMerta)
-- `dependency-upgrader`: Upgrade JVM and Node dependencies with CVE, release-age, and supply-chain checks. (Author: @jMerta)
-- `docs-sync`: Keep `docs/` and other docs in sync with code changes. (Author: @jMerta)
-- `focused-tdd`: Apply test-first development only when observing a focused failure reduces risk. (Author: @jMerta)
-- `manage-product-ideas`: Clarify, document, evaluate, and realize product ideas. (Author: @jMerta)
-- `pr-visual-explainer`: Create local visual HTML walkthroughs for pull requests. (Author: @jMerta)
-- `rebase-assistant`: Rebase branches safely and resolve conflicts. (Author: @jMerta)
-- `regex-builder`: Build and verify regular expressions in their target engine. (Author: @jMerta)
-- `release-notes`: Draft release notes/changelog entries from git ranges. (Author: @jMerta)
-- `review-architecture-scope`: Review cross-boundary architecture, rollout, and change scope. (Author: @jMerta)
-- `review-backend-change`: Review backend domain, persistence, and migration changes. (Author: @jMerta)
-- `review-frontend-change`: Review frontend data flow, UI, and accessibility changes. (Author: @jMerta)
-- `review-security-privacy`: Review reachable security and privacy regressions. (Author: @jMerta)
-- `review-test-coverage`: Review tests, CI evidence, and proportional validation gaps. (Author: @jMerta)
-- `vps-checkup`: Check Ubuntu VPS health/security/updates + Docker status over SSH (read-only unless confirmed). (Author: @jMerta)
-- `write-ui-copy`: Draft and review clear Polish and English interface copy. (Author: @jMerta)
-
-## Third-party scripts
-The optional `agent-scripts` bundle is sourced from `steipete/agent-scripts`
-under the MIT license and keeps its upstream `LICENSE` and `ATTRIBUTION.md`.
+Codex normally detects installed changes automatically. Restart it if a new or
+updated skill does not appear.
 
 ## Contributing
-- Each skill is a folder with required `SKILL.md` and `agents/openai.yaml` files.
-- Frontmatter requirements:
-  - only `name` and `description` are allowed
-  - `name`: lowercase letters, digits, and hyphens; non-empty, <= 64 chars, single line
-  - `description`: starts with `Use when the user...`, names concrete invocation triggers, then summarizes scope; <= 500 chars, single line
-- `agents/openai.yaml` requirements:
-  - `display_name`: non-empty
-  - `short_description`: 25-64 characters
-  - `default_prompt`: mentions the skill as `$skill-name`
-- Install the validator dependency once: `python -m pip install pyyaml`.
-- Run the same checks as CI:
-  - `python scripts/build_skills_json.py --check`
-  - `python -m unittest discover -s scripts -p "test_*.py"`
-  - `python scripts/validate_skills.py`
-  - `python scripts/check_invisible_chars.py --all`
-  - `npm ci --ignore-scripts --prefix cli`
-  - `npm audit --omit=dev --prefix cli`
-  - `npm test --prefix cli`
 
-## Prompt-injection hardening (invisible characters)
-This repo includes a CI check that scans for invisible/suspicious Unicode characters commonly used for deception/prompt injection:
-- file contents and filenames (repo-wide)
-- PR metadata (title/body) and commit messages (via GitHub Actions event payload)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for repository conventions. Run the same
+checks as CI before opening a pull request:
 
-Run locally:
-- `python3 scripts/check_invisible_chars.py --all`
-- `python3 scripts/check_invisible_chars.py --commit-range origin/main..HEAD`
+```bash
+python scripts/build_skills_json.py --check
+python -m unittest discover -s scripts -p "test_*.py"
+python scripts/validate_skills.py
+python scripts/check_invisible_chars.py --all
+npm ci --ignore-scripts --prefix cli
+npm audit --omit=dev --prefix cli
+npm test --prefix cli
+```
 
-Note: this mitigates common invisible-character attacks, but does not detect all Unicode deception (e.g., homoglyph/confusable characters).
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=jMerta/codex-skills&type=timeline&legend=top-left)](https://www.star-history.com/#jMerta/codex-skills&type=timeline&legend=top-left)
+Security reports: [SECURITY.md](SECURITY.md).
 
 ## License
-MIT (see `LICENSE`).
+
+[MIT](LICENSE)
